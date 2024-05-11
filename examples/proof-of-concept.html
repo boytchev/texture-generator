@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap" rel="stylesheet">
+	
+	<link rel="stylesheet" href="styles.css">
+
+	<script type="importmap">
+	  {
+		"imports": {
+		  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
+		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/"
+		}
+	  }
+	</script>
+
+	<style>
+		body {
+		  overflow: hidden;
+		  margin: 0;
+		}
+		
+		#hud {
+			position: absolute;
+			width: 4em;
+			left: calc(50% - 2em);
+			top: 30%;
+			font-family: Arial;
+			font-size: 5em;
+			font-weight: 900;
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+
+	<h1 class="white">Equirectangular Texture Generator</h1>
+	<h3 class="white">Reproof of concept example.</h3>
+	<div id="hud">Loading...</div>
+	
+	<script type="module">
+
+		import * as THREE from "three";
+		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+		import { SimplexNoise } from "three/addons/math/SimplexNoise.js";
+		import * as TextureGenerator from "../src/texture-generator.js";
+
+
+		
+		
+		// setting up the scene
+		
+		var scene = new THREE.Scene();
+			scene.background = new THREE.Color( 'black' );
+				
+		var camera = new THREE.PerspectiveCamera( 40, innerWidth/innerHeight );
+			camera.position.set( 0, 0, 10 );
+			camera.lookAt( scene.position );
+
+		var renderer = new THREE.WebGLRenderer( {antialias: true} );
+			renderer.setSize( innerWidth, innerHeight );
+			renderer.setAnimationLoop( animationLoop );
+			document.body.appendChild( renderer.domElement );
+					
+		window.addEventListener( "resize", (event) => {
+			camera.aspect = innerWidth/innerHeight;
+			camera.updateProjectionMatrix( );
+			renderer.setSize( innerWidth, innerHeight );
+		});
+
+		var hiddenCamera = camera.clone();
+			hiddenCamera.position.set(0,0,1);
+		
+		var controls = new OrbitControls( hiddenCamera, renderer.domElement );
+			controls.enableDamping = true;
+			controls.autoRotate = true;
+			controls.autoRotateSpeed = 0.5;
+
+		var light = new THREE.DirectionalLight( 'white', 3 );
+			light.position.set( 0, 0, 10 );
+			scene.add( light );
+
+			scene.add( new THREE.HemisphereLight( 'white','blue',1 ) );
+	
+		var simplex = new SimplexNoise( );
+
+
+
+
+		// =================================
+		//
+		// THE MARBLE BALL
+		//
+		// =================================
+
+		function marbleNoise( x, y, z, color )
+		{
+			var k = simplex.noise3d( x/1, y/1, z/1 )
+				  + 0.5*simplex.noise3d( 2*z, 2*x, 2*y )
+				  + 0.2*simplex.noise3d( 6*x, 6*y, 6*z );
+				
+			k = k**2.5;
+			
+			var m = simplex.noise3d( 30*x, 30*y, 30*z );
+			
+			if( k<0.005 )
+				color.setHSL( 0.66, 1, 0.3+k*200 );
+			else
+				color.setHSL( 0.60, 1, 0.9+m**5 );
+		}
+
+		var marbleTexture = new TextureGenerator.EquiTexture( marbleNoise, 1024 );
+		var marbleMaterial = new THREE.MeshStandardMaterial( {
+									metalness: 0.7,
+									roughness: 0.7,
+									map: marbleTexture,
+								} );
+		var marbleBall = new THREE.Mesh(
+						new THREE.SphereGeometry( 1, 64, 32 ),
+						TextureGenerator.EquiMaterial( marbleMaterial )
+				);
+			
+		marbleBall.position.set( -3.5, 0, 0 );
+			
+		scene.add( marbleBall );
+		
+		hud.innerHTML = '4';
+
+
+
+		// =================================
+		//
+		// THE LAVA BALL
+		//
+		// =================================
+
+		function lavaNoise( x, y, z, color )
+		{
+			var k = simplex.noise3d( 4*x, 4*y, 4*z );
+			var n = k;
+
+			k = 0.5+0.5*k;
+			k = k**10+0.4;
+			
+			k += 0.2*Math.sin(10*y)*n;
+
+			color.set( 0.2+1*(k+0.2)**2, 0.05+0.2*k**4, 0 );
+		}
+
+		var lavaTexture = new TextureGenerator.EquiTexture( lavaNoise, 256 );
+		var lavaMaterial = new THREE.MeshStandardMaterial( {
+								metalness: 1,
+								roughness: 0.5,
+								map: lavaTexture,
+							} );
+		var lavaBall = new THREE.Mesh(
+				new THREE.SphereGeometry( 1, 64, 32 ),
+				TextureGenerator.EquiMaterial( lavaMaterial )
+			);
+			
+		lavaBall.position.set( 0, 1.5, 0 );
+
+		scene.add( lavaBall );
+		
+
+
+
+		// =================================
+		//
+		// THE CORAL BALL
+		//
+		// =================================
+
+		function coralShape( x, y, z )
+		{
+			var k = simplex.noise3d( 2*x, 2*y, 2*z );
+				k = (0.5+k)**3 - 0.5;
+			
+			return k;
+		}
+
+		function coralNoise( x, y, z, color )
+		{
+			var k = coralShape( x, y, z );
+
+			color.setHSL( 0.6-0.5*k, 1, 0.5+0.5*k );
+		}
+
+		var coralGeometry = new THREE.IcosahedronGeometry( 1, 50 ),
+			positions = coralGeometry.getAttribute( 'position' ),
+			v = new THREE.Vector3();
+		
+		for( var i=0; i<positions.count; i++ )
+		{
+			v.fromBufferAttribute( positions, i );
+			
+			var k = coralShape( v.x, v.y, v.z );
+			
+			v.setLength( 1+0.2*k );
+			v.x += 0.075*coralShape(v.y,v.z,v.x);
+			v.y += 0.075*coralShape(v.z,v.x,v.y);
+			v.z += 0.075*coralShape(v.x,v.y,v.z);
+			
+			positions.setXYZ( i, v.x, v.y, v.z );
+		}
+		coralGeometry.computeVertexNormals();
+		
+		var coralTexture = new TextureGenerator.EquiTexture( coralNoise, 256 );
+		var coralMaterial = new THREE.MeshStandardMaterial( {
+								map: coralTexture,
+							} );
+		var coralBall = new THREE.Mesh(
+				coralGeometry,
+				TextureGenerator.EquiMaterial( coralMaterial )
+			);
+		
+		coralBall.position.set( 3.5, 0, 0 );
+			
+		scene.add( coralBall );
+		
+
+
+
+		// =================================
+		//
+		// THE PLANET
+		//
+		// =================================
+
+		var map = THREE.MathUtils.mapLinear; // I'm lazy, and I know it
+		
+		const
+			DEEP_WATER = new THREE.Color('steelblue'),
+			WATER = new THREE.Color('skyblue'),
+			BEACH = new THREE.Color('lemonchiffon'),
+			GRASS = new THREE.Color('mediumseagreen'),
+			FOREST = new THREE.Color('seagreen'),
+			ROCK = new THREE.Color('olive'),
+			SNOW = new THREE.Color('azure')
+			
+		function planetNoise(x,y,z,color,u,v)
+		{
+			var k = 1.7*simplex.noise3d( x/2, y/2, z/2 );
+				k += 0.35*simplex.noise3d( 2*y, 2*x, 2*z );
+				k += 0.15*simplex.noise3d( 4*z, 4*y, 4*x );
+			
+			k = k**2;
+
+			if( k<0.4 )
+				color.lerpColors( DEEP_WATER, WATER, map(k-0.1*Math.random(),0,0.4,0,1)**3 );
+			else
+			if( k<0.6 )
+				color.lerpColors( WATER, BEACH, map(k,0.4,0.6,0,1)**2 );
+			else
+			if( k<0.9 )
+				color.lerpColors( BEACH, GRASS, map(k,0.6,0.9,0,1)**0.2 );
+			else
+			if( k<1.5 )
+				color.lerpColors( GRASS, FOREST, map(k,0.9,1.5,0,1) );
+			else
+			if( k<1.8 )
+				color.lerpColors( FOREST, ROCK, map(k,1.5,1.8,0,1) );
+			else
+			if( k<2.5 )
+				color.lerpColors( ROCK, SNOW, map(k,1.8,2.5,0,1) );
+			else
+				color.copy( SNOW );
+		}
+
+		var planetTexture = new TextureGenerator.EquiTexture( planetNoise );
+		var planetMaterial = new THREE.MeshStandardMaterial( {
+								map: planetTexture,
+							} );
+		var planet = new THREE.Mesh(
+				new THREE.IcosahedronGeometry( 1, 10 ),
+				TextureGenerator.EquiMaterial( planetMaterial )
+			);
+			
+		planet.position.set( 0, -1.5, 0 );
+		
+		scene.add( planet );
+		
+
+
+
+		// =================================
+		//
+		// THE ATMOSPHERE
+		//
+		// =================================
+
+		function atmosphereNoise( x, y, z ,color )
+		{
+			var k = 0.4*(simplex.noise3d( y, z, x )+simplex.noise3d( 2*z, 2*x, 2*y ));
+			color.set(k,k,k);
+		}
+
+		var atmosphereTexture = new TextureGenerator.EquiTexture( atmosphereNoise );
+		var atmosphereMaterial = new THREE.MeshBasicMaterial( {
+									alphaMap: atmosphereTexture,
+									transparent: true,
+									side: THREE.DoubleSide,
+								} );
+		var atmosphere = new THREE.Mesh(
+				new THREE.IcosahedronGeometry( 1, 10 ),
+				TextureGenerator.EquiMaterial( atmosphereMaterial )
+			);
+			atmosphere.scale.setScalar( 1.02 );
+			
+		planet.add( atmosphere );
+		
+
+
+
+		// =================================
+		//
+		// THE EXOSPHERE
+		//
+		// =================================
+
+		function exosphereNoise(x,y,z,color,u,v)
+		{
+			var k = 0.4*(simplex.noise3d( y+1, z+1, x+1 )+simplex.noise3d( 2*z-1, 2*x-1, 2*y-1 ));
+			color.set(k,k,k);
+		}
+
+		var exosphereTexture = new TextureGenerator.EquiTexture( exosphereNoise );
+		var exosphereMaterial = new THREE.MeshBasicMaterial( {
+									alphaMap: exosphereTexture,
+									transparent: true,
+									side: THREE.DoubleSide,
+								} );
+		var exosphere = new THREE.Mesh(
+				new THREE.IcosahedronGeometry( 1, 10 ),
+				TextureGenerator.EquiMaterial( exosphereMaterial )
+			);
+			exosphere.scale.setScalar( 1.04 );
+			
+		planet.add( exosphere );
+
+document.getElementById( 'hud' ).style.display = 'none';
+
+
+		function animationLoop( t )
+		{
+			controls.update( );
+
+			for( var ball of [marbleBall, lavaBall, coralBall, planet])
+			{
+				ball.scale.setScalar( 1/controls.getDistance() );
+				ball.quaternion.copy( hiddenCamera.quaternion ).conjugate();
+			}
+
+			atmosphere.rotation.y = t/3000;
+			exosphere.rotation.x = 0.2*Math.sin(t/3500);
+			exosphere.rotation.y = t/4500;
+
+			renderer.render( scene, camera );
+		}
+				
+	</script>
+</body>
+</html>
