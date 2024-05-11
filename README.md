@@ -1,2 +1,2 @@
-# equitexgen
+# Texture generator
 Procedural equirectangular texture generator
