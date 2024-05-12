@@ -1,7 +1,7 @@
 # Texture generator
 Procedural equirectangular texture generator
 
-[Preliminary demo](examples/proof-of-concept.html)
+[Preliminary demo](https://boytchev.github.io/texture-generator/examples/proof-of-concept.html)
 
 
 ## Preliminary API (working draft)
