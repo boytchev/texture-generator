@@ -1,92 +1,106 @@
 ﻿
-import * as THREE from "three";
+//
+//
+
+
+import { Color, Vector3, CanvasTexture, LinearFilter } from "three";
 
 
 
-// convert float[0,1] to byte[0,255]
 function unitToByte( x )
 {
 
-	return Math.max( 0, Math.min( 255, 255*x ) );
+	return Math.max( 0, Math.min( 255, Math.round(255*x) ) );
 
 } // unitToByte
 
 
 
-
-// check whether power of two
-function powerOfTwo( x )
+function equicanvas( ...args ) // number, canvas, function
 {
+	var width, height, canvas, smooth, noise;
 
-	return Math.log2(x) % 1 == 0;
+	// processing input parameters
 
-} // unitToByte
-
-
-
-
-function EquiCanvas( colorizer, width=2048, height=width>>1 )
-{
-	if( !powerOfTwo(width) )
+	for( var param of args )
 	{
-		console.warn( `Equirectangular image width ${width} is not power of 2.` );
+		if( param instanceof HTMLCanvasElement )
+			canvas = param;
+		else
+		if( param instanceof Function )
+			noise = param;
+		else
+		if( Number.isFinite(param) )
+		{
+			width = param;
+			height = Math.round(param/2);
+		}
+		else
+			console.warn( `Ignored parameter '${param}'. The parameters of generate(...) are a number, a canvas and a function (in any order).` );
 	}
 	
-	if( !powerOfTwo(height) )
+	if( !canvas && !Number.isFinite(width) )
 	{
-		console.warn( `Equirectangular image height ${height} is not power of 2.` );
+		width = 1024;
+		height = 512;
+	}
+
+	if( !canvas )
+	{
+		canvas = document.createElement( 'canvas' );
 	}
 	
-	if( 2*height != width )
+	if( Number.isFinite(width) )
 	{
-		console.warn( `Equirectangular image aspect ${width}:${height} is not 2:1.` );
-	}
-	
-	var canvas = document.createElement( 'canvas' );
 		canvas.width = width;
 		canvas.height = height;
-		
+	}
+	
+	width = canvas.width;
+	height = canvas.height;
+
+
+	// generating texture
+	
 	var context = canvas.getContext( '2d' ),
 		imageData = context.getImageData( 0, 0, width, height ),
 		data = imageData.data,
 		index = 0,
-		color = new THREE.Color(),
-		vector = new THREE.Vector3();
+		color = new Color(),
+		vector = new Vector3();
 
 	for( var y=0; y<height; y++)
 	for( var x=0; x<width; x++)
 	{
-		var alpha = 2*Math.PI * x/width,
-			beta = Math.PI * y/height;
+		var u = x / width,
+			v = y / height;
 			
-		vector.setFromSphericalCoords( 1, beta, alpha );
+		vector.setFromSphericalCoords( 1, Math.PI*v, 2*Math.PI*u );
+		noise( vector.x, vector.y, vector.z, color, u, v );
 
-		colorizer( vector.x, vector.y, vector.z, color, x/width, y/height );
-		
 		data[index++] = unitToByte( color.r );
 		data[index++] = unitToByte( color.g );
 		data[index++] = unitToByte( color.b );
-		data[index++] = 255;
+		data[index++] = unitToByte( color?.a ?? 255 );
 	}
 	
 	context.putImageData( imageData, 0, 0 );
-	
+
 	return canvas;
 	
-} // EquiCanvas
+} // equicanvas
 
 
-
-function EquiTexture( colorizer, width=2048, height=width>>1 )
+function equitexture( ...args )
 {
-	var canvas = EquiCanvas( colorizer, width, height );
-	
-	var texture = new THREE.CanvasTexture( canvas )
-		texture.minFilter = THREE.LinearFilter; // MIPMAP filters create a seam and destroy the poles
+	var texture = new CanvasTexture( equicanvas(...args) );
+
+	texture.minFilter = LinearFilter; // MIPMAP filters create a seam and destroy the poles
 
 	return texture;
 	
-} // EquiTexture
+} // equitexture
+
 
 
 
@@ -113,7 +127,7 @@ const
 		#endif
 		`;
 	
-function EquiMaterial( material )
+function equimaterial( material )
 {
 
 	if( material.map )
@@ -131,8 +145,8 @@ function EquiMaterial( material )
 
 	return material;
 	
-} // EquiMaterial
+} // equimaterial
 
 
 
-export { EquiCanvas, EquiTexture, EquiMaterial };
+export { equimaterial, equicanvas, equitexture };

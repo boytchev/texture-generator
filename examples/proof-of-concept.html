@@ -31,7 +31,7 @@
 			font-size: 5em;
 			font-weight: 900;
 			text-align: center;
-		}
+		}		
 	</style>
 </head>
 
@@ -46,7 +46,7 @@
 		import * as THREE from "three";
 		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 		import { SimplexNoise } from "three/addons/math/SimplexNoise.js";
-		import * as TextureGenerator from "../src/texture-generator.js";
+		import { equimaterial, equitexture } from "../src/texture-generator.js";
 
 
 		
@@ -95,7 +95,6 @@
 		// THE MARBLE BALL
 		//
 		// =================================
-
 		function marbleNoise( x, y, z, color )
 		{
 			var k = simplex.noise3d( x/1, y/1, z/1 )
@@ -112,22 +111,19 @@
 				color.setHSL( 0.60, 1, 0.9+m**5 );
 		}
 
-		var marbleTexture = new TextureGenerator.EquiTexture( marbleNoise, 1024 );
-		var marbleMaterial = new THREE.MeshStandardMaterial( {
+		var marbleBall = new THREE.Mesh(
+				new THREE.SphereGeometry( 1 ),
+				equimaterial(new THREE.MeshStandardMaterial( {
 									metalness: 0.7,
 									roughness: 0.7,
-									map: marbleTexture,
-								} );
-		var marbleBall = new THREE.Mesh(
-						new THREE.SphereGeometry( 1, 64, 32 ),
-						TextureGenerator.EquiMaterial( marbleMaterial )
-				);
+									map: equitexture(marbleNoise,1024),
+								} ))
+		);
 			
 		marbleBall.position.set( -3.5, 0, 0 );
 			
 		scene.add( marbleBall );
 		
-		hud.innerHTML = '4';
 
 
 
@@ -150,15 +146,13 @@
 			color.set( 0.2+1*(k+0.2)**2, 0.05+0.2*k**4, 0 );
 		}
 
-		var lavaTexture = new TextureGenerator.EquiTexture( lavaNoise, 256 );
-		var lavaMaterial = new THREE.MeshStandardMaterial( {
-								metalness: 1,
-								roughness: 0.5,
-								map: lavaTexture,
-							} );
 		var lavaBall = new THREE.Mesh(
 				new THREE.SphereGeometry( 1, 64, 32 ),
-				TextureGenerator.EquiMaterial( lavaMaterial )
+				equimaterial( new THREE.MeshStandardMaterial( {
+								metalness: 1,
+								roughness: 0.5,
+								map: equitexture(lavaNoise,512),
+							} ) )
 			);
 			
 		lavaBall.position.set( 0, 1.5, 0 );
@@ -208,13 +202,11 @@
 		}
 		coralGeometry.computeVertexNormals();
 		
-		var coralTexture = new TextureGenerator.EquiTexture( coralNoise, 256 );
-		var coralMaterial = new THREE.MeshStandardMaterial( {
-								map: coralTexture,
-							} );
 		var coralBall = new THREE.Mesh(
 				coralGeometry,
-				TextureGenerator.EquiMaterial( coralMaterial )
+				equimaterial( new THREE.MeshStandardMaterial( {
+								map: equitexture( coralNoise, 256 ),
+							} ) )
 			);
 		
 		coralBall.position.set( 3.5, 0, 0 );
@@ -270,13 +262,11 @@
 				color.copy( SNOW );
 		}
 
-		var planetTexture = new TextureGenerator.EquiTexture( planetNoise );
-		var planetMaterial = new THREE.MeshStandardMaterial( {
-								map: planetTexture,
-							} );
 		var planet = new THREE.Mesh(
 				new THREE.IcosahedronGeometry( 1, 10 ),
-				TextureGenerator.EquiMaterial( planetMaterial )
+				equimaterial( new THREE.MeshStandardMaterial( {
+								map: equitexture(planetNoise),
+							} ) )
 			);
 			
 		planet.position.set( 0, -1.5, 0 );
@@ -298,15 +288,13 @@
 			color.set(k,k,k);
 		}
 
-		var atmosphereTexture = new TextureGenerator.EquiTexture( atmosphereNoise );
-		var atmosphereMaterial = new THREE.MeshBasicMaterial( {
-									alphaMap: atmosphereTexture,
-									transparent: true,
-									side: THREE.DoubleSide,
-								} );
 		var atmosphere = new THREE.Mesh(
 				new THREE.IcosahedronGeometry( 1, 10 ),
-				TextureGenerator.EquiMaterial( atmosphereMaterial )
+				new THREE.MeshBasicMaterial( {
+								alphaMap: equitexture(atmosphereNoise),
+								transparent: true,
+								side: THREE.DoubleSide,
+						} )
 			);
 			atmosphere.scale.setScalar( 1.02 );
 			
@@ -327,21 +315,19 @@
 			color.set(k,k,k);
 		}
 
-		var exosphereTexture = new TextureGenerator.EquiTexture( exosphereNoise );
-		var exosphereMaterial = new THREE.MeshBasicMaterial( {
-									alphaMap: exosphereTexture,
-									transparent: true,
-									side: THREE.DoubleSide,
-								} );
 		var exosphere = new THREE.Mesh(
 				new THREE.IcosahedronGeometry( 1, 10 ),
-				TextureGenerator.EquiMaterial( exosphereMaterial )
+				new THREE.MeshBasicMaterial( {
+								alphaMap: equitexture(exosphereNoise),
+								transparent: true,
+								side: THREE.DoubleSide,
+						} )
 			);
 			exosphere.scale.setScalar( 1.04 );
 			
 		planet.add( exosphere );
 
-document.getElementById( 'hud' ).style.display = 'none';
+		document.getElementById( 'hud' ).style.display = 'none';
 
 
 		function animationLoop( t )
