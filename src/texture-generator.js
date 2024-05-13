@@ -3,8 +3,32 @@
 //
 
 
-import { Color, Vector3, CanvasTexture, LinearFilter } from "three";
+import { Color, Vector3, CanvasTexture, LinearFilter, MathUtils } from "three";
+import { SimplexNoise } from "three/addons/math/SimplexNoise.js";
 
+
+var PRNG = { random: function(x){return MathUtils.seededRandom(x);} };
+
+var simplex = new SimplexNoise( PRNG );
+	
+function noise( x, y, z )
+{
+	return simplex.noise3d( x, y, z );
+}
+
+function noiseSeed( x )
+{
+	PRNG.random( x );
+	simplex = new SimplexNoise( PRNG );
+}
+
+function noiseRandomize( )
+{
+	PRNG.random( new Date().getTime() );
+	simplex = new SimplexNoise( PRNG );
+}
+
+noiseRandomize();
 
 
 function unitToByte( x )
@@ -149,4 +173,19 @@ function equimaterial( material )
 
 
 
-export { equimaterial, equicanvas, equitexture };
+/*
+  var blob = new Blob([`
+  self.onmessage = function(e) {
+    self.postMessage('msg from worker');
+  };
+`], { type: "text/javascript" })
+
+  var worker = new Worker(window.URL.createObjectURL(blob));
+  worker.onmessage = function(e) {
+    console.log("Received: " + e.data);
+  }
+  worker.postMessage("hello"); // Start the worker.
+*/
+
+
+export { equimaterial, equicanvas, equitexture, noise, noiseSeed, noiseRandomize };
