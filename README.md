@@ -5,11 +5,11 @@ Procedural equirectangular texture generator
 
 [Preliminary demo](https://boytchev.github.io/texture-generator/examples/proof-of-concept.html)
 
-[<kbd style="margin:10px">Preliminary demo<br><img src="snapshots/proof-of-concept.jpg"></kbd>](https://boytchev.github.io/texture-generator/examples/proof-of-concept.html)
+[<kbd style="margin:10px">Preliminary demo<br><img src="examples/snapshots/proof-of-concept.jpg"></kbd>](https://boytchev.github.io/texture-generator/examples/proof-of-concept.html)
 
 [Equirectangular bump map](https://boytchev.github.io/texture-generator/examples/bump-map.html)
 
-[<kbd style="margin:10px">Equirectangular bump map<br><img src="snapshots/bump-map.jpg"></kbd>](https://boytchev.github.io/texture-generator/examples/bump-map.html)
+[<kbd style="margin:10px">Equirectangular bump map<br><img src="examples/snapshots/bump-map.jpg"></kbd>](https://boytchev.github.io/texture-generator/examples/bump-map.html)
 
 
 
