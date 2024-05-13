@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	
+	<link rel="stylesheet" href="styles.css">
+
+	<script type="importmap">
+	  {
+		"imports": {
+		  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
+		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/"
+		}
+	  }
+	</script>
+
+	<style>
+		body {
+		  overflow: hidden;
+		  margin: 0;
+		}
+	</style>
+</head>
+
+<body>
+
+	<h1 class="white">Equirectangular bump map</h1>
+	<h3 class="white">Water drops on an LCD lamp and a concrete block</h3>
+	
+	<script type="module">
+
+		import * as THREE from "three";
+		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+		import { equimaterial, equitexture, noise, noiseSeed } from "../src/texture-generator.js";
+
+
+		
+		
+		// setting up the scene
+		
+		var scene = new THREE.Scene();
+			scene.background = new THREE.Color( 'black' );
+				
+		var camera = new THREE.PerspectiveCamera( 40, innerWidth/innerHeight );
+			camera.position.set( 0, 0, 10 );
+			camera.lookAt( scene.position );
+
+		var renderer = new THREE.WebGLRenderer( {antialias: true} );
+			renderer.setSize( innerWidth, innerHeight );
+			renderer.setAnimationLoop( animationLoop );
+			document.body.appendChild( renderer.domElement );
+					
+		window.addEventListener( "resize", (event) => {
+			camera.aspect = innerWidth/innerHeight;
+			camera.updateProjectionMatrix( );
+			renderer.setSize( innerWidth, innerHeight );
+		});
+
+		var hiddenCamera = camera.clone();
+			hiddenCamera.position.set(0,0,1);
+		
+		var controls = new OrbitControls( hiddenCamera, renderer.domElement );
+			controls.enableDamping = true;
+			controls.autoRotate = !true;
+			controls.autoRotateSpeed = 0.5;
+
+		var light = new THREE.DirectionalLight( 'white', 3 );
+			light.position.set( 0, 0, 10 );
+			scene.add( light );
+
+			scene.add( new THREE.HemisphereLight( 'white','blue',1 ) );
+	
+		
+
+		// =================================
+		//
+		// THE LEFT LCD LAMP
+		//
+		// =================================
+		
+		function dropsPattern( x, y, z, color )
+		{
+			var k = noise(15*x,15*y,15*z);
+				k = Math.max( 0, k-0.2 );
+				
+			color.setHSL( 0, 0, k );
+		}
+
+		var leftLamp = new THREE.Mesh(
+				new THREE.DodecahedronGeometry( 2 ),
+				equimaterial(new THREE.MeshPhysicalMaterial( {
+									transmission: 1,
+									ior: 2,
+									thickness: 0.5,
+									metalness: 0.1,
+									roughness: 0.52,
+									bumpMap: equitexture(dropsPattern),
+									bumpScale: 5,
+								} ))
+		);
+
+		leftLamp.position.x = -2.5;
+		
+		scene.add( leftLamp );
+
+		var leftCore = new THREE.Mesh(
+				new THREE.DodecahedronGeometry( 1.2 ),
+				equimaterial(new THREE.MeshPhysicalMaterial())
+		);
+		
+		leftLamp.add( leftCore );
+
+
+
+		// =================================
+		//
+		// THE RIGHT LCD LAMP
+		//
+		// =================================
+		
+		function cementPattern( x, y, z, color, u, v )
+		{
+			var k = noise(50*x,50*y,50*z);
+			
+			color.setHSL( 0, 0, 0.5+0.5*k );
+		}
+
+		var rightLamp = new THREE.Mesh(
+				new THREE.DodecahedronGeometry( 2 ),
+				equimaterial(new THREE.MeshPhysicalMaterial( {
+									transmission: 1,
+									ior: 3,
+									thickness: 2.5,
+									metalness: 0,
+									roughness: 0.66,
+									bumpMap: equitexture(cementPattern),
+									bumpScale: 0.3,
+									emissive: new THREE.Color('moccasin'),
+									emissiveIntensity: 0.15,
+								} ))
+		);
+
+		rightLamp.position.x = 2.5;
+		
+		scene.add( rightLamp );
+
+		var rightCore = new THREE.Mesh(
+				new THREE.DodecahedronGeometry( 1.1 ),
+				equimaterial(new THREE.MeshPhysicalMaterial())
+		);
+		
+		rightLamp.add( rightCore );
+
+
+
+		function animationLoop( t )
+		{
+			leftCore.material.color.setHSL( t/5000, 1, 0.5 );
+			
+			controls.update( );
+
+			for( var ball of [leftLamp, rightLamp])
+			{
+				ball.scale.setScalar( 1/controls.getDistance() );
+				ball.quaternion.copy( hiddenCamera.quaternion ).conjugate();
+			}
+
+			renderer.render( scene, camera );
+		}
+				
+	</script>
+</body>
+</html>

@@ -1,7 +1,16 @@
 # Texture generator
 Procedural equirectangular texture generator
 
+# Demos
+
 [Preliminary demo](https://boytchev.github.io/texture-generator/examples/proof-of-concept.html)
+
+[<kbd style="margin:10px">Preliminary demo<br><img src="snapshots/proof-of-concept.jpg"></kbd>](https://boytchev.github.io/texture-generator/examples/proof-of-concept.html)
+
+[Equirectangular bump map](https://boytchev.github.io/texture-generator/examples/bump-map.html)
+
+[<kbd style="margin:10px">Equirectangular bump map<br><img src="snapshots/bump-map.jpg"></kbd>](https://boytchev.github.io/texture-generator/examples/bump-map.html)
+
 
 
 ## Preliminary API (working draft)
@@ -23,6 +32,12 @@ If the canvas is also not provided, a default value 1024 is used.
 * `canvas` &ndash; optional HTML canvas element to use for rendering. If not
 provided, a new canvas is created.
 
+Notes:
+* texture's `minFilter` is set to `THREE.LinearFilter`, as all MIPMAP filters
+create a seam and destroy the poles
+* texture's `mapping` is set to `THREE.EquirectangularReflectionMapping`, so
+that [`equimaterial`](#equimaterial-material-) knows this texture must be patched.
+	
 ### `equicanvas( pattern, width, canvas )`
 
 Function. Generates a canvas with an equirectangular texture. The return value
