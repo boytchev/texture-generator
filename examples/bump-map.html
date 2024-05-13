@@ -76,7 +76,7 @@
 
 		// =================================
 		//
-		// THE LEFT LCD LAMP
+		// THE LEFT LED LAMP
 		//
 		// =================================
 		
@@ -116,18 +116,18 @@
 
 		// =================================
 		//
-		// THE RIGHT LCD LAMP
+		// THE RIGHT CONCRETE BLOCK
 		//
 		// =================================
 		
-		function cementPattern( x, y, z, color, u, v )
+		function concretePattern( x, y, z, color, u, v )
 		{
 			var k = noise(50*x,50*y,50*z);
 			
 			color.setHSL( 0, 0, 0.5+0.5*k );
 		}
 
-		var rightLamp = new THREE.Mesh(
+		var rightBlock = new THREE.Mesh(
 				new THREE.DodecahedronGeometry( 2 ),
 				equimaterial(new THREE.MeshPhysicalMaterial( {
 									transmission: 1,
@@ -135,23 +135,23 @@
 									thickness: 2.5,
 									metalness: 0,
 									roughness: 0.66,
-									bumpMap: equitexture(cementPattern),
+									bumpMap: equitexture(concretePattern),
 									bumpScale: 0.3,
 									emissive: new THREE.Color('moccasin'),
 									emissiveIntensity: 0.15,
 								} ))
 		);
 
-		rightLamp.position.x = 2.5;
+		rightBlock.position.x = 2.5;
 		
-		scene.add( rightLamp );
+		scene.add( rightBlock );
 
 		var rightCore = new THREE.Mesh(
 				new THREE.DodecahedronGeometry( 1.1 ),
 				equimaterial(new THREE.MeshPhysicalMaterial())
 		);
 		
-		rightLamp.add( rightCore );
+		rightBlock.add( rightCore );
 
 
 
@@ -161,7 +161,7 @@
 			
 			controls.update( );
 
-			for( var ball of [leftLamp, rightLamp])
+			for( var ball of [leftLamp, rightBlock])
 			{
 				ball.scale.setScalar( 1/controls.getDistance() );
 				ball.quaternion.copy( hiddenCamera.quaternion ).conjugate();
