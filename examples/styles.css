@@ -1,4 +1,9 @@
-﻿
+﻿body {
+	overflow: hidden;
+	margin: 0;
+}
+
+
 h1, h3 {
 	position: fixed;
 	

@@ -16,19 +16,17 @@ function noise( x, y, z )
 	return simplex.noise3d( x, y, z );
 }
 
-function noiseSeed( x )
+function noiseSeed( seed )
 {
-	PRNG.random( x );
+	if( !Number.isInteger(seed) )
+		seed = new Date().getTime();
+		
+	PRNG.random( seed );
+		
 	simplex = new SimplexNoise( PRNG );
 }
 
-function noiseRandomize( )
-{
-	PRNG.random( new Date().getTime() );
-	simplex = new SimplexNoise( PRNG );
-}
-
-noiseRandomize();
+noiseSeed();
 
 
 function unitToByte( x )
@@ -285,4 +283,4 @@ function equimaterial( material )
 */
 
 
-export { equimaterial, equicanvas, equitexture, noise, noiseSeed, noiseRandomize };
+export { equimaterial, equicanvas, equitexture, noise, noiseSeed };
