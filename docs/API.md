@@ -39,7 +39,7 @@ where:
 
 * `pattern` &ndash; optional user-defined [callback function](#pattern-function)
 that calculates the pattern of the texture at a point in 3D space. If not provided,
-a [default dotted pattern](../examples/default-pattern.js) is used.
+a [default dotted pattern](../examples/default-pattern.html) is used.
 
 * `width` &ndash; optional integer number for the texture width in pixels,
 the height is automatically set to half width. If not provided, the canvas width
@@ -66,7 +66,7 @@ where:
 
 * `pattern` &ndash; optional user-defined [callback function](#pattern-function)
 that calculates the pattern of the texture at a point in 3D space. If not provided,
-a [default dotted pattern](../examples/default-pattern.js) is used.
+a [default dotted pattern](../examples/default-pattern.html) is used.
 
 * `width` &ndash; optional integer number for the texture width in pixels,
 the height is automatically set to half width. If not provided, the canvas width
