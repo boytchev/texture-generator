@@ -1,122 +1,121 @@
 # Texture generator API
 
-* [Generators](#generators)
-	- <small>[equitexture](#equitexture)
-	- [equicanvas](#equicanvas)
-	- [equimaterial](#equimaterial)</small>
-* [Noisers](#noisers)
-	- <small>[noise](#noise)
-	- [noiseSeed](#noiseseed)</small>
-* [Patterns](#patterns)
+The code of equirectangular texture generator is split into three modules. They
+can be used standalone or together through [texture-generator.js](#texture-generatorjs):
+
+* [generator.js](#generatorjs) - equirectangular texture generator
+* [noise.js](#noisejs) - seeded noise functions
+* [material.js](#materialjs) - material patcher
 
 
-# Generators
+# `texture-generator.js`
+
+Module. Collects exports from [noise.js](#noisejs), [generator.js](#generatorjs)
+and [material.js](#materialjs) and reexports them. The file is used to import all
+functions via a single import.
+
+
+
+
+# `generator.js`
+
+Module. Implements the equirectangular texture generator and provides the result
+as a texture or as a canvas. The pattern of the texture is a callback function.
 
 ## equitexture
 
-Function. Generates an equirectangular texture and returns it a
+Function. Generates an equirectangular texture. Returns it a
 [THREE.CanvasTexture](https://threejs.org/docs/#api/en/textures/CanvasTexture)
-object. All parameters are optional and can be passed in any order.
+object with turned off mipmaps. All parameters are optional and can be passed in
+any order.
 
 ```js
+equitexture( pattern )
+equitexture( pattern, width )
 equitexture( pattern, width, canvas )
 ```
 
 where:
 
-* `pattern` &ndash; optional pattern function that defines the pattern of the texture.
-See [patterns](#patterns) for details. If not provided, a spherical
-grid is used. Texture's `minFilter` is set to [THREE.LinearFilter](https://threejs.org/docs/#api/en/constants/Textures),
-as all MIPMAP filters create a seam and destroy the poles. Texture's `mapping`
-is set to [THREE.EquirectangularReflectionMapping](https://threejs.org/docs/#api/en/constants/Textures),
-so that [`equimaterial`](#equimaterial) knows this texture must be patched.
+* `pattern` &ndash; optional user-defined [callback function](#pattern-function)
+that calculates the pattern of the texture at a point in 3D space. If not provided,
+a [default dotted pattern](../examples/default-pattern.js) is used.
 
-* `width` &ndash; optional integer for the texture width in pixels, the height
-is automatically set to half width. If not provided, the canvas width is used.
-If the canvas is also not provided, a default value 1024 is used.
+* `width` &ndash; optional integer number for the texture width in pixels,
+the height is automatically set to half width. If not provided, the canvas width
+is used. If the canvas is also not provided, a default value 1024 is used.
 
-* `canvas` &ndash; optional HTML canvas element to use for rendering. If not
-provided, a new canvas is created.
+* `canvas` &ndash; optional [HTML canvas]([HTMLCanvasElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement))
+element to use for rendering. If not provided, a new hidden canvas is created.
 
 
 	
 ## equicanvas
 
-Function. Generates a canvas with an equirectangular texture and returns it as
-an [HTMLCanvasElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement)
+Function. Generates a canvas with an equirectangular texture. Returns it as an
+[HTMLCanvasElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement)
 object. All parameters are optional and can be passed in any order.
 
 ```js
+equicanvas( pattern )
+equicanvas( pattern, width )
 equicanvas( pattern, width, canvas )
 ```
 
 where:
 
-* `pattern` &ndash; optional pattern function that defines the pattern of the texture.
-See [patterns](#patterns) for details. If not provided, a spherical
-grid is used.
+* `pattern` &ndash; optional user-defined [callback function](#pattern-function)
+that calculates the pattern of the texture at a point in 3D space. If not provided,
+a [default dotted pattern](../examples/default-pattern.js) is used.
 
-* `width` &ndash; optional integer for the texture width in pixels, the height
-is automatically set to half width. If not provided, the canvas width is used.
-If the canvas is also not provided, a default value 1024 is used.
+* `width` &ndash; optional integer number for the texture width in pixels,
+the height is automatically set to half width. If not provided, the canvas width
+is used. If the canvas is also not provided, a default value 1024 is used.
 
-* `canvas` &ndash; optional HTML canvas element to use for rendering. If not
-provided, a new canvas is created.
+* `canvas` &ndash; optional [HTML canvas]([HTMLCanvasElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement))
+element to use for rendering. If not provided, a new hidden canvas is created.
 
 
+## Pattern function
 
-## equimaterial
-
-Function. Patches the shader of a [THREE.Material](https://threejs.org/docs/#api/en/materials/Material)
-descendants with non-customized shaders. This patch reduces the texture
-zigzagging near the poles. The return value is the modified material.
+Callback function. This is a user-defind function that generates a specific pattern.
+The function calculates the color of a 3D point in 3D space, based on its (x,y,z)
+coordinates, its texture coordinates (u,v), its pixel coordinates (px,py) and the
+texture size (width,height). 
 
 ```js
-equimaterial( material )
+pattern( x,y,z, color )
+pattern( x,y,z, color, u,v )
+pattern( x,y,z, color, u,v, px,py )
+pattern( x,y,z, color, u,v, px,py, width,height )
 ```
 
 where:
 
-* `material` &ndash; a non-shaderal `THREE.Material` that must be patched.
-
-| Maps | Status |
-| :-- | :-- |
-| alphaMap | |
-| anisotropyMap | |
-| aoMap | |
-| **bumpMap** | Patched |
-| clearcoatNormalMap | |
-| clearcoatMap | |
-| clearcoatRoughnessMap | |
-| displacementMap | |
-| emissiveMap | |
-| **envMap** | Supports natively equirectangular textures |
-| gradientMap | |
-| iridescenceMap | |
-| iridescenceThicknessMap | |
-| lightMap | |
-| **map** | Patched |
-| matcap | |
-| metalnessMap | |
-| normalMap | |
-| roughnessMap | |
-| sheenColorMap | |
-| sheenRoughnessMap | |
-| specularMap | |
-| specularColorMap | |
-| specularIntensityMap | |
-| thicknessMap | |
-| transmissionMap | |
+* `x`,`y`,`z` &ndash; floats; coordiates of a point on a sphere, *x,y,z* &#x2208; [-1,1].
+* `color` &ndash; [THREE.Color](https://threejs.org/docs/#api/en/math/Color); 
+it must be set by the pattern function. An additional property `color.a`
+could be set for encoding alpha transparency. It is not required for the final
+value of `color` to be a `THREE.Color`. It is required that `color` has properties
+`color.r`, `color.g`, `color.r` and optionally `color.a`, all &#x2208; [0,1].
+* `u`,`v` &ndash; floats; texture coordiates of a pixel on the texture, *u,v* &#x2208; [0,1].
+* `px`,`py` &ndash; integers; coordiates of a pixel in the texture, *px* &#x2208; [0,width-1], *py* &#x2208; [0,height-1].
+* `width`,`height` &ndash; integers; size of the texture in pixels.
 
 
 
-# Noisers
+
+# `noise.js`
+
+Module. Defines a seedable 3D noise function, that is used by variour texture
+patterns. It is based on [THREE.SimplexNoise](https://github.com/mrdoob/three.js/blob/master/examples/jsm/math/SimplexNoise.js)
+and [THREE.MathUtils.seededRandom](https://threejs.org/docs/#api/en/math/MathUtils.seededRandom).
+
 
 ## noise
 
-Function. A 3D noise function based on [THREE.SimplexNoise](https://github.com/mrdoob/three.js/blob/master/examples/jsm/math/SimplexNoise.js)
-addon. It returns a pseudo-random number &#x2208; [-1,1] for coordinates
-(`x`,`y`,`z`) of a point in 3D space.
+Function. A 3D noise function. Returns a pseudo-random number &#x2208; [-1,1]
+for a point in 3D space.
 
 ```js
 noise( x, y, z )
@@ -124,47 +123,52 @@ noise( x, y, z )
 
 where:
 
-* `x` &ndash; x coordinate of 3D point.
-* `y` &ndash; x coordinate of 3D point.
-* `z` &ndash; z coordinate of 3D point.
+* `x` &ndash; float; x coordinate of 3D point.
+* `y` &ndash; float; y coordinate of 3D point.
+* `z` &ndash; float; z coordinate of 3D point.
 
 
 ## noiseSeed
 
 Command. Sets the behavior of the [noise](#noise) function. If the optional
-parameter `seed` is an integer number, the next generated pseudo-random numbers
-are based on this seed. Otherwise the current timestamp is used as a seed.
+seed is an integer number, the next generated pseudo-random numbers are based on
+this seed. Otherwise the current timestamp is used as a seed to achieve a kind
+of randomization.
 
 ```js
+noiseSeed( )
 noiseSeed( seed )
 ```
 
 where:
 
-* `seed` &ndash; an optional integer number.
+* `seed` &ndash; integer, optional; the seed vale for future pseudo-random numbers
 
 
 
-# Patterns
+# `material.js`
 
-A pattern function is a user-defind function that generates a specific pattern.
-The function should use 3D coordinates (`x`,`y`,`z`) and/or texture coordinates
-(`u`,`v`) and generate a color in `color`.
+Module. Used to patch the shader of a material to reduce geometrical artifacts.
+
+
+## `equimaterial`
+
+Function. Patches the shader of a [THREE.Material](https://threejs.org/docs/#api/en/materials/Material)
+descendants. This patch reduces the texture zigzagging near the poles. Returns 
+the modified material. The function may not work for materials with user-provided
+shaders.
 
 ```js
-function pattern( x, y, z, color, u, v ) {
-	// use (x,y,z) or (u,v)
-	// calculate color (r,g,b) or (r,g,b,a)
-	// store result in color
-}
+equimaterial( material )
 ```
 
 where:
 
-* `x`,`y`,`z` &ndash; coordiates of a point on a sphere, *x,y,z* &#x2208; [-1,1].
-* `u`,`v` &ndash; texture coordiates of a pixel on the texture, *u,v* &#x2208; [0,1].
-* `color` &ndash; a [THREE.Color](https://threejs.org/docs/#api/en/math/Color)
-object that must be set by the pattern function. An additional property `color.a`
-could be set for encoding alpha transparency. It is not required for the final
-value of `color` to be a `THREE.Color`. It is required that `color` has properties
-`color.r`, `color.g`, `color.r` and optionally `color.a`, all &#x2208; [0,1].
+* `material` &ndash; a descendant of `THREE.Material` that must be patched. Only
+`map` and `bumpMap` textures are patched; `envMap` does not need patching; and
+all the rest maps are not patched (i.e. `alphaMap`, `anisotropyMap`, `aoMap`,
+`clearcoatNormalMap`, `clearcoatMap`, `clearcoatRoughnessMap`, `displacementMap`,
+`emissiveMap`, `gradientMap`, `iridescenceMap`, `iridescenceThicknessMap`,
+`lightMap`, `matcap`, `metalnessMap`, `normalMap`, `roughnessMap`, `sheenColorMap`,
+`sheenRoughnessMap`, `specularMap`, `specularColorMap`, `specularIntensityMap`,
+`thicknessMap`, `transmissionMap`).
