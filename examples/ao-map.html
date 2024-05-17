@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	
+	<link rel="stylesheet" href="styles.css">
+
+	<script type="importmap">
+	  {
+		"imports": {
+		  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
+		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/"
+		}
+	  }
+	</script>
+</head>
+
+<body>
+
+	<h1 class="white">Equirectangular AO map</h1>
+	<h3 class="white">Ambient occlusion with positive and negative scales</h3>
+	
+	<script type="module">
+
+		import * as THREE from "three";
+		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+		import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
+
+
+		
+		
+		// setting up the scene
+		
+		var scene = new THREE.Scene();
+			scene.background = new THREE.Color( 0x202020 );
+				
+		var camera = new THREE.PerspectiveCamera( 40, innerWidth/innerHeight );
+			camera.position.set( 0, 0, 10 );
+			camera.lookAt( scene.position );
+
+		var renderer = new THREE.WebGLRenderer( {antialias: true} );
+			renderer.setSize( innerWidth, innerHeight );
+			renderer.setAnimationLoop( animationLoop );
+			document.body.appendChild( renderer.domElement );
+					
+		window.addEventListener( "resize", (event) => {
+			camera.aspect = innerWidth/innerHeight;
+			camera.updateProjectionMatrix( );
+			renderer.setSize( innerWidth, innerHeight );
+		});
+
+		var hiddenCamera = camera.clone();
+			hiddenCamera.position.set(0,0,1);
+		
+		var controls = new OrbitControls( hiddenCamera, renderer.domElement );
+			controls.enableDamping = true;
+			controls.autoRotate = !true;
+			controls.autoRotateSpeed = 0.5;
+
+		var light = new THREE.PointLight( 'white', 30 );
+			light.position.set( 0, 0, 10 );
+			scene.add( light );
+
+			scene.add( new THREE.AmbientLight( 'white',2 ) );
+	
+
+		var vec = new THREE.Vector3();
+
+
+
+		var dotGeometry = new THREE.SphereGeometry( 0.2 ).translate(0,0.1-0.05,0).rotateX(-Math.PI/2);
+		
+		function buildDots( positionGeometry, dotMaterial )
+		{
+			var dots = new THREE.Group();
+			
+			var positions = mergeVertices( positionGeometry ).getAttribute( 'position' );
+
+			for( var i=0; i<positions.count; i++ )
+			{
+				var dot = new THREE.Mesh( dotGeometry, dotMaterial );
+					dot.position.fromBufferAttribute( positions, i );
+					dot.position.setLength( -2 );
+					dot.lookAt( 0, 0, 0 );
+
+				dots.add( dot );
+			}
+			
+			return dots;
+		} // buildDots
+
+
+		function pattern( x, y, z, color, dots )
+		{
+			vec.set( 2*z, 2*y, 2*x );
+			
+			var dist = 1e10;
+			for( var point of dots.children )
+				dist = Math.min( dist, vec.distanceTo(point.position) );
+				
+			var k = 1-0.01/dist**2.7;
+
+			color.set( k, 0, 0 );
+		}
+		
+		
+		// =================================
+		//
+		// LEFT BALL
+		//
+		// =================================
+
+		var leftMaterial = new THREE.MeshPhysicalMaterial( {
+									color: 'white',
+									metalness: 1,
+									roughness: 0,
+									emissive: 'white',
+									emissiveIntensity: 1.5,
+								} );
+								
+		var leftDots = buildDots( new THREE.IcosahedronGeometry(1,1), leftMaterial );
+
+		function leftPattern( x, y, z, color )
+		{
+			pattern( x, y, z, color, leftDots );
+		}
+
+		var leftBall = new THREE.Mesh(
+				new THREE.SphereGeometry( 2, 64, 32 ),
+				equimaterial(new THREE.MeshPhysicalMaterial( {
+									color: 'LightSteelBlue',
+									metalness: 0.5,
+									roughness: 1,
+									aoMap: equitexture(leftPattern),
+									aoMapIntensity: 1,
+								} ))
+		);
+
+		leftBall.add( leftDots );
+		leftBall.position.x = -2.5;
+		scene.add( leftBall );
+
+
+
+		// =================================
+		//
+		// Right BALL
+		//
+		// =================================
+
+		var rightMaterial = new THREE.MeshPhysicalMaterial( {
+										color: 'white',
+										metalness: 1,
+										roughness: 0,
+										emissive: 'white',
+										emissiveIntensity: 0,
+									} );
+
+		var rightDots = buildDots ( new THREE.IcosahedronGeometry(1,2), rightMaterial );
+
+		function rightPattern( x, y, z, color )
+		{
+			pattern( x, y, z, color, rightDots );
+		}
+
+		var rightBall = new THREE.Mesh(
+				new THREE.SphereGeometry( 2, 64, 32 ),
+				equimaterial(new THREE.MeshPhysicalMaterial( {
+									color: 'LightSteelBlue',
+									metalness: 0.5,
+									roughness: 1,
+									aoMap: equitexture(rightPattern),
+									aoMapIntensity: 1.5,
+								} ))
+		);
+
+		rightBall.add( rightDots );
+		rightBall.position.x = 2.5;
+		scene.add( rightBall );
+
+
+		
+		function animationLoop( t )
+		{
+			t = t/1300;
+			
+			var onOff = Math.sin(t)**5 - Math.sin(3*t)**5 > 0;
+			
+			leftBall.material.color.setStyle( onOff ? 'SteelBlue' : 'LightSteelBlue' );
+			leftBall.material.aoMapIntensity = onOff ? 1.5 : -4;
+			leftMaterial.emissiveIntensity = onOff ? 0 : 1.5;
+			
+			onOff = Math.cos(3*t)**5 - Math.sin(t)**5 > 0;
+			
+			rightBall.material.color.setStyle( onOff ? 'SteelBlue' : 'LightSteelBlue' );
+			rightBall.material.aoMapIntensity = onOff ? 1.5 : -6;
+			rightMaterial.emissiveIntensity = onOff ? 0 : 1.5;
+			
+			controls.update( );
+
+			for( var ball of [leftBall, rightBall])
+			{
+				ball.scale.setScalar( 1/controls.getDistance() );
+				ball.quaternion.copy( hiddenCamera.quaternion ).conjugate();
+			}
+
+			renderer.render( scene, camera );
+		}
+				
+	</script>
+</body>
+</html>
