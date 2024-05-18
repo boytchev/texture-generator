@@ -9,15 +9,6 @@ import { Color, Vector3, CanvasTexture, LinearFilter, EquirectangularReflectionM
 
 
 
-
-function unitToByte( x )
-{
-
-	return Math.max( 0, Math.min( 255, Math.round(255*x) ) );
-
-} // unitToByte
-
-
 function defaultPattern( x, y, z, color, u, v, px, py, width, height )
 {
 	var xx = Math.round(10*x)/10,
@@ -40,7 +31,7 @@ function defaultPattern( x, y, z, color, u, v, px, py, width, height )
 // generating texture in a canvas
 function equicanvas( ...args ) // number, number, canvas, function
 {
-	var width, height, canvas, smooth, pattern;
+	var width, height, canvas, pattern, deferred = false;
 
 	// processing input parameters
 
@@ -60,6 +51,11 @@ function equicanvas( ...args ) // number, number, canvas, function
 		if( Number.isFinite(param) && height==undefined)
 		{
 			height = Math.round( param );
+		}
+		else
+		if( param===true || param===false )
+		{
+			deferred = param;
 		}
 		else
 			console.warn( `Ignored parameter '${param}'. The parameters of generate(...) are two numbers, a canvas and a pattern function (in any order).` );
@@ -99,39 +95,67 @@ function equicanvas( ...args ) // number, number, canvas, function
 	// generating texture
 	
 	var context = canvas.getContext( '2d' ),
-		imageData = context.getImageData( 0, 0, width, height ),
+		imageData = new ImageData( width, 1 ),
 		data = imageData.data,
-		index = 0,
 		color = new Color(),
-		vector = new Vector3();
+		vector = new Vector3(),
+		y = 0;
 
-	for( var y=0; y<height; y++)
-	for( var x=0; x<width; x++)
-	{
-		var u = x / width,
-			v = y / height;
-			
-		vector.setFromSphericalCoords( 1, Math.PI*v, 2*Math.PI*u );
-		pattern( vector.x, vector.y, vector.z, color, u, v, x, y, width, height );
-
-		data[index++] = unitToByte( color.r );
-		data[index++] = unitToByte( color.g );
-		data[index++] = unitToByte( color.b );
-		data[index++] = unitToByte( color?.a ?? 255 );
-	}
+	canvas.update = function ( ms = 100 ) {
+		
+		if( y>=height ) return false;
+		
+		var endTime = performance.now()+ms;
 	
-	context.putImageData( imageData, 0, 0 );
+		do 
+		{
+			if( y>=height ) return true;
+			
+			var index = 0,
+				v = y / height;
 
+			for( var x=0; x<width; x++)
+			{
+				var u = x / width;
+					
+				vector.setFromSphericalCoords( 1, Math.PI*v, 2*Math.PI*u );
+			
+				pattern( vector.x, vector.y, vector.z, color, u, v, x, y, width, height );
+
+				data[index++] = 255*color.r;
+				data[index++] = 255*color.g;
+				data[index++] = 255*color.b;
+				data[index++] = 255*( color?.a ?? 1 );
+			}
+			
+			context.putImageData( imageData, 0, y );
+			
+			y++;
+		} while( performance.now() < endTime );
+			
+		return true;
+	}
+
+	if( deferred ) return canvas;
+	
+	while( canvas.update() );
+	
 	return canvas;
 	
 } // equicanvas
 
 
+
 // generating texture in Three.js texture
 function equitexture( ...args )
 {
+	var canvas = equicanvas(...args);
+	var texture = new CanvasTexture( canvas );
 
-	var texture = new CanvasTexture( equicanvas(...args) );
+	texture.update = function ( ms = 100 ) {
+		if( canvas.update( ms ) )
+			texture.needsUpdate = true;
+	}
 
 	texture.mapping = EquirectangularReflectionMapping; 
 	
@@ -142,6 +166,7 @@ function equitexture( ...args )
 	return texture;
 	
 } // equitexture
+
 
 
 export { equicanvas, equitexture };

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	
+	<link rel="stylesheet" href="styles.css">
+
+	<script type="importmap">
+	  {
+		"imports": {
+		  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
+		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/"
+		}
+	  }
+	</script>
+</head>
+
+<body>
+
+	<h1 class="white">Deferred generation</h1>
+	<h3 class="white">A camouflage patteren generated during the animation loop</h3>
+	
+	<script type="module">
+
+		import * as THREE from "three";
+		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+		import { equicanvas, equimaterial, equitexture, noise } from "../src/texture-generator.js";
+
+
+		
+		
+		// setting up the scene
+		
+		var scene = new THREE.Scene();
+			scene.background = new THREE.Color( 'black' );
+				
+		var camera = new THREE.PerspectiveCamera( 40, innerWidth/innerHeight );
+			camera.position.set( 0, 0, 13 );
+			camera.lookAt( scene.position );
+
+		var renderer = new THREE.WebGLRenderer( {antialias: true} );
+			renderer.setSize( innerWidth, innerHeight );
+			renderer.setAnimationLoop( animationLoop );
+			document.body.appendChild( renderer.domElement );
+					
+		window.addEventListener( "resize", (event) => {
+			camera.aspect = innerWidth/innerHeight;
+			camera.updateProjectionMatrix( );
+			renderer.setSize( innerWidth, innerHeight );
+		});
+
+		var hiddenCamera = camera.clone();
+			hiddenCamera.position.set(0,0,1);
+		
+		var controls = new OrbitControls( hiddenCamera, renderer.domElement );
+			controls.enableDamping = true;
+			controls.autoRotate = true;
+			controls.autoRotateSpeed = 0.5;
+
+		var light = new THREE.DirectionalLight( 'white', 3 );
+			light.position.set( 0, 0, 10 );
+			scene.add( light );
+
+					
+		var camoColorA = new THREE.Color( 0.60, 0.57, 0.42 );
+		var camoColorB = new THREE.Color( 0.37, 0.32, 0.22 );
+		var camoColorC = new THREE.Color( 0.37, 0.42, 0.28 );
+		var camoColorD = new THREE.Color( 0.23, 0.24, 0.20 );
+		
+		function pattern( x, y, z, color, u, v )
+		{
+			const K = 6;
+			
+			var a = Math.round(noise(K*x, K*y, K*z)+0.2),
+				b = Math.round(noise(K*y, K*z, K*x)+0.3),
+				c = Math.round(noise(K*z, K*x, K*y)+0.4),
+				d = Math.round(noise(K*x, K*z, K*y)+0.5);
+
+			if( a>0.5 )
+				color.copy( camoColorA );
+			else
+			if( b>0.5 )
+				color.copy( camoColorB );
+			else
+			if( c>0.5 )
+				color.copy( camoColorC );
+			else
+				color.copy( camoColorD );			
+				
+			color.offsetHSL( 0, 0.2, -0.2 );
+			
+		} // pattern
+
+
+	
+		var ball = new THREE.Mesh(
+				new THREE.SphereGeometry( 3 ),
+				equimaterial(new THREE.MeshLambertMaterial( {
+									map: equitexture( pattern, true, 4096 ),
+									side: THREE.DoubleSide,
+									transparent: true,
+								} ))
+		);
+		
+		scene.add( ball );
+
+
+
+		function animationLoop( t )
+		{			
+			ball.material.map.update( 10 );
+			
+			controls.update( );
+
+			ball.scale.setScalar( 1/controls.getDistance() );
+			ball.quaternion.copy( hiddenCamera.quaternion ).conjugate();
+
+			renderer.render( scene, camera );
+		}
+				
+	</script>
+</body>
+</html>

@@ -14,6 +14,7 @@ For the time being, click on a snapshot to run it live, or scroll down for a bri
 
 [<kbd style="margin:5px"><img src="examples/snapshots/project-goals.jpg" style="width:100px;"></kbd>](https://boytchev.github.io/texture-generator/examples/project-goals.html)
 [<kbd style="margin:5px"><img src="examples/snapshots/square-map.jpg" style="width:100px;"></kbd>](https://boytchev.github.io/texture-generator/examples/square-map.html)
+[<kbd style="margin:5px"><img src="examples/snapshots/deferred-generation.jpg" style="width:100px;"></kbd>](https://boytchev.github.io/texture-generator/examples/deferred-generation.html)
 
 ## About this library
 

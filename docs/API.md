@@ -34,6 +34,7 @@ equitexture( pattern )
 equitexture( pattern, width )
 equitexture( pattern, width, height )
 equitexture( pattern, width, height, canvas )
+equitexture( pattern, width, height, canvas, deferred )
 equitexture( pattern, canvas )
 ```
 
@@ -55,6 +56,10 @@ default value 512 is used.
 * `canvas` &ndash; optional [HTML canvas]([HTMLCanvasElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement))
 element to use for rendering. If not provided, a new hidden canvas is created.
 
+* `deferred` &ndash; optional boolean. If it is `true` the texture generation
+is deferred and the function returns immediately. If not provided, the whole
+texture is generated. See [deferred textures](#deferred-textures) for more details.
+
 
 	
 ## equicanvas
@@ -68,26 +73,11 @@ equicanvas( pattern )
 equicanvas( pattern, width )
 equicanvas( pattern, width, height )
 equicanvas( pattern, width, height, canvas )
+equicanvas( pattern, width, height, canvas, deferred )
 equicanvas( pattern, canvas )
 ```
 
-where:
-
-* `pattern` &ndash; optional user-defined [callback function](#pattern-function)
-that calculates the pattern of the texture at a point in 3D space. If not provided,
-a [default dotted pattern](../examples/default-pattern.html) is used.
-
-* `width` &ndash; optional integer number for the texture width in pixels. If
-not provided, the canvas width is used. If the canvas is also not provided, a
-default value 1024 is used.
-
-* `height` &ndash; optional integer number for the texture height in pixels.
-If not provided, the height is automatically set to half width. If the width is
-not provided, the canvas height is used. If the canvas is also not provided, a
-default value 512 is used.
-
-* `canvas` &ndash; optional [HTML canvas]([HTMLCanvasElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement))
-element to use for rendering. If not provided, a new hidden canvas is created.
+where the parameters are the same as in [equitexture](#equitexture).
 
 
 ## Pattern function
@@ -115,6 +105,31 @@ value of `color` to be a `THREE.Color`. It is required that `color` has properti
 * `u`,`v` &ndash; floats; texture coordiates of a pixel on the texture, *u,v* &#x2208; [0,1].
 * `px`,`py` &ndash; integers; coordiates of a pixel in the texture, *px* &#x2208; [0,width-1], *py* &#x2208; [0,height-1].
 * `width`,`height` &ndash; integers; size of the texture in pixels.
+
+
+## Deferred textures
+
+A deferred texture is one that is initially created empty, and is generated
+later on. Deferred generation could be implemented as a seriece of small updates.
+This is usually applied for large textures to prevent prolonged blocking of user
+interface.
+
+A deferred generation is set by `true` parameter of [equitexture](#equitexture)
+or [equicanvas](#equicanvas). The actual generation is activated with the method
+`update`.
+
+```js
+texture.update( ms )
+canvas.update( ms )
+```
+
+where:
+
+* `ms` - options number; the number of [milliseconds ](https://en.wikipedia.org/wiki/Millisecond)
+to spend on generating. If not provided, a 100 ms time span is used (i.e. 0.1 seconds).
+At least one full row of pixels is generated at each update. If the texture is
+completely generated, `update` does nothing. This is an [example of deferred texture](../examples/deferred-generation).
+
 
 
 
