@@ -38,7 +38,7 @@ function defaultPattern( x, y, z, color, u, v, px, py, width, height )
 	
 	
 // generating texture in a canvas
-function equicanvas( ...args ) // number, canvas, function
+function equicanvas( ...args ) // number, number, canvas, function
 {
 	var width, height, canvas, smooth, pattern;
 
@@ -52,16 +52,25 @@ function equicanvas( ...args ) // number, canvas, function
 		if( param instanceof Function )
 			pattern = param;
 		else
-		if( Number.isFinite(param) )
+		if( Number.isFinite(param) && width==undefined)
 		{
-			width = param;
-			height = Math.round(param/2);
+			width = Math.round( param );
 		}
 		else
-			console.warn( `Ignored parameter '${param}'. The parameters of generate(...) are a number, a canvas and a function (in any order).` );
+		if( Number.isFinite(param) && height==undefined)
+		{
+			height = Math.round( param );
+		}
+		else
+			console.warn( `Ignored parameter '${param}'. The parameters of generate(...) are two numbers, a canvas and a pattern function (in any order).` );
+	}
+
+	if( Number.isFinite(width) && height==undefined )
+	{
+		height = Math.round( width/2 );
 	}
 	
-	if( !canvas && !Number.isFinite(width) )
+	if( canvas==undefined && width==undefined )
 	{
 		width = 1024;
 		height = 512;
@@ -126,7 +135,7 @@ function equitexture( ...args )
 
 	texture.mapping = EquirectangularReflectionMapping; 
 	
-	// turn off mipmap, as they create a seam and destroy the poles
+	// turn off mipmaps, as they create a seam and destroy the poles
 	texture.minFilter = LinearFilter; 
 	texture.generateMipmaps = false;
 				

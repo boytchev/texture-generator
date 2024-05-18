@@ -27,12 +27,14 @@ as a texture or as a canvas. The pattern of the texture is a callback function.
 Function. Generates an equirectangular texture. Returns it a
 [THREE.CanvasTexture](https://threejs.org/docs/#api/en/textures/CanvasTexture)
 object with turned off mipmaps. All parameters are optional and can be passed in
-any order.
+any order, except for width and height.
 
 ```js
 equitexture( pattern )
 equitexture( pattern, width )
-equitexture( pattern, width, canvas )
+equitexture( pattern, width, height )
+equitexture( pattern, width, height, canvas )
+equitexture( pattern, canvas )
 ```
 
 where:
@@ -41,9 +43,14 @@ where:
 that calculates the pattern of the texture at a point in 3D space. If not provided,
 a [default dotted pattern](../examples/default-pattern.html) is used.
 
-* `width` &ndash; optional integer number for the texture width in pixels,
-the height is automatically set to half width. If not provided, the canvas width
-is used. If the canvas is also not provided, a default value 1024 is used.
+* `width` &ndash; optional integer number for the texture width in pixels. If
+not provided, the canvas width is used. If the canvas is also not provided, a
+default value 1024 is used.
+
+* `height` &ndash; optional integer number for the texture height in pixels.
+If not provided, the height is automatically set to half width. If the width is
+not provided, the canvas height is used. If the canvas is also not provided, a
+default value 512 is used.
 
 * `canvas` &ndash; optional [HTML canvas]([HTMLCanvasElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement))
 element to use for rendering. If not provided, a new hidden canvas is created.
@@ -54,12 +61,14 @@ element to use for rendering. If not provided, a new hidden canvas is created.
 
 Function. Generates a canvas with an equirectangular texture. Returns it as an
 [HTMLCanvasElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement)
-object. All parameters are optional and can be passed in any order.
+object. All parameters are optional and can be passed in any order, except for width and height.
 
 ```js
 equicanvas( pattern )
 equicanvas( pattern, width )
-equicanvas( pattern, width, canvas )
+equicanvas( pattern, width, height )
+equicanvas( pattern, width, height, canvas )
+equicanvas( pattern, canvas )
 ```
 
 where:
@@ -68,9 +77,14 @@ where:
 that calculates the pattern of the texture at a point in 3D space. If not provided,
 a [default dotted pattern](../examples/default-pattern.html) is used.
 
-* `width` &ndash; optional integer number for the texture width in pixels,
-the height is automatically set to half width. If not provided, the canvas width
-is used. If the canvas is also not provided, a default value 1024 is used.
+* `width` &ndash; optional integer number for the texture width in pixels. If
+not provided, the canvas width is used. If the canvas is also not provided, a
+default value 1024 is used.
+
+* `height` &ndash; optional integer number for the texture height in pixels.
+If not provided, the height is automatically set to half width. If the width is
+not provided, the canvas height is used. If the canvas is also not provided, a
+default value 512 is used.
 
 * `canvas` &ndash; optional [HTML canvas]([HTMLCanvasElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement))
 element to use for rendering. If not provided, a new hidden canvas is created.

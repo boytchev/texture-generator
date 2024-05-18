@@ -12,7 +12,8 @@ For the time being, click on a snapshot to run it live, or scroll down for a bri
 
 [<kbd style="margin:10px">Preliminary demo<br><br><img src="examples/snapshots/proof-of-concept.jpg" style="width:300px;"></kbd>](https://boytchev.github.io/texture-generator/examples/proof-of-concept.html) [<kbd style="margin:10px">Equirectangular bump map<br><br><img src="examples/snapshots/bump-map.jpg" style="width:300px;"></kbd>](https://boytchev.github.io/texture-generator/examples/bump-map.html) [<kbd style="margin:10px">Default pattern<br><br><img src="examples/snapshots/default-pattern.jpg" style="width:300px;"></kbd>](https://boytchev.github.io/texture-generator/examples/default-pattern.html) [<kbd style="margin:10px">AO map<br><br><img src="examples/snapshots/ao-map.jpg" style="width:300px;"></kbd>](https://boytchev.github.io/texture-generator/examples/ao-map.html)
 
-[<kbd style="margin:10px"><img src="examples/snapshots/project-goals.jpg" style="width:100px;"></kbd>](https://boytchev.github.io/texture-generator/examples/project-goals.html)
+[<kbd style="margin:5px"><img src="examples/snapshots/project-goals.jpg" style="width:100px;"></kbd>](https://boytchev.github.io/texture-generator/examples/project-goals.html)
+[<kbd style="margin:5px"><img src="examples/snapshots/square-map.jpg" style="width:100px;"></kbd>](https://boytchev.github.io/texture-generator/examples/square-map.html)
 
 ## About this library
 

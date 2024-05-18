@@ -118,8 +118,6 @@
 					} )
 		);
 
-		leftBall.position.set( -3, 1, 0 );
-
 		var leftBall2 = new THREE.Mesh(
 				new THREE.SphereGeometry( 1, 60, 30 ),
 				new THREE.MeshLambertMaterial( {
@@ -228,46 +226,6 @@
 		
 		scene.add( rightBall, rightBall2, rightPanel );
 		
-
-
-
-		// =================================
-		//
-		// Right BALL
-		//
-		// =================================
-/*
-		var rightMaterial = new THREE.MeshPhysicalMaterial( {
-										color: 'white',
-										metalness: 1,
-										roughness: 0,
-										emissive: 'white',
-										emissiveIntensity: 0,
-									} );
-
-		var rightDots = buildDots ( new THREE.IcosahedronGeometry(1,2), rightMaterial );
-
-		function rightPattern( x, y, z, color )
-		{
-			pattern( x, y, z, color, rightDots );
-		}
-
-		var rightBall = new THREE.Mesh(
-				new THREE.SphereGeometry( 2, 64, 32 ),
-				equimaterial(new THREE.MeshPhysicalMaterial( {
-									color: 'LightSteelBlue',
-									metalness: 0.5,
-									roughness: 1,
-									aoMap: equitexture(rightPattern),
-									aoMapIntensity: 1.5,
-								} ))
-		);
-
-		rightBall.add( rightDots );
-		rightBall.position.x = 2.5;
-		scene.add( rightBall );
-*/
-
 		
 		function animationLoop( t )
 		{

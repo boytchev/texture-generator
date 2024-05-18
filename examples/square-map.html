@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	
+	<link rel="stylesheet" href="styles.css">
+
+	<script type="importmap">
+	  {
+		"imports": {
+		  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
+		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/"
+		}
+	  }
+	</script>
+</head>
+
+<body>
+
+	<h1 class="white">Square map</h1>
+	<h3 class="white">Creating non-traditional sizes of equirectangular maps</h3>
+	
+	<script type="module">
+
+		import * as THREE from "three";
+		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
+
+
+		
+		
+		// setting up the scene
+		
+		var scene = new THREE.Scene();
+			scene.background = new THREE.Color( 'black' );
+				
+		var camera = new THREE.PerspectiveCamera( 4, innerWidth/innerHeight );
+			camera.position.set( 0, 0, 100 );
+			camera.lookAt( scene.position );
+
+		var renderer = new THREE.WebGLRenderer( {antialias: true} );
+			renderer.setSize( innerWidth, innerHeight );
+			renderer.setAnimationLoop( animationLoop );
+			document.body.appendChild( renderer.domElement );
+					
+		window.addEventListener( "resize", (event) => {
+			camera.aspect = innerWidth/innerHeight;
+			camera.updateProjectionMatrix( );
+			renderer.setSize( innerWidth, innerHeight );
+		});
+
+		var hiddenCamera = camera.clone();
+			hiddenCamera.position.set(0,0,1);
+		
+		var controls = new OrbitControls( hiddenCamera, renderer.domElement );
+			controls.enableDamping = true;
+			controls.autoRotate = !true;
+			controls.autoRotateSpeed = 0.5;
+
+		var light = new THREE.PointLight( 'white', 4 );
+			light.position.set( 0, 0, 100 );
+			light.decay = 0;
+			scene.add( light );
+	
+
+
+		function pattern( x, y, z, color, u, v, px, py )
+		{
+			var r = noise( 10*x, y, z );
+			var g = noise( x, 10*y, z );
+			var b = noise( x, y, 10*z );
+			color.set( r, g, b );
+		}
+
+
+		// =================================
+		//
+		// LEFT BALL - ORIGINAL TEXTURE
+		//
+		// =================================
+		
+		var leftTexture = equitexture( pattern, 512, 1024);
+		
+		var leftBall = new THREE.Mesh(
+				new THREE.SphereGeometry( 1 ),
+				equimaterial( new THREE.MeshLambertMaterial( {
+						map: leftTexture
+					} ) )
+		);
+
+		var leftPanel = new THREE.Mesh(
+				new THREE.PlaneGeometry( 0.7, 1.4 ),
+				new THREE.MeshLambertMaterial( {
+						map: leftTexture
+					} )
+		);
+
+		leftBall.position.set( -3, 1, 0 );
+		leftPanel.position.set( -3, -1, 0 );
+		
+		scene.add( leftBall, leftPanel );
+
+
+		// =================================
+		//
+		// MIDDLE BALL - EQUIRECTANGULAR TEXTURE
+		//
+		// =================================
+
+		var midTexture = equitexture( pattern, 3*1024, 1024);
+		
+		var midBall = new THREE.Mesh(
+				new THREE.SphereGeometry( 1 ),
+				equimaterial( new THREE.MeshLambertMaterial( {
+						map: midTexture
+					} ) )
+		);
+
+		var midPanel = new THREE.Mesh(
+				new THREE.PlaneGeometry( 3*1.4, 1.4 ),
+				new THREE.MeshLambertMaterial( {
+						map: midTexture
+					} )
+		);
+
+		midBall.position.set( 0, 1, 0 );
+		midPanel.position.set( 0, -1, 0 );
+		
+		scene.add( midBall, midPanel );
+		
+
+
+
+		// =================================
+		//
+		// RIGHT BALL - EQUIRECTANGULAR TEXTURE + SHADER FIX
+		//
+		// =================================
+		
+		var rightTexture = equitexture( pattern, 1048, 1024);
+		
+		var rightBall = new THREE.Mesh(
+				new THREE.SphereGeometry( 1 ),
+				equimaterial( new THREE.MeshLambertMaterial( {
+						map: rightTexture
+					} ) )
+		);
+
+		var rightPanel = new THREE.Mesh(
+				new THREE.PlaneGeometry( 1.4, 1.4 ),
+				new THREE.MeshLambertMaterial( {
+						map: rightTexture
+					} )
+		);
+
+		rightBall.position.set( 3, 1, 0 );
+		rightPanel.position.set( 3, -1, 0 );
+		
+		scene.add( rightBall, rightPanel );
+
+
+		
+		
+		function animationLoop( t )
+		{
+			controls.update( );
+			
+			for( var ball of [leftBall, midBall, rightBall])
+			{
+				ball.scale.setScalar( 1/controls.getDistance() );
+				ball.quaternion.copy( hiddenCamera.quaternion ).conjugate();
+			}
+
+			renderer.render( scene, camera );
+		}
+				
+	</script>
+</body>
+</html>
