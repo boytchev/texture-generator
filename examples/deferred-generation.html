@@ -20,7 +20,9 @@
 <body>
 
 	<h1 class="white">Deferred generation</h1>
-	<h3 class="white">A camouflage patteren generated during the animation loop</h3>
+	<h3 class="white">A camouflage patteren generated during the animation loop
+	<br>
+	<progress id="progressBar" value="0" max="100"> 0% </progress></h3>
 	
 	<script type="module">
 
@@ -34,7 +36,7 @@
 		// setting up the scene
 		
 		var scene = new THREE.Scene();
-			scene.background = new THREE.Color( 'black' );
+			scene.background = new THREE.Color( 'gray')//'black' );
 				
 		var camera = new THREE.PerspectiveCamera( 40, innerWidth/innerHeight );
 			camera.position.set( 0, 0, 13 );
@@ -97,6 +99,7 @@
 	
 		var ball = new THREE.Mesh(
 				new THREE.SphereGeometry( 3 ),
+				//new THREE.DodecahedronGeometry( 3 ),
 				equimaterial(new THREE.MeshLambertMaterial( {
 									map: equitexture( pattern, true, 4096 ),
 									side: THREE.DoubleSide,
@@ -107,10 +110,13 @@
 		scene.add( ball );
 
 
-
+		var progressBar = document.getElementById( 'progressBar' );
+		
 		function animationLoop( t )
 		{			
-			ball.material.map.update( 10 );
+			progressBar.value = 100*ball.material.map.update( );
+			
+			if( Math.floor(progressBar.value)%5 == 0 ) ball.material.map.needsUpdate = true;
 			
 			controls.update( );
 

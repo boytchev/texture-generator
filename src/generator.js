@@ -8,6 +8,8 @@
 import { Color, Vector3, CanvasTexture, LinearFilter, EquirectangularReflectionMapping, MathUtils } from "three";
 
 
+CanvasRenderingContext2D.prototype.clip = function () { };
+
 
 function defaultPattern( x, y, z, color, u, v, px, py, width, height )
 {
@@ -27,7 +29,7 @@ function defaultPattern( x, y, z, color, u, v, px, py, width, height )
 } // defaultPattern
 	
 	
-	
+
 // generating texture in a canvas
 function equicanvas( ...args ) // number, number, canvas, function
 {
@@ -91,7 +93,6 @@ function equicanvas( ...args ) // number, number, canvas, function
 	width = canvas.width;
 	height = canvas.height;
 
-
 	// generating texture
 	
 	var context = canvas.getContext( '2d' ),
@@ -100,17 +101,18 @@ function equicanvas( ...args ) // number, number, canvas, function
 		color = new Color(),
 		vector = new Vector3(),
 		y = 0;
-
-	canvas.update = function ( ms = 100 ) {
-		
-		if( y>=height ) return false;
-		
-		var endTime = performance.now()+ms;
 	
-		do 
+	canvas.update = function ( ms = 20 ) {
+		
+		if( y>=height )
 		{
-			if( y>=height ) return true;
-			
+			return 1;
+		}
+		
+		var startTime = performance.now( );
+		
+		do
+		{
 			var index = 0,
 				v = y / height;
 
@@ -127,23 +129,34 @@ function equicanvas( ...args ) // number, number, canvas, function
 				data[index++] = 255*color.b;
 				data[index++] = 255*( color?.a ?? 1 );
 			}
-			
+
 			context.putImageData( imageData, 0, y );
 			
 			y++;
-		} while( performance.now() < endTime );
-			
-		return true;
+
+		} while( (v < 1) && (performance.now( )-startTime < ms) );
+		
+		return v;
 	}
 
-	if( deferred ) return canvas;
-	
-	while( canvas.update() );
+	if( deferred )
+	{	
+		/*
+		context.fillStyle = 'white';
+		
+		for( let x = 0; x<width; x+=32 )
+		for( let y = 0; y<height; y+=32 )
+			if( ((x>>5)+(y>>5))%2 )
+				context.fillRect( x, y, 4, 4 );
+		*/	
+		return canvas;
+	}
+
+	while( canvas.update( 1000 ) < 1 );
 	
 	return canvas;
 	
 } // equicanvas
-
 
 
 // generating texture in Three.js texture
@@ -152,16 +165,24 @@ function equitexture( ...args )
 	var canvas = equicanvas(...args);
 	var texture = new CanvasTexture( canvas );
 
-	texture.update = function ( ms = 100 ) {
-		if( canvas.update( ms ) )
+	var incomplete = true;
+	
+	texture.update = function ( ms = 20 ) {
+		var progress = canvas.update( ms );
+		if( progress==1 && incomplete )
+		{
 			texture.needsUpdate = true;
+			incomplete = false;
+		}
+		return progress;
 	}
-
+	
 	texture.mapping = EquirectangularReflectionMapping; 
 	
 	// turn off mipmaps, as they create a seam and destroy the poles
 	texture.minFilter = LinearFilter; 
 	texture.generateMipmaps = false;
+	texture.needsUpdate = true;
 				
 	return texture;
 	
