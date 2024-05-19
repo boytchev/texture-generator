@@ -1,0 +1,92 @@
+﻿body {
+	font-family: Cordana, Calibri, sans-serif;
+	max-width: 40em;
+	margin: auto;
+}
+
+h1, h3 {
+	color: black;
+	
+	left: 0;
+	margin: 0;
+	
+	z-index: 1;
+	text-align: center;
+	width: 100%;
+	
+	font-size: 2em;
+	font-weight: bold;
+}
+
+h3 {
+	margin-top: 1em;
+	font-size: 1.75em;
+	font-weight: normal;
+}
+
+img.logo {
+	display: block;
+	width: 4em;
+	margin: auto;
+}
+
+.footnote {
+	border-top: solid whitesmoke 1px;
+	text-align: center;
+	font-size: 1em;
+	font-weight: 300;
+}
+
+a {
+	color: dimgray;
+	text-decoration: none;
+}
+
+a:hover {
+	color: black;
+}
+
+a:visited {
+	color: dimgray;
+}
+
+.style-block {
+	display: inline-block;
+	width: 10em;
+	height: 11em;
+	text-align: center;
+	background: white;
+	border-radius: 0.5em;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.style-block img {
+	width: 8em;
+	border-radius: 10em;
+	/*filter: drop-shadow(0 0 0.5em);*/
+}
+
+.style-block:hover {
+	filter: drop-shadow(lightgray 0 0 0.5em);
+}
+
+.style-block:visited {
+	color: black;
+}
+
+.style-block .title {
+	font-size: 1.25em;
+	font-weight: normal;
+	margin-bottom: 0.3em;
+}
+
+p {
+	font-size: 1.25em;
+}
+
+li {
+	margin-top: 1em;
+	font-size: 1.15em;
+	font-weight: 300;
+}

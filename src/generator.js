@@ -5,7 +5,7 @@
 //	equitexture( ...args )	- generating texture in Three.js texture
 
 
-import { Color, Vector3, CanvasTexture, LinearFilter, EquirectangularReflectionMapping, MathUtils } from "three";
+import { Color, Vector3, CanvasTexture, LinearFilter, EquirectangularReflectionMapping, MathUtils, SRGBColorSpace } from "three";
 
 
 CanvasRenderingContext2D.prototype.clip = function () { };
@@ -81,9 +81,10 @@ function equicanvas( ...args ) // number, number, canvas, function
 	
 	if( Number.isFinite(width) )
 	{
-		canvas.width = width;
-		canvas.height = height;
+		if( canvas.width != width ) canvas.width = width;
+		if( canvas.height != height ) canvas.height = height;
 	}
+	
 	
 	if( !pattern )
 	{
@@ -139,6 +140,22 @@ function equicanvas( ...args ) // number, number, canvas, function
 		return v;
 	}
 
+	canvas.border = function ( lines ) {
+		
+		for( var yy = y; yy<Math.min(height,y+lines); yy++ )
+		{
+			for( var index=0; index<4*width; )
+			{
+				data[index++] = 255;
+				data[index++] = 0;
+				data[index++] = 50;
+				data[index++] = 255;
+			}
+
+			context.putImageData( imageData, 0, yy );
+		}
+	}
+
 	if( deferred )
 	{	
 		/*
@@ -164,6 +181,7 @@ function equitexture( ...args )
 {
 	var canvas = equicanvas(...args);
 	var texture = new CanvasTexture( canvas );
+		texture.needsUpdate = false;
 
 	var incomplete = true;
 	
@@ -177,12 +195,18 @@ function equitexture( ...args )
 		return progress;
 	}
 	
+	texture.border = function ( lines ) {
+		canvas.border( lines );
+	}
+		
 	texture.mapping = EquirectangularReflectionMapping; 
 	
 	// turn off mipmaps, as they create a seam and destroy the poles
 	texture.minFilter = LinearFilter; 
 	texture.generateMipmaps = false;
-	texture.needsUpdate = true;
+	//texture.needsUpdate = true;
+	
+	texture.colorSpace = SRGBColorSpace;
 				
 	return texture;
 	
