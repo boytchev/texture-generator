@@ -135,7 +135,7 @@
 		for( var i=0; i<dotPositions.count; i++ )
 			dotPoints.push( new THREE.Vector3().fromBufferAttribute( dotPositions, i ) );
 			
-		function pattern( x, y, z, color, u, v, px, py )
+		function pattern( x, y, z, color, {}, u, v, px, py )
 		{
 			vec.set( z, y, x );
 			

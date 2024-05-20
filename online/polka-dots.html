@@ -22,22 +22,14 @@
 
 
 <body>
-	<!--div id="hud-top">
-		<a href="https://github.com/boytchev/platons">
-			<h1>PLATON</h1>
-			<h2>Online Generator</h2>
-		</a>
-	</div-->
-	
-	<!--div id="hud-bottom">
-		<image src="images/mouse.svg">
-	</div-->
-	
+
 	<script type="module">
+
 		import * as THREE from "three";
 		import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 		import { model, canvas, HexahedronGeometry, installGui } from "./online.js";
 		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
+
 
 
 		var arrangements = [
@@ -61,7 +53,6 @@
 
 
 
-
 		var guiOptions = {
 				arrangement: 7,
 				color: 0x000000,
@@ -70,6 +61,8 @@
 				dotSize: 3,
 				blur: 0.5,
 			};
+
+
 			
 		var patternOptions = {
 				color: new THREE.Color( ),
