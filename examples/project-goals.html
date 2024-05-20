@@ -150,7 +150,7 @@
 		for( var i=0; i<dotPositions.count; i++ )
 			dotPoints.push( new THREE.Vector3().fromBufferAttribute( dotPositions, i ) );
 			
-		function pattern( x, y, z, color, u, v, px, py )
+		function pattern( x, y, z, color, {}, u, v, px, py )
 		{
 			vec.set( z, y, x );
 			
@@ -158,7 +158,7 @@
 			for( var point of dotPoints )
 				dist = Math.min( dist, vec.distanceTo(point) );
 				
-			var k = 1-0.005/dist**2.2;
+			var k = 1-0.005/dist**2.1;
 
 	
 			if( py>256-8 && py<256+8 )

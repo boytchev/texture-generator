@@ -11,7 +11,7 @@ import { Color, Vector3, CanvasTexture, LinearFilter, EquirectangularReflectionM
 CanvasRenderingContext2D.prototype.clip = function () { };
 
 
-function defaultPattern( x, y, z, color, u, v, px, py, width, height )
+function defaultPattern( x, y, z, color, u, v, px, py, width, height, options )
 {
 	var xx = Math.round(10*x)/10,
 		yy = Math.round(10*y)/10,
@@ -31,9 +31,9 @@ function defaultPattern( x, y, z, color, u, v, px, py, width, height )
 	
 
 // generating texture in a canvas
-function equicanvas( ...args ) // number, number, canvas, function
+function equicanvas( ...args ) // number, number, canvas, function, object
 {
-	var width, height, canvas, pattern, deferred = false;
+	var width, height, canvas, pattern, deferred = false, options = {};
 
 	// processing input parameters
 
@@ -60,7 +60,12 @@ function equicanvas( ...args ) // number, number, canvas, function
 			deferred = param;
 		}
 		else
-			console.warn( `Ignored parameter '${param}'. The parameters of generate(...) are two numbers, a canvas and a pattern function (in any order).` );
+		if( typeof param === 'object' && param !== null )
+		{
+			options = param;
+		}
+		else
+			console.warn( `Ignored parameter '${param}'. The parameters of generate(...) are two numbers, a canvas, a pattern function (in any order) and options object.` );
 	}
 
 	if( Number.isFinite(width) && height==undefined )
@@ -123,7 +128,7 @@ function equicanvas( ...args ) // number, number, canvas, function
 					
 				vector.setFromSphericalCoords( 1, Math.PI*v, 2*Math.PI*u );
 			
-				pattern( vector.x, vector.y, vector.z, color, u, v, x, y, width, height );
+				pattern( vector.x, vector.y, vector.z, color, options, u, v, x, y, width, height );
 
 				data[index++] = 255*color.r;
 				data[index++] = 255*color.g;

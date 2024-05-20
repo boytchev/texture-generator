@@ -223,7 +223,7 @@
 			ROCK = new THREE.Color('olive'),
 			SNOW = new THREE.Color('azure')
 			
-		function planetPattern(x,y,z,color,u,v)
+		function planetPattern(x,y,z,color,{},u,v)
 		{
 			var k = 1.7*noise( x/2, y/2, z/2 );
 				k += 0.35*noise( 2*y, 2*x, 2*z );
@@ -299,9 +299,9 @@
 		//
 		// =================================
 
-		function exospherePattern(x,y,z,color,u,v)
+		function exospherePattern(x,y,z,color,{},u,v)
 		{
-			var k = 0.4*(noise( y+1, z+1, x+1 )+noise( 2*z-1, 2*x-1, 2*y-1 ));
+			var k = 0.4*(noise( y+1, z+1, x+1 )+noise( z-1, x-1, y-1 ));
 			color.set(k,k,k);
 		}
 

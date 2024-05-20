@@ -62,15 +62,21 @@
 
 
 
-		var options = {
+		var guiOptions = {
 				arrangement: 7,
 				color: 0x000000,
-				colorThree: new THREE.Color(),
 				backgroundColor: 0xFFFFFF,
-				backgroundColorThree: new THREE.Color(),
 				resolution: 9,
 				dotSize: 3,
 				blur: 0.5,
+			};
+			
+		var patternOptions = {
+				color: new THREE.Color( ),
+				backgroundColor: new THREE.Color( ),
+				points: [],
+				minDotSmooth: 0,
+				maxDotSmooth: 0,
 			};
 			
 		var guiMain = installGui( 'Polka dots' );
@@ -78,30 +84,30 @@
 		var gui = guiMain.addFolder( '<big>Options</big>' );
 		
 		
-		gui.add( options, 'resolution', {'256 x 128':8, '512 x 256':9, '1024 x 512':10, '2048 x 1024':11, '4096 x 2048':12, '8192 x 4096':13} )
+		gui.add( guiOptions, 'resolution', {'256 x 128':8, '512 x 256':9, '1024 x 512':10, '2048 x 1024':11, '4096 x 2048':12, '8192 x 4096':13} )
 			.name( 'Resolution',  )
 			.onChange( onChange );
 			
-		gui.add( options, 'arrangement' )
+		gui.add( guiOptions, 'arrangement' )
 			.min(0).max(arrangements.length-1).step(1)
 			.name( 'Dots <right>layout</right>',  )
 			.onChange( onChange );
 			
-		var guiDotSize = gui.add( options, 'dotSize' )
+		var guiDotSize = gui.add( guiOptions, 'dotSize' )
 			.min(0.5).max(11).step(0.01)
 			.name( '<right>size</right>' )
 			.onChange( onChange );
 			
-		gui.add( options, 'blur' )
+		gui.add( guiOptions, 'blur' )
 			.min(0).max(4).step(0.1)
 			.name( '<right>blur</right>' )
 			.onChange( onChange );
 			
-		gui.addColor( options, 'color' )
+		gui.addColor( guiOptions, 'color' )
 			.name( 'Color <right>main</right>' )
 			.onChange( onChange );
 			
-		gui.addColor( options, 'backgroundColor' )
+		gui.addColor( guiOptions, 'backgroundColor' )
 			.name( '<right>background</right>' )
 			.onChange( onChange )
 			.$text.classList.add('bottom');
@@ -136,42 +142,42 @@
 
 		var vec = new THREE.Vector3();
 		
-		function pattern( x, y, z, color, u, v, px, py )
+		function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
 		{
 			vec.set( z, y, x );
 			
 			var dist = 1e10;
-			for( var point of dotPoints[options.arrangement] )
+			for( var point of options.points )
 				dist = Math.min( dist, vec.distanceTo(point) );
 				
 			var k = THREE.MathUtils.smoothstep(
-					10*dist,
-					options.fromDotSize,
-					options.toDotSize );
+					dist,
+					options.minDotSmooth,
+					options.maxDotSmooth );
 			
-			color.lerpColors( options.colorThree, options.backgroundColorThree, k );
+			color.lerpColors( options.color, options.backgroundColor, k );
 		}
 		
 	
 		function onChange( event )
 		{
-			var maxDotSize = arrangements[options.arrangement].maxDotSize; 
+			var maxDotSize = arrangements[guiOptions.arrangement].maxDotSize; 
 			
 			guiDotSize.max( maxDotSize );
 			
-			if( options.dotSize > maxDotSize )
+			if( guiOptions.dotSize > maxDotSize )
 			{
-				options.dotSize = maxDotSize;
+				guiOptions.dotSize = maxDotSize;
 			}
 			guiDotSize.updateDisplay( );
 			
-			options.colorThree.setHex( options.color );
-			options.backgroundColorThree.setHex( options.backgroundColor );
+			patternOptions.points = dotPoints[guiOptions.arrangement];
+			patternOptions.color.setHex( guiOptions.color );
+			patternOptions.backgroundColor.setHex( guiOptions.backgroundColor );			
+			patternOptions.minDotSmooth = (guiOptions.dotSize**2-guiOptions.blur)/100;
+			patternOptions.maxDotSmooth = (guiOptions.dotSize**2+guiOptions.blur)/100;
 			
-			options.fromDotSize = 0.1*options.dotSize**2-0.1*options.blur;
-			options.toDotSize = 0.1*options.dotSize**2+0.1*options.blur;
-			
-			model.material.map = equimaterial( equitexture(pattern,2<<options.resolution,canvas, true) );
+			model.material.map = equimaterial( equitexture(pattern,2<<guiOptions.resolution,canvas, true, patternOptions) );
 		}
 
 		onChange( );
