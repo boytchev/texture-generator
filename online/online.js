@@ -46,13 +46,24 @@ scene.add( model );
 var canvas = document.createElement( 'canvas' );
 	canvas.style = "width:100%;";
 
-var customLoop;
+var startTime = 0;
+
 
 function animationLoop( t )
 {
 	controls.update( );
 	light.position.copy( camera.position );
-	if( customLoop ) customLoop( t );
+
+	var percent = model.material.map.update( );
+	var now = performance.now();
+	
+	if( percent < 1 && now-startTime > 1000 )
+	{
+		model.material.map.border( canvas.width>>7 );
+		model.material.map.needsUpdate = true;
+		startTime = now;
+	}
+	
 	renderer.render( scene, camera );
 }
 
@@ -80,11 +91,15 @@ class HexahedronGeometry extends THREE.PolyhedronGeometry
 }
 
 
-function installGui( title, loop )
+var filename;
+
+function installGui( title )
 {
+	filename = title;
+	
 	title = `<big><em>${title}</em> generator</big>
 			<small>
-				<!--a href="..">Download</a> &middot;-->
+				<a id="download" href="#">Download</a> &middot;
 				<a id="light" href="#">Light</a> &middot;
 				<a href="./">Home</a>
 			</small>`;
@@ -93,10 +108,9 @@ function installGui( title, loop )
 		gui.$title.style.marginBottom = "12em";
 		gui.domElement.children[0].appendChild( canvas );
 
-	customLoop = loop;
-		
 		
 	document.getElementById( 'light' ).addEventListener( 'click', toggleBackground );
+	document.getElementById( 'download' ).addEventListener( 'click', downloadTexture );
 
 	return gui;
 }
@@ -112,5 +126,19 @@ function toggleBackground( event )
 	
 	scene.background.setStyle( lightBackground ? 'white' : 'black' );
 }
+
+
+var downloadLink = document.createElement('a');
+
+function downloadTexture( event )
+{
+	event.stopPropagation();
+	
+	downloadLink.href = canvas.toDataURL( 'image/jpeg', 1.0 );
+	downloadLink.download = filename+' '+(new Date().toJSON().split('-').join('').split(':').join('').split('T').join('-').split('.')[0])+'.jpg';
+	downloadLink.click();
+
+}
+
 
 export { model, canvas, HexahedronGeometry, installGui };

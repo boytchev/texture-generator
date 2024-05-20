@@ -33,9 +33,6 @@
 		<image src="images/mouse.svg">
 	</div-->
 	
-	<input id="code" type="text" value="" style="z-index:-1; position:fixed;">
-	
-	
 	<script type="module">
 		import * as THREE from "three";
 		import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
@@ -44,22 +41,22 @@
 
 
 		var arrangements = [
-			{geometry: THREE.TetrahedronGeometry, level: 0, maxDotSize: 9.59},
+			{geometry: THREE.TetrahedronGeometry, level: 0, maxDotSize: 10.8},
 
-			{geometry: THREE.OctahedronGeometry, level: 0, maxDotSize: 8.76},
-			{geometry: THREE.OctahedronGeometry, level: 1, maxDotSize: 7.79},
+			{geometry: THREE.OctahedronGeometry, level: 0, maxDotSize: 9.6},
+			{geometry: THREE.OctahedronGeometry, level: 1, maxDotSize: 9.7},
 
-			{geometry: HexahedronGeometry, level: 0, maxDotSize: 7.40},
-			{geometry: HexahedronGeometry, level: 1, maxDotSize: 6.26},
+			{geometry: HexahedronGeometry, level: 0, maxDotSize: 8.1},
+			{geometry: HexahedronGeometry, level: 1, maxDotSize: 7.8},
 			
-			{geometry: THREE.DodecahedronGeometry, level: 0, maxDotSize: 6.03},
+			{geometry: THREE.DodecahedronGeometry, level: 0, maxDotSize: 8.1},
 
-			{geometry: THREE.IcosahedronGeometry, level: 0},
-			{geometry: THREE.IcosahedronGeometry, level: 1},
-			{geometry: THREE.IcosahedronGeometry, level: 2},
-			{geometry: THREE.IcosahedronGeometry, level: 3},
-			{geometry: THREE.IcosahedronGeometry, level: 4},
-			{geometry: THREE.IcosahedronGeometry, level: 5},
+			{geometry: THREE.IcosahedronGeometry, level: 0, maxDotSize: 7.0},
+			{geometry: THREE.IcosahedronGeometry, level: 1, maxDotSize: 6.2},
+			{geometry: THREE.IcosahedronGeometry, level: 2, maxDotSize: 5.0},
+			{geometry: THREE.IcosahedronGeometry, level: 3, maxDotSize: 4.4},
+			{geometry: THREE.IcosahedronGeometry, level: 4, maxDotSize: 4.0},
+			{geometry: THREE.IcosahedronGeometry, level: 5, maxDotSize: 3.6},
 		]
 
 
@@ -71,17 +68,17 @@
 				colorThree: new THREE.Color(),
 				backgroundColor: 0xFFFFFF,
 				backgroundColorThree: new THREE.Color(),
-				resolution: 10,
-				dotSize: 2,
-				sharpness: 1,
+				resolution: 9,
+				dotSize: 3,
+				blur: 0.5,
 			};
 			
-		var guiMain = installGui( 'Polka dots', animationLoop );
+		var guiMain = installGui( 'Polka dots' );
 		
 		var gui = guiMain.addFolder( '<big>Options</big>' );
 		
 		
-		gui.add( options, 'resolution', {'64 x 32':6, '128 x 64':7, '256 x 128':8, '512 x 256':9, '1024 x 512':10, '2048 x 1024':11, '4096 x 2048':12, '8192 x 4096':13} )
+		gui.add( options, 'resolution', {'256 x 128':8, '512 x 256':9, '1024 x 512':10, '2048 x 1024':11, '4096 x 2048':12, '8192 x 4096':13} )
 			.name( 'Resolution',  )
 			.onChange( onChange );
 			
@@ -90,14 +87,14 @@
 			.name( 'Dots <right>layout</right>',  )
 			.onChange( onChange );
 			
-		gui.add( options, 'dotSize' )
-			.min(1).max(10).step(0.01)
+		var guiDotSize = gui.add( options, 'dotSize' )
+			.min(0.5).max(11).step(0.01)
 			.name( '<right>size</right>' )
 			.onChange( onChange );
 			
-		gui.add( options, 'sharpness' )
-			.min(0.1).max(4).step(0.1)
-			.name( '<right>sharpness</right>' )
+		gui.add( options, 'blur' )
+			.min(0).max(4).step(0.1)
+			.name( '<right>blur</right>' )
 			.onChange( onChange );
 			
 		gui.addColor( options, 'color' )
@@ -149,53 +146,36 @@
 				
 			var k = THREE.MathUtils.smoothstep(
 					10*dist,
-					0.1*options.dotSize**2-0.1*options.sharpness,
-					0.1*options.dotSize**2+0.1*options.sharpness );
-
-		//	k = THREE.MathUtils.clamp( k, 0, 1 );
+					options.fromDotSize,
+					options.toDotSize );
 			
 			color.lerpColors( options.colorThree, options.backgroundColorThree, k );
 		}
 		
-		
-		var counter = 1;
-		
+	
 		function onChange( event )
 		{
-			counter = 1;
-		
+			var maxDotSize = arrangements[options.arrangement].maxDotSize; 
+			
+			guiDotSize.max( maxDotSize );
+			
+			if( options.dotSize > maxDotSize )
+			{
+				options.dotSize = maxDotSize;
+			}
+			guiDotSize.updateDisplay( );
+			
 			options.colorThree.setHex( options.color );
 			options.backgroundColorThree.setHex( options.backgroundColor );
+			
+			options.fromDotSize = 0.1*options.dotSize**2-0.1*options.blur;
+			options.toDotSize = 0.1*options.dotSize**2+0.1*options.blur;
 			
 			model.material.map = equimaterial( equitexture(pattern,2<<options.resolution,canvas, true) );
 		}
 
 		onChange( );
-	
-		
-		var frame = 0, oldT = 0;
-		function animationLoop( t )
-		{
-			frame++;
-			
-			var percent = model.material.map.update( 50 );
-			model.material.map.border( 2<<(options.resolution/3) );
-			
-			if( percent < 1 )
-			{
-				if( t-oldT > 50 )
-				{
-					counter = Math.min( 2*counter, 128 );
-				}
-				
-				if( frame % counter == 0 )
-				{
-					model.material.map.needsUpdate = true;
-				}
-			}
 
-			oldT = t;
-		}
 		
 	</script>
 </body>

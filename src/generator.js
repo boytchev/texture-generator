@@ -141,19 +141,10 @@ function equicanvas( ...args ) // number, number, canvas, function
 	}
 
 	canvas.border = function ( lines ) {
-		
-		for( var yy = y; yy<Math.min(height,y+lines); yy++ )
-		{
-			for( var index=0; index<4*width; )
-			{
-				data[index++] = 255;
-				data[index++] = 0;
-				data[index++] = 50;
-				data[index++] = 255;
-			}
-
-			context.putImageData( imageData, 0, yy );
-		}
+		context.fillStyle = 'black';
+		context.fillRect( 0, y+lines, width, height-y-lines );
+		context.fillStyle = 'crimson';
+		context.fillRect( 0, y, width, lines );
 	}
 
 	if( deferred )
