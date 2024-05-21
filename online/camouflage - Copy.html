@@ -26,8 +26,8 @@
 	<script type="module">
 
 		import * as THREE from "three";
-		import { model, canvas, installGui } from "./online.js";
-		import * as camouflage from "../src/patterns/camouflage.js";
+		import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+		import { model, canvas, HexahedronGeometry, installGui } from "./online.js";
 		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
 
 
@@ -39,12 +39,31 @@
 				colorD: 0x717561,
 				resolution: 9,
 				size: 14,
+//				blur: 0.5,
 				hue: 0,
 				saturation: 0,
 				brightness: 0,
 			};
 
-		var gui = installGui( 'Camouflage' );
+
+			
+		var patternOptions = {
+				colorA: new THREE.Color( ),
+				colorB: new THREE.Color( ),
+				colorC: new THREE.Color( ),
+				colorD: new THREE.Color( ),
+				size: 14,
+				hue: 0,
+				saturation: 0,
+				brightness: 0,
+			};
+
+
+			
+		var guiMain = installGui( 'Camouflage' );
+		
+		var gui = guiMain.addFolder( '<big>Options</big>' );
+		
 		
 		gui.add( guiOptions, 'resolution', {'256 x 128':8, '512 x 256':9, '1024 x 512':10, '2048 x 1024':11, '4096 x 2048':12, '8192 x 4096':13} )
 			.name( 'Resolution',  )
@@ -84,15 +103,47 @@
 			
 
 
+		var vec = new THREE.Vector3();
+		
+		function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
+		{
+			var K = options.size;
+			
+			var a = Math.round(noise(K*x, K*y, K*z)+0.2),
+				b = Math.round(noise(K*y, K*z, K*x)+0.3),
+				c = Math.round(noise(K*z, K*x, K*y)+0.4),
+				d = Math.round(noise(K*x, K*z, K*y)+0.5);
+
+			if( a>0.5 )
+				color.copy( options.colorA );
+			else
+			if( b>0.5 )
+				color.copy( options.colorB );
+			else
+			if( c>0.5 )
+				color.copy( options.colorC );
+			else
+				color.copy( options.colorD );
+				
+			color.offsetHSL( options.hue, options.saturation, options.brightness );
+			
+		} // pattern
+		
+	
 		function onChange( event )
 		{
-			model.material.map = equimaterial( equitexture(
-					camouflage.pattern,
-					2<<guiOptions.resolution,
-					canvas,
-					true,
-					camouflage.options( guiOptions )
-			) );
+			patternOptions.colorA.setHex( guiOptions.colorA );
+			patternOptions.colorB.setHex( guiOptions.colorB );
+			patternOptions.colorC.setHex( guiOptions.colorC );
+			patternOptions.colorD.setHex( guiOptions.colorD );
+			
+			patternOptions.size = 21-guiOptions.size;
+			
+			patternOptions.hue = guiOptions.hue/360;
+			patternOptions.saturation = guiOptions.saturation/100;
+			patternOptions.brightness = guiOptions.brightness/100;
+			
+			model.material.map = equimaterial( equitexture(pattern,2<<guiOptions.resolution,canvas, true, patternOptions) );
 		}
 
 		onChange( );

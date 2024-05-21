@@ -68,27 +68,7 @@ function animationLoop( t )
 }
 
 
-class HexahedronGeometry extends THREE.PolyhedronGeometry
-{
-	constructor( radius, level )
-	{
-		var verticesOfCube = [
-			-1,-1,-1,    1,-1,-1,    1, 1,-1,    -1, 1,-1,
-			-1,-1, 1,    1,-1, 1,    1, 1, 1,    -1, 1, 1,
-		];
 
-		var indicesOfFaces = [
-			2,1,0,    0,3,2,
-			0,4,7,    7,3,0,
-			0,1,5,    5,4,0,
-			1,2,6,    6,5,1,
-			2,3,7,    7,6,2,
-			4,5,6,    6,7,4
-		];
-
-		super( verticesOfCube, indicesOfFaces, radius, level );
-	}
-}
 
 
 var filename;
@@ -112,7 +92,7 @@ function installGui( title )
 	document.getElementById( 'light' ).addEventListener( 'click', toggleBackground );
 	document.getElementById( 'download' ).addEventListener( 'click', downloadTexture );
 
-	return gui;
+	return gui.addFolder( '<big>Options</big>' );
 }
 
 
@@ -141,4 +121,4 @@ function downloadTexture( event )
 }
 
 
-export { model, canvas, HexahedronGeometry, installGui };
+export { model, canvas, installGui };

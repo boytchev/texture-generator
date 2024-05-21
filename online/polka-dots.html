@@ -26,31 +26,9 @@
 	<script type="module">
 
 		import * as THREE from "three";
-		import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
-		import { model, canvas, HexahedronGeometry, installGui } from "./online.js";
+		import { model, canvas, installGui } from "./online.js";
+		import * as polkaDots from "../src/patterns/polka-dots.js";
 		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
-
-
-
-		var arrangements = [
-			{geometry: THREE.TetrahedronGeometry, level: 0, maxDotSize: 10.8},
-
-			{geometry: THREE.OctahedronGeometry, level: 0, maxDotSize: 9.6},
-			{geometry: THREE.OctahedronGeometry, level: 1, maxDotSize: 9.7},
-
-			{geometry: HexahedronGeometry, level: 0, maxDotSize: 8.1},
-			{geometry: HexahedronGeometry, level: 1, maxDotSize: 7.8},
-			
-			{geometry: THREE.DodecahedronGeometry, level: 0, maxDotSize: 8.1},
-
-			{geometry: THREE.IcosahedronGeometry, level: 0, maxDotSize: 7.0},
-			{geometry: THREE.IcosahedronGeometry, level: 1, maxDotSize: 6.2},
-			{geometry: THREE.IcosahedronGeometry, level: 2, maxDotSize: 5.0},
-			{geometry: THREE.IcosahedronGeometry, level: 3, maxDotSize: 4.4},
-			{geometry: THREE.IcosahedronGeometry, level: 4, maxDotSize: 4.0},
-			{geometry: THREE.IcosahedronGeometry, level: 5, maxDotSize: 3.6},
-		]
-
 
 
 		var guiOptions = {
@@ -61,20 +39,8 @@
 				dotSize: 3,
 				blur: 0.5,
 			};
-
-
 			
-		var patternOptions = {
-				color: new THREE.Color( ),
-				backgroundColor: new THREE.Color( ),
-				points: [],
-				minDotSmooth: 0,
-				maxDotSmooth: 0,
-			};
-			
-		var guiMain = installGui( 'Polka dots' );
-		
-		var gui = guiMain.addFolder( '<big>Options</big>' );
+		var gui = installGui( 'Polka dots' );
 		
 		
 		gui.add( guiOptions, 'resolution', {'256 x 128':8, '512 x 256':9, '1024 x 512':10, '2048 x 1024':11, '4096 x 2048':12, '8192 x 4096':13} )
@@ -82,7 +48,7 @@
 			.onChange( onChange );
 			
 		gui.add( guiOptions, 'arrangement' )
-			.min(0).max(arrangements.length-1).step(1)
+			.min(0).max(polkaDots.info.maxArrangement).step(1)
 			.name( 'Dots <right>layout</right>',  )
 			.onChange( onChange );
 			
@@ -104,57 +70,12 @@
 			.name( '<right>background</right>' )
 			.onChange( onChange )
 			.$text.classList.add('bottom');
-
-
-		// generate dot positions
-		var dotPoints = [];
-
-		for( var index in arrangements )
-		{
-			dotPoints[index] = [];
-			
-			var level = arrangements[index].level,
-				geometryClass = arrangements[index].geometry;
-				
-			var geometry = new geometryClass(1,level);
-				geometry.deleteAttribute( 'normal' );
-				geometry.deleteAttribute( 'uv' );
-				
-			var	mergedGeometry = mergeVertices( geometry );
-
-			var positions = mergedGeometry.getAttribute( 'position' );
-			
-			for( var i=0; i<positions.count; i++ )
-				dotPoints[index].push( new THREE.Vector3().fromBufferAttribute( positions, i ) );
-				
-			geometry.dispose( );
-			mergedGeometry.dispose( );
-		}
-
-		dotPoints.sort( (a,b)=>a.length-b.length );
-
-		var vec = new THREE.Vector3();
 		
-		function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
-		{
-			vec.set( z, y, x );
-			
-			var dist = 1e10;
-			for( var point of options.points )
-				dist = Math.min( dist, vec.distanceTo(point) );
-				
-			var k = THREE.MathUtils.smoothstep(
-					dist,
-					options.minDotSmooth,
-					options.maxDotSmooth );
-			
-			color.lerpColors( options.color, options.backgroundColor, k );
-		}
 		
-	
+		
 		function onChange( event )
 		{
-			var maxDotSize = arrangements[guiOptions.arrangement].maxDotSize; 
+			var maxDotSize = polkaDots.info.maxDotSize[guiOptions.arrangement]; 
 			
 			guiDotSize.max( maxDotSize );
 			
@@ -164,13 +85,9 @@
 			}
 			guiDotSize.updateDisplay( );
 			
-			patternOptions.points = dotPoints[guiOptions.arrangement];
-			patternOptions.color.setHex( guiOptions.color );
-			patternOptions.backgroundColor.setHex( guiOptions.backgroundColor );			
-			patternOptions.minDotSmooth = (guiOptions.dotSize**2-guiOptions.blur)/100;
-			patternOptions.maxDotSmooth = (guiOptions.dotSize**2+guiOptions.blur)/100;
+			var options = polkaDots.options( guiOptions.color, guiOptions.backgroundColor, guiOptions.dotSize, guiOptions.blur, guiOptions.arrangement );
 			
-			model.material.map = equimaterial( equitexture(pattern,2<<guiOptions.resolution,canvas, true, patternOptions) );
+			model.material.map = equimaterial( equitexture(polkaDots.pattern,2<<guiOptions.resolution,canvas, true, options) );
 		}
 
 		onChange( );
