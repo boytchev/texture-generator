@@ -27,20 +27,14 @@
 
 		import * as THREE from "three";
 		import { model, canvas, installGui, urlOptions } from "./online.js";
-		import { pattern, options, share, info } from "../src/patterns/camouflage.js";
+		import { pattern, options, share, info } from "../src/patterns/zebra-lines.js";
 		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
 
 
 		var guiOptions = {
-				colorA: urlOptions.a ?? 0xc2bea8,
-				colorB: urlOptions.b ?? 0x9c895e,
-				colorC: urlOptions.c ?? 0x92a375,
-				colorD: urlOptions.d ?? 0x717561,
+				size: urlOptions.s ?? 50,
+				angle: urlOptions.a ?? 0,
 				resolution: urlOptions.r ?? 9,
-				size: urlOptions.s ?? 14,
-				hue: urlOptions.h ?? 0,
-				saturation: urlOptions.t ?? 0,
-				brightness: urlOptions.g ?? 0,
 			};
 
 		var gui = installGui( info, ()=>share(guiOptions), 'map' );
@@ -50,36 +44,12 @@
 			.name( 'Resolution',  )
 			.onChange( onChange );
 			
-		gui.addColor( guiOptions, 'colorA' )
-			.name( 'Colors <right>A</right>' )
-			.onChange( onChange );
-			
-		gui.addColor( guiOptions, 'colorB' )
-			.name( '<right>B</right>' )
-			.onChange( onChange );
-			
-		gui.addColor( guiOptions, 'colorC' )
-			.name( '<right>C</right>' )
-			.onChange( onChange );
-			
-		gui.addColor( guiOptions, 'colorD' )
-			.name( '<right>D</right>' )
-			.onChange( onChange );
-			
-		gui.add( guiOptions, 'hue' )
-			.name( 'Tone <right>hue</right>' ).min(-360).max(360).step(1)
-			.onChange( onChange );
-			
-		gui.add( guiOptions, 'saturation' )
-			.name( '<right>saturation</right>' ).min(-100).max(100).step(1)
-			.onChange( onChange );
-			
-		gui.add( guiOptions, 'brightness' )
-			.name( '<right>brightness</right>' ).min(-100).max(100).step(1)
-			.onChange( onChange );
-			
 		gui.add( guiOptions, 'size' )
-			.name( 'Size' ).min(1).max(20).step(0.1)
+			.name( 'Size' ).min(1).max(100).step(1)
+			.onChange( onChange );
+			
+		gui.add( guiOptions, 'angle' )
+			.name( 'Angle' ).min(0).max(90).step(1)
 			.onChange( onChange );
 			
 

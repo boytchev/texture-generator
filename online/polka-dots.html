@@ -26,29 +26,28 @@
 	<script type="module">
 
 		import * as THREE from "three";
-		import { model, canvas, installGui } from "./online.js";
-		import * as polkaDots from "../src/patterns/polka-dots.js";
+		import { model, canvas, installGui, urlOptions } from "./online.js";
+		import { pattern, options, share, info } from "../src/patterns/polka-dots.js";
 		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
 
 
 		var guiOptions = {
-				arrangement: 7,
-				color: 0x000000,
-				backgroundColor: 0xFFFFFF,
-				resolution: 9,
-				dotSize: 3,
-				blur: 0.5,
+				arrangement: urlOptions.a ?? 7,
+				color: urlOptions.c ?? 0x000000,
+				backgroundColor: urlOptions.k ?? 0xFFFFFF,
+				resolution: urlOptions.r ?? 9,
+				dotSize: urlOptions.s ?? 3,
+				blur: urlOptions.b ?? 0.5,
 			};
 			
-		var gui = installGui( 'Polka dots' );
-		
-		
+		var gui = installGui( info, ()=>share(guiOptions), 'map' );
+				
 		gui.add( guiOptions, 'resolution', {'256 x 128':8, '512 x 256':9, '1024 x 512':10, '2048 x 1024':11, '4096 x 2048':12, '8192 x 4096':13} )
 			.name( 'Resolution',  )
 			.onChange( onChange );
 			
 		gui.add( guiOptions, 'arrangement' )
-			.min(0).max(polkaDots.info.maxArrangement).step(1)
+			.min(0).max(info.maxArrangement).step(1)
 			.name( 'Dots <right>layout</right>',  )
 			.onChange( onChange );
 			
@@ -75,7 +74,7 @@
 		
 		function onChange( event )
 		{
-			var maxDotSize = polkaDots.info.maxDotSize[guiOptions.arrangement]; 
+			var maxDotSize = info.maxDotSize[guiOptions.arrangement]; 
 			
 			guiDotSize.max( maxDotSize );
 			
@@ -85,9 +84,13 @@
 			}
 			guiDotSize.updateDisplay( );
 			
-			var options = polkaDots.options( guiOptions.color, guiOptions.backgroundColor, guiOptions.dotSize, guiOptions.blur, guiOptions.arrangement );
-			
-			model.material.map = equimaterial( equitexture(polkaDots.pattern,2<<guiOptions.resolution,canvas, true, options) );
+			model.material.map = equimaterial( equitexture(
+					pattern,
+					2<<guiOptions.resolution,
+					canvas,
+					true,
+					options( guiOptions )
+			) );
 		}
 
 		onChange( );

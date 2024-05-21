@@ -86,12 +86,19 @@ small {
 	text-transform: uppercase;
 }
 
-a:hover, a:visited, a:link, a:active {
+a, .link {
+	font-weight: normal;
 	color: gray;
-	text-decoration: none;
+	padding: 0.5em;
 }
 
-a:hover {
+a:hover, a:visited, a:link, a:active, .link:hover {
+	color: gray;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+a:hover, .link:hover {
 	text-decoration: none;
 	color: white;
 }
@@ -131,3 +138,14 @@ a:hover {
 	font-weight: normal;
 	margin-bottom: 0.3em;
 }
+
+.fullline {
+	text-align: justify;
+	height: 2.5em;
+}
+
+.fullline::after {
+  content: "";
+  display: inline-block;
+  width: 100%;
+ }

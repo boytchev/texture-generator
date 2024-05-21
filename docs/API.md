@@ -5,7 +5,8 @@ can be used standalone or together through [texture-generator.js](#texture-gener
 
 * [generator.js](#generatorjs) - equirectangular texture generator
 * [noise.js](#noisejs) - seeded noise functions
-* [material.js](#materialjs) - material patcher
+* [material.js](#materialjs) - material shader patcher
+
 
 
 # `texture-generator.js`

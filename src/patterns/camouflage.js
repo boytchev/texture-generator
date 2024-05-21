@@ -5,40 +5,20 @@ import { noise } from "../noise.js";
 
 
 
-function options_old( colorA=0xc2bea8, colorB=0x9c895e, colorC=0x92a375, colorD=0x717561, size=14, hue=0, saturation=0, brightness=0 )
-{
-	var options = { };
-		
-	options.colorA = new Color( colorA );
-	options.colorB = new Color( colorB );
-	options.colorC = new Color( colorC );
-	options.colorD = new Color( colorD );
-
-	options.size = 21-size;
-
-	options.hue = hue/360;
-	options.saturation = saturation/100;
-	options.brightness = brightness/100;
-
-	return options;
-}
-	
-
-
 function options( opt )
 {
 	var options = { };
 		
-	options.colorA = new Color( opt?.colorA || 0xc2bea8 );
-	options.colorB = new Color( opt?.colorB || 0x9c895e );
-	options.colorC = new Color( opt?.colorC || 0x92a375 );
-	options.colorD = new Color( opt?.colorD || 0x717561 );
+	options.colorA = new Color( opt.colorA ?? 0xc2bea8 );
+	options.colorB = new Color( opt.colorB ?? 0x9c895e );
+	options.colorC = new Color( opt.colorC ?? 0x92a375 );
+	options.colorD = new Color( opt.colorD ?? 0x717561 );
 
-	options.size = 21-(opt?.size||14);
+	options.size = 21-(opt.size??14);
 
-	options.hue = (opt?.hue||0)/360;
-	options.saturation = (opt?.saturation||0)/100;
-	options.brightness = (opt?.brightness||0)/100;
+	options.hue = (opt.hue??0)/360;
+	options.saturation = (opt.saturation??0)/100;
+	options.brightness = (opt.brightness??0)/100;
 
 	return options;
 }
@@ -72,10 +52,28 @@ function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
 
 
 
+function share( options )
+{
+	var params = [];
+	
+	params.push( `a=${options.colorA}` );
+	params.push( `b=${options.colorB}` );
+	params.push( `c=${options.colorC}` );
+	params.push( `d=${options.colorD}` );
+	params.push( `g=${options.brightness}` );
+	params.push( `h=${options.hue}` );
+	params.push( `r=${options.resolution}` );
+	params.push( `s=${options.size}` );
+	params.push( `t=${options.saturation}` );
+
+	params = params.join( '&' );
+	return window.location.href.split('?')[0].split('#')[0] + '?' + params;
+}
+
+
 var info = {
 		name: 'Camouflage',
-		version: 1.0,
 	};
 
 
-export { options, pattern, info };
+export { pattern, options, share, info };

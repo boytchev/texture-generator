@@ -30,7 +30,7 @@ var controls = new OrbitControls( camera, renderer.domElement );
 	//controls.autoRotate = true;
 	//controls.autoRotateSpeed = 0.5;
 
-var light = new THREE.PointLight( 'white', 3.14 );
+var light = new THREE.PointLight( 'white', 4 );
 	light.decay = 0;
 	scene.add( light );
 	
@@ -54,13 +54,14 @@ function animationLoop( t )
 	controls.update( );
 	light.position.copy( camera.position );
 
-	var percent = model.material.map.update( );
+	var percent = model.material[map].update( );
+
 	var now = performance.now();
 	
 	if( percent < 1 && now-startTime > 1000 )
 	{
-		model.material.map.border( canvas.width>>7 );
-		model.material.map.needsUpdate = true;
+		model.material[map].border( canvas.width>>7 );
+		model.material[map].needsUpdate = true;
 		startTime = now;
 	}
 	
@@ -71,17 +72,24 @@ function animationLoop( t )
 
 
 
-var filename;
+var filename,
+	share,
+	map;
 
-function installGui( title )
+function installGui( info, shareFunction, mapName )
 {
-	filename = title;
+	filename = info.name.split(' ').join('-').toLowerCase();
+	share = shareFunction;
+	map = mapName;
 	
-	title = `<big><em>${title}</em> generator</big>
-			<small>
-				<a id="download" href="#">Download</a> &middot;
-				<a id="light" href="#">Light</a> &middot;
-				<a href="./">Home</a>
+	light.intensity = info.lightIntensity ?? 6;
+	
+	var title = `<big><em>${info.name}</em> generator</big>
+			<small class="fullline">
+				<span id="share" class="link">Share</span> &middot;
+				<span id="download" class="link">Download</span> &middot;
+				<span id="light" class="link">Light</span> &middot;
+				<a class="link" href="./">Home</a>
 			</small>`;
 					  
 	var gui = new lil.GUI({title: title});
@@ -91,6 +99,7 @@ function installGui( title )
 		
 	document.getElementById( 'light' ).addEventListener( 'click', toggleBackground );
 	document.getElementById( 'download' ).addEventListener( 'click', downloadTexture );
+	document.getElementById( 'share' ).addEventListener( 'click', shareURL );
 
 	return gui.addFolder( '<big>Options</big>' );
 }
@@ -115,10 +124,29 @@ function downloadTexture( event )
 	event.stopPropagation();
 	
 	downloadLink.href = canvas.toDataURL( 'image/jpeg', 1.0 );
-	downloadLink.download = filename+' '+(new Date().toJSON().split('-').join('').split(':').join('').split('T').join('-').split('.')[0])+'.jpg';
+	downloadLink.download = filename+'-'+(new Date().toJSON().split('-').join('').split(':').join('').split('T').join('-').split('.')[0])+'.jpg';
 	downloadLink.click();
 
 }
 
+function shareURL( event )
+{
+	event.stopPropagation();
+	
+	navigator.clipboard.writeText( share() );
+	
+	alert( `URL for this ${filename} copied to the clipboard.` );
+}
 
-export { model, canvas, installGui };
+
+// process URL options
+var urlAddress = window.location.search.split('#')[0], // skip all after #
+	urlParameters = new URLSearchParams( urlAddress ),
+	urlOptions = {};
+	
+for( var [key, value] of urlParameters.entries() )
+{
+	urlOptions[key] = parseFloat(value);
+}
+
+export { model, canvas, installGui, urlOptions };

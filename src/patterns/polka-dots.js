@@ -81,18 +81,18 @@ dotPoints.sort( (a,b)=>a.length-b.length );
 
 
 
-function options( color=0x000000, backgroundColor=0xffffff, dotSize=3, blur=0.5, arrangement=7 )
+function options( opt )
 {
 	var options = { };
 	
-	options.color = new Color( color );
-	options.backgroundColor = new Color( backgroundColor );
+	options.color = new Color( opt.color ?? 0x000000 );
+
+	options.backgroundColor = new Color( opt.backgroundColor ?? 0xffffff );
 	
-	if( dotPoints[arrangement] === undefined ) arrangement = 7;
-	options.points = dotPoints[arrangement];
+	options.points = dotPoints[opt?.arrangement||7];	
 	
-	options.minDotSmooth = (dotSize**2-blur)/100;
-	options.maxDotSmooth = (dotSize**2+blur)/100;
+	options.minDotSmooth = ((opt.dotSize??3)**2-(opt.blur??0.5))/100;
+	options.maxDotSmooth = ((opt.dotSize??3)**2+(opt.blur??0.5))/100;
 
 	return options;
 }
@@ -119,12 +119,29 @@ function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
 
 
 
+function share( options )
+{
+	var params = [];
+	
+	params.push( `a=${options.arrangement}` );
+	params.push( `b=${options.blur}` );
+	params.push( `c=${options.color}` );
+	params.push( `k=${options.backgroundColor}` );
+	params.push( `r=${options.resolution}` );
+	params.push( `s=${options.dotSize}` );
+
+	params = params.join( '&' );
+	
+	return window.location.href.split('?')[0].split('#')[0] + '?' + params;
+}
+
+
+
 var info = {
 		name: 'Polka dots',
-		version: 1.0,
 		maxArrangement: arrangements.length-1,
 		maxDotSize: arrangements.map( e => e.maxDotSize ),
 	};
 
 
-export { options, pattern, info };
+export { pattern, options, share, info };
