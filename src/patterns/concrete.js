@@ -50,7 +50,7 @@ function share( opt )
 
 var info = {
 		name: 'Concrete',
-		info: 'Designet for .bumpMap properties',
+		info: 'Designed for .bumpMap properties',
 		lightIntensity: 3,
 	};
 
