@@ -23,6 +23,7 @@ A pattern of 4-color spots that resembles designs of camouflage. Suitable for co
 * `saturation` (`t`) &ndash; number; saturation offset of all colors &#x2208; [-100%,100%], default value 0%
 * `brightness` (`g`) &ndash; number; brightness offset of all colors &#x2208; [-100%,100%], default value 0%
 
+Examples:
 
 
 

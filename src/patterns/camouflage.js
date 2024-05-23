@@ -1,8 +1,17 @@
 ﻿
+//	Procedural Equirectangular Textures
+//	Camouflage Pattern
+//
+//	pattern( ... )	- implements camouflage pattern
+//	options( opt )	- converts options into internal format
+//	share( opt )	- converts options into URL
+//	info			- general info for the generator
 
-import { Vector3, Color, MathUtils } from "three";
-import { noise } from "../noise.js";
-import { map } from "../utils.js";
+
+
+import { Color } from "three";
+import { noise } from "pet/noise.js";
+
 
 
 function options( opt )
@@ -24,8 +33,6 @@ function options( opt )
 }
 	
 
-
-var vec = new Vector3();
 
 function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
 {
@@ -49,28 +56,31 @@ function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
 
 
 
-function share( options )
+function share( opt )
 {
 	var params = [];
 	
-	params.push( `a=${options.colorA}` );
-	params.push( `b=${options.colorB}` );
-	params.push( `c=${options.colorC}` );
-	params.push( `d=${options.colorD}` );
-	params.push( `g=${options.brightness}` );
-	params.push( `h=${options.hue}` );
-	params.push( `r=${options.resolution}` );
-	params.push( `s=${options.size}` );
-	params.push( `t=${options.saturation}` );
+	params.push( `a=${opt.colorA}` );
+	params.push( `b=${opt.colorB}` );
+	params.push( `c=${opt.colorC}` );
+	params.push( `d=${opt.colorD}` );
+	params.push( `g=${opt.brightness}` );
+	params.push( `h=${opt.hue}` );
+	params.push( `r=${opt.resolution}` );
+	params.push( `s=${opt.size}` );
+	params.push( `t=${opt.saturation}` );
 
 	params = params.join( '&' );
 	return window.location.href.split('?')[0].split('#')[0] + '?' + params;
 }
 
 
+
 var info = {
 		name: 'Camouflage',
+		info: 'Suitable for .map properties.',
 	};
+
 
 
 export { pattern, options, share, info };
