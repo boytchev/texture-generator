@@ -1,20 +1,16 @@
 ﻿
+//	Procedural Equirectangular Textures
+//	Concrete Pattern
+//
+//	pattern( ... )	- implements concrete pattern
+//	options( opt )	- converts options into internal format
+//	share( opt )	- converts options into URL
+//	info			- general info for the generator
 
-import { Vector3, Color } from "three";
+
+
 import { noise } from "../noise.js";
 
-
-
-function options( opt )
-{
-	var options = { };
-		
-	options.size = 100 - (opt.size??50);
-	options.height = (opt.height??100)/100;
-
-	return options;
-}
-	
 
 
 function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
@@ -26,23 +22,38 @@ function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
 
 
 
-function share( options )
+function options( opt )
+{
+	var options = { };
+		
+	options.size = 2**(-((opt.size??50)-100)/50 * 4 + 1);
+	options.height = (opt.height??100)/100;
+
+	return options;
+}
+	
+
+
+function share( opt )
 {
 	var params = [];
 	
-	params.push( `h=${options.height}` );
-	params.push( `r=${options.resolution}` );
-	params.push( `s=${options.size}` );
+	params.push( `h=${opt.height}` );
+	params.push( `r=${opt.resolution}` );
+	params.push( `s=${opt.size}` );
 
 	params = params.join( '&' );
 	return window.location.href.split('?')[0].split('#')[0] + '?' + params;
 }
 
 
+
 var info = {
 		name: 'Concrete',
+		info: 'Designet for .bumpMap properties',
 		lightIntensity: 3,
 	};
+
 
 
 export { pattern, options, share, info };

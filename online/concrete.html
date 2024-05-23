@@ -14,7 +14,8 @@
 	  {
 		"imports": {
 		  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
-		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/"
+		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/",
+		  "pet/": "../src/"
 		}
 	  }
 	</script>
@@ -27,14 +28,14 @@
 
 		import * as THREE from "three";
 		import { model, canvas, installGui, urlOptions } from "./online.js";
-		import { pattern, options, share, info } from "../src/patterns/concrete.js";
-		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
+		import { pattern, options, share, info } from "pet/patterns/concrete.js";
+		import { equimaterial, equitexture, noise } from "pet/texture-generator.js";
 
 
 		var guiOptions = {
 				size: urlOptions.s ?? 50,
 				height: urlOptions.h ?? 100,
-				resolution: urlOptions.r ?? 9,
+				resolution: urlOptions.r ?? 9, // 512x256
 			};
 
 		var gui = installGui( info, ()=>share(guiOptions), 'bumpMap' );
@@ -45,7 +46,7 @@
 			.onChange( onChange );
 			
 		gui.add( guiOptions, 'size' )
-			.name( 'Size' ).min(1).max(100).step(1)
+			.name( 'Size' ).min(0).max(100).step(1)
 			.onChange( onChange );
 			
 		gui.add( guiOptions, 'height' )
@@ -67,7 +68,6 @@
 
 		onChange( );
 
-		
 	</script>
 </body>
 </html>

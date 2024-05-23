@@ -4,7 +4,7 @@ This project aims at providing procedural generation of
 equirectangular textures:
 * as a JS library for generation and shader fixes for materials (see the [API](docs/API.md))
 * as an online texture generator tool with predefined patterns (see the [generators](https://boytchev.github.io/texture-generator/online/))
-* as a collection of codes for configurable equirectangular patterns (to be added)
+* as a collection of codes for configurable equirectangular patterns (see the [catalogue]https://boytchev.github.io/texture-generator/docs/patterns.html))
 
 ## A few demos
 

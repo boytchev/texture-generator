@@ -14,26 +14,6 @@ import { noise } from "pet/noise.js";
 
 
 
-function options( opt )
-{
-	var options = { };
-		
-	options.colorA = new Color( opt.colorA ?? 0xc2bea8 );
-	options.colorB = new Color( opt.colorB ?? 0x9c895e );
-	options.colorC = new Color( opt.colorC ?? 0x92a375 );
-	options.colorD = new Color( opt.colorD ?? 0x717561 );
-
-	options.size = 2**(-((opt.size??50)-100)/50 * 3 - 1);
-	
-	options.hue = (opt.hue??0)/360;
-	options.saturation = (opt.saturation??0)/100;
-	options.brightness = (opt.brightness??0)/100;
-
-	return options;
-}
-	
-
-
 function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
 {
 	x *= options.size;
@@ -54,6 +34,26 @@ function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
 	color.offsetHSL( options.hue, options.saturation, options.brightness );
 }
 
+
+
+function options( opt )
+{
+	var options = { };
+		
+	options.colorA = new Color( opt.colorA ?? 0xc2bea8 );
+	options.colorB = new Color( opt.colorB ?? 0x9c895e );
+	options.colorC = new Color( opt.colorC ?? 0x92a375 );
+	options.colorD = new Color( opt.colorD ?? 0x717561 );
+
+	options.size = 2**(-((opt.size??50)-100)/50 * 3 - 1);
+	
+	options.hue = (opt.hue??0)/360;
+	options.saturation = (opt.saturation??0)/100;
+	options.brightness = (opt.brightness??0)/100;
+
+	return options;
+}
+	
 
 
 function share( opt )
@@ -78,7 +78,7 @@ function share( opt )
 
 var info = {
 		name: 'Camouflage',
-		info: 'Suitable for .map properties.',
+		info: 'Designed for .map properties',
 	};
 
 
