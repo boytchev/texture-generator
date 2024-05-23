@@ -4,6 +4,7 @@
 * [Concrete](#concrete) &ndash; grainy surface of concrete
 * [Isolines](#isolines) &ndash; looped concentric curves
 * [Polka dots](#polka-dots) &ndash; fashion design with dots
+* [Simplex noise](#simplex-noise) &ndash; gradient noise pattern
 
 
 Each predefined pattern is implemented as JS module file, exporting the same set of functions:
@@ -144,6 +145,34 @@ options = {
 
 
 
+
+
+
+
+# Simplex noise
+<img src="images/simplex-noise.jpg">
+
+[<img src="images/simplex-noise-1.png">](https://boytchev.github.io/texture-generator/online/simplex-noise?b=50&c=16777215&k=0&r=9&s=52) [<img src="images/simplex-noise-2.png">](https://boytchev.github.io/texture-generator/online/simplex-noise?b=78&c=16766208&k=0&r=9&s=57)  [<img src="images/simplex-noise-3.png">](https://boytchev.github.io/texture-generator/online/simplex-noise?b=44&c=13893887&k=11592439&r=9&s=86) 
+
+#### Options:
+
+* `color` (`c`) &ndash; integer; the color of simplex-noise
+* `backgroundColor` (`k`) &ndash; integer; the color of background
+* `resolution` (`r`) &ndash; integer; the resolution of the texture is 2<sup>r</sup>&times;2<sup>r-1</sup>
+* `size` (`s`) &ndash; number; the visual size of the pattern &#x2208; [0,100]
+* `balance` (`a`) &ndash; number; balance of foreground and background colors &#x2208; [0,100]
+
+#### Defaults:
+
+```js
+options = {
+	color: 0xffffff,
+	backgroundColor: 0x000000,
+	resolution: 9, // 512x256
+	size: 30,
+	balance: 50,
+}
+```
 
 
 

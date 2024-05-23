@@ -145,8 +145,8 @@ function share( opt )
 
 var info = {
 		name: 'Polka dots',
+		info: 'Designed for .map properties',
 		maxArrangement: arrangements.length-1,
-		//maxSize: arrangements.map( e => e.maxSize ),
 	};
 
 

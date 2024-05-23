@@ -14,7 +14,8 @@
 	  {
 		"imports": {
 		  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
-		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/"
+		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/",
+		  "pet/": "../src/"
 		}
 	  }
 	</script>
@@ -27,15 +28,16 @@
 
 		import * as THREE from "three";
 		import { model, canvas, installGui, urlOptions } from "./online.js";
-		import { pattern, options, share, info } from "../src/patterns/simplex-noise.js";
-		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
+		import { pattern, options, share, info } from "pet/patterns/simplex-noise.js";
+		import { equimaterial, equitexture, noise } from "pet/texture-generator.js";
 
 
 		var guiOptions = {
 				color: urlOptions.c ?? 0xFFFFFF,
 				backgroundColor: urlOptions.k ?? 0x000000,
-				resolution: urlOptions.r ?? 9,
-				size: urlOptions.s ?? 5,
+				resolution: urlOptions.r ?? 9, // 512x256
+				size: urlOptions.s ?? 30,
+				balance: urlOptions.a ?? 50,
 			};
 			
 		var gui = installGui( info, ()=>share(guiOptions), 'map' );
@@ -45,8 +47,13 @@
 			.onChange( onChange );
 			
 		gui.add( guiOptions, 'size' )
-			.min(0.1).max(10).step(0.1)
-			.name( 'Size' )
+			.min(0).max(100).step(1)
+			.name( 'Noise <right>size</right>' )
+			.onChange( onChange );
+			
+		gui.add( guiOptions, 'balance' )
+			.min(0).max(100).step(1)
+			.name( '<right>balance</right>' )
 			.onChange( onChange );
 			
 		gui.addColor( guiOptions, 'color' )

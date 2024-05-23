@@ -53,7 +53,7 @@
 			.onChange( onChange );
 			
 		gui.add( guiOptions, 'size' )
-			.min(0).max(100).step(0.1)
+			.min(0).max(100).step(1)
 			.name( '<right>size</right>' )
 			.onChange( onChange );
 			
@@ -75,17 +75,6 @@
 		
 		function onChange( event )
 		{
-		/*
-			var maxDotSize = info.maxDotSize[guiOptions.arrangement]; 
-			
-			guiDotSize.max( maxDotSize );
-			
-			if( guiOptions.dotSize > maxDotSize )
-			{
-				guiOptions.dotSize = maxDotSize;
-			}
-			guiDotSize.updateDisplay( );
-*/			
 			model.material.map = equimaterial( equitexture(
 					pattern,
 					2<<guiOptions.resolution,
