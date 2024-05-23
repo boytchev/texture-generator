@@ -47,5 +47,5 @@ noiseSeed();
 export
 {
 	noise,
-	noiseSeed
+	noiseSeed,
 };

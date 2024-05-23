@@ -1,8 +1,8 @@
 ﻿
 
-import { Vector3, Color } from "three";
+import { Vector3, Color, MathUtils } from "three";
 import { noise } from "../noise.js";
-
+import { map } from "../utils.js";
 
 
 function options( opt )
@@ -14,8 +14,8 @@ function options( opt )
 	options.colorC = new Color( opt.colorC ?? 0x92a375 );
 	options.colorD = new Color( opt.colorD ?? 0x717561 );
 
-	options.size = 21-(opt.size??14);
-
+	options.size = 2**(-((opt.size??50)-100)/50 * 3 - 1);
+	
 	options.hue = (opt.hue??0)/360;
 	options.saturation = (opt.saturation??0)/100;
 	options.brightness = (opt.brightness??0)/100;
@@ -29,20 +29,17 @@ var vec = new Vector3();
 
 function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
 {
-	var K = options.size;
+	x *= options.size;
+	y *= options.size;
+	z *= options.size;
 
-	var a = Math.round(noise(K*x, K*y, K*z)+0.2),
-		b = Math.round(noise(K*y, K*z, K*x)+0.3),
-		c = Math.round(noise(K*z, K*x, K*y)+0.4),
-		d = Math.round(noise(K*x, K*z, K*y)+0.5);
-
-	if( a>0.5 )
+	if( Math.round( noise(x,y,z)+0.2 ) > 0.5 )
 		color.copy( options.colorA );
 	else
-	if( b>0.5 )
+	if( Math.round( noise(y,z,x)+0.3 ) > 0.5 )
 		color.copy( options.colorB );
 	else
-	if( c>0.5 )
+	if( Math.round( noise(z,x,y)+0.4 ) > 0.5 )
 		color.copy( options.colorC );
 	else
 		color.copy( options.colorD );
