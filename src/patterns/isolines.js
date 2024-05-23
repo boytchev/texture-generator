@@ -20,7 +20,7 @@ function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
 	
 	k = 0.5 - 0.5*Math.sin(options.density*k);
 	
-	k = MathUtils.smoothstep( k, options.smoothFrom, options.smoothTo );
+	k = MathUtils.smoothstep( k, options.minSmooth, options.maxSmooth );
 	
 	color.lerpColors( options.color, options.backgroundColor, k );
 }
@@ -37,8 +37,8 @@ function options( opt )
 	options.size = 2**(-((opt.size??50)-100)/50 * 3 - 1);
 	options.density = 10 + 50 * (opt.density??20)/100;
 		
-	options.smoothFrom = balance - blur - 0.01;
-	options.smoothTo = balance + blur + 0.01;
+	options.minSmooth = balance - blur - 0.01;
+	options.maxSmooth = balance + blur + 0.01;
 	
 	options.color = new Color( opt.color ?? 0xffffff );
 	options.backgroundColor = new Color( opt.backgroundColor ?? 0x000000 );
@@ -72,6 +72,7 @@ var info = {
 		info: 'Designed for .map properties',
 		lightIntensity: 4,
 	};
+
 
 
 export { pattern, options, share, info };

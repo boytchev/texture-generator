@@ -14,7 +14,8 @@
 	  {
 		"imports": {
 		  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
-		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/"
+		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/",
+		  "pet/": "../src/"
 		}
 	  }
 	</script>
@@ -27,17 +28,17 @@
 
 		import * as THREE from "three";
 		import { model, canvas, installGui, urlOptions } from "./online.js";
-		import { pattern, options, share, info } from "../src/patterns/polka-dots.js";
-		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
+		import { pattern, options, share, info } from "pet/patterns/polka-dots.js";
+		import { equimaterial, equitexture, noise } from "pet/texture-generator.js";
 
 
 		var guiOptions = {
 				arrangement: urlOptions.a ?? 7,
 				color: urlOptions.c ?? 0x000000,
 				backgroundColor: urlOptions.k ?? 0xFFFFFF,
-				resolution: urlOptions.r ?? 9,
-				dotSize: urlOptions.s ?? 3,
-				blur: urlOptions.b ?? 0.5,
+				resolution: urlOptions.r ?? 9, // 512x256
+				size: urlOptions.s ?? 30,
+				blur: urlOptions.b ?? 20,
 			};
 			
 		var gui = installGui( info, ()=>share(guiOptions), 'map' );
@@ -51,13 +52,13 @@
 			.name( 'Dots <right>layout</right>',  )
 			.onChange( onChange );
 			
-		var guiDotSize = gui.add( guiOptions, 'dotSize' )
-			.min(0.5).max(11).step(0.01)
+		gui.add( guiOptions, 'size' )
+			.min(0).max(100).step(0.1)
 			.name( '<right>size</right>' )
 			.onChange( onChange );
 			
 		gui.add( guiOptions, 'blur' )
-			.min(0).max(4).step(0.1)
+			.min(0).max(100).step(1)
 			.name( '<right>blur</right>' )
 			.onChange( onChange );
 			
@@ -74,6 +75,7 @@
 		
 		function onChange( event )
 		{
+		/*
 			var maxDotSize = info.maxDotSize[guiOptions.arrangement]; 
 			
 			guiDotSize.max( maxDotSize );
@@ -83,7 +85,7 @@
 				guiOptions.dotSize = maxDotSize;
 			}
 			guiDotSize.updateDisplay( );
-			
+*/			
 			model.material.map = equimaterial( equitexture(
 					pattern,
 					2<<guiOptions.resolution,

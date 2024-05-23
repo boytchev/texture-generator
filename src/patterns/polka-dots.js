@@ -1,7 +1,17 @@
 ﻿
+//	Procedural Equirectangular Textures
+//	Polka dots Pattern
+//
+//	pattern( ... )	- implements Polks dots pattern
+//	options( opt )	- converts options into internal format
+//	share( opt )	- converts options into URL
+//	info			- general info for the generator
+
+
 
 import { Vector3, Color, PolyhedronGeometry, TetrahedronGeometry, OctahedronGeometry, DodecahedronGeometry, IcosahedronGeometry, MathUtils } from "three";
 import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+
 
 
 // internal class to have the cube as one of the Platonic solids
@@ -29,35 +39,34 @@ class HexahedronGeometry extends PolyhedronGeometry
 }
 
 
+
 // generate predefined arrangeents of points on a unit sphere
 
 var arrangements = [
-	{geometry: TetrahedronGeometry, level: 0, maxDotSize: 10.8},
+	{geometry: TetrahedronGeometry, level: 0, points: [], maxSize: 1.157},	// 0
 
-	{geometry: OctahedronGeometry, level: 0, maxDotSize: 9.6},
-	{geometry: OctahedronGeometry, level: 1, maxDotSize: 9.7},
+	{geometry: OctahedronGeometry, level: 0, points: [], maxSize: 0.922},	// 1
+	{geometry: OctahedronGeometry, level: 1, points: [], maxSize: 0.607},	// 4
 
-	{geometry: HexahedronGeometry, level: 0, maxDotSize: 8.1},
-	{geometry: HexahedronGeometry, level: 1, maxDotSize: 7.8},
+	{geometry: HexahedronGeometry, level: 0, points: [], maxSize: 0.941},	// 2
+	{geometry: HexahedronGeometry, level: 1, points: [], maxSize: 0.479},	// 6
 	
-	{geometry: DodecahedronGeometry, level: 0, maxDotSize: 8.1},
+	{geometry: DodecahedronGeometry, level: 0, points: [], maxSize: 0.644},	// 5
 
-	{geometry: IcosahedronGeometry, level: 0, maxDotSize: 7.0},
-	{geometry: IcosahedronGeometry, level: 1, maxDotSize: 6.2},
-	{geometry: IcosahedronGeometry, level: 2, maxDotSize: 5.0},
-	{geometry: IcosahedronGeometry, level: 3, maxDotSize: 4.4},
-	{geometry: IcosahedronGeometry, level: 4, maxDotSize: 4.0},
-	{geometry: IcosahedronGeometry, level: 5, maxDotSize: 3.6},
+	{geometry: IcosahedronGeometry, level: 0, points: [], maxSize: 0.643},	// 3
+	{geometry: IcosahedronGeometry, level: 1, points: [], maxSize: 0.365},	// 7
+	{geometry: IcosahedronGeometry, level: 2, points: [], maxSize: 0.240},	// 8
+	{geometry: IcosahedronGeometry, level: 3, points: [], maxSize: 0.191},	// 9
+	{geometry: IcosahedronGeometry, level: 4, points: [], maxSize: 0.153},	// 10
+	{geometry: IcosahedronGeometry, level: 5, points: [], maxSize: 0.128},	// 11
 ]
 
 
+
 // generate dot positions
-var dotPoints = [];
 
 for( var index in arrangements )
 {
-	dotPoints[index] = [];
-	
 	var level = arrangements[index].level,
 		geometryClass = arrangements[index].geometry;
 		
@@ -68,36 +77,15 @@ for( var index in arrangements )
 	var	mergedGeometry = mergeVertices( geometry );
 
 	var positions = mergedGeometry.getAttribute( 'position' );
-	
+		
 	for( var i=0; i<positions.count; i++ )
-		dotPoints[index].push( new Vector3().fromBufferAttribute( positions, i ) );
+		arrangements[index].points.push( new Vector3().fromBufferAttribute( positions, i ) );
 		
 	geometry.dispose( );
 	mergedGeometry.dispose( );
 }
 
-dotPoints.sort( (a,b)=>a.length-b.length );
-
-
-
-
-function options( opt )
-{
-	var options = { };
-	
-	options.color = new Color( opt.color ?? 0x000000 );
-
-	options.backgroundColor = new Color( opt.backgroundColor ?? 0xffffff );
-	
-	options.points = dotPoints[opt?.arrangement||7];	
-	
-	options.minDotSmooth = ((opt.dotSize??3)**2-(opt.blur??0.5))/100;
-	options.maxDotSmooth = ((opt.dotSize??3)**2+(opt.blur??0.5))/100;
-
-	return options;
-}
-	
-
+arrangements.sort( (a,b)=>a.points.length-b.points.length );
 
 var vec = new Vector3();
 
@@ -109,26 +97,44 @@ function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
 	for( var point of options.points )
 		dist = Math.min( dist, vec.distanceTo(point) );
 		
-	var k = MathUtils.smoothstep(
-			dist,
-			options.minDotSmooth,
-			options.maxDotSmooth );
+	var k = MathUtils.smoothstep( dist, options.minSmooth, options.maxSmooth );
 	
 	color.lerpColors( options.color, options.backgroundColor, k );
 }
 
 
 
-function share( options )
+function options( opt )
+{
+	var options = { };
+
+	options.color = new Color( opt.color ?? 0x000000 );
+	options.backgroundColor = new Color( opt.backgroundColor ?? 0xffffff );
+
+	var data = arrangements[opt.arrangement ?? 7];
+	
+	options.points = data.points;
+	
+	var blur = ((opt.blur??20) / 100)**2.5 / 3,
+		size = ((opt.size??30) / 100)**2;
+	
+	options.minSmooth = size - blur;
+	options.maxSmooth = size + blur;
+	return options;
+}
+
+
+
+function share( opt )
 {
 	var params = [];
 	
-	params.push( `a=${options.arrangement}` );
-	params.push( `b=${options.blur}` );
-	params.push( `c=${options.color}` );
-	params.push( `k=${options.backgroundColor}` );
-	params.push( `r=${options.resolution}` );
-	params.push( `s=${options.dotSize}` );
+	params.push( `a=${opt.arrangement}` );
+	params.push( `b=${opt.blur}` );
+	params.push( `c=${opt.color}` );
+	params.push( `k=${opt.backgroundColor}` );
+	params.push( `r=${opt.resolution}` );
+	params.push( `s=${opt.size}` );
 
 	params = params.join( '&' );
 	
@@ -140,8 +146,9 @@ function share( options )
 var info = {
 		name: 'Polka dots',
 		maxArrangement: arrangements.length-1,
-		maxDotSize: arrangements.map( e => e.maxDotSize ),
+		//maxSize: arrangements.map( e => e.maxSize ),
 	};
+
 
 
 export { pattern, options, share, info };

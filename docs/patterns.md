@@ -1,8 +1,9 @@
 # Predefined patterns
 
-* [Camouflage](#camouflage) &ndash; 4-color spots that resembles designs of camouflage
-* [Concrete](#concrete) &ndash; imitates the grainy surface of concrete
-* [Isolines](#isolines) &ndash; generates looped concentric curves
+* [Camouflage](#camouflage) &ndash; 4-color spots of camouflage design
+* [Concrete](#concrete) &ndash; grainy surface of concrete
+* [Isolines](#isolines) &ndash; looped concentric curves
+* [Polka dots](#polka-dots) &ndash; fashion design with dots
 
 
 Each predefined pattern is implemented as JS module file, exporting the same set of functions:
@@ -104,6 +105,37 @@ options = {
 	density: 20,
 	blur: 10,
 	balance: 50,
+}
+```
+
+
+
+
+
+# Polka dots
+<img src="images/polks-dots.jpg">
+
+[<img src="images/polka-dots-1.png">](https://boytchev.github.io/texture-generator/online/polka-dots?a=9&b=20&c=0&k=16777215&r=9&s=30) [<img src="images/polka-dots-2.png">](https://boytchev.github.io/texture-generator/online/polka-dots?a=3&b=20&c=15461355&k=53507&r=9&s=65)  [<img src="images/polka-dots-3.png">](https://boytchev.github.io/texture-generator/online/polka-dots?a=8&b=82&c=15263976&k=5187937&r=9&s=39) 
+
+#### Options:
+
+* `arrangement` (`a`) &ndash; integer; the id of the dots arrangement &#x2208; [0,11]
+* `color` (`c`) &ndash; integer; the color of dots
+* `backgroundColorB` (`k`) &ndash; integer; the color of background
+* `resolution` (`r`) &ndash; integer; the resolution of the texture is 2<sup>r</sup>&times;2<sup>r-1</sup>
+* `size` (`s`) &ndash; number; the visual size of the pattern &#x2208; [0,100]
+* `blur` (`b`) &ndash; number; blur factor of dots edges &#x2208; [0,100]
+
+#### Defaults:
+
+```js
+options = {
+	arrangement: 7,
+	color: 0x000000,
+	backgroundColor: 0xffffff,
+	resolution: 9, // 512x256
+	size: 30,
+	blur: 20,
 }
 ```
 
