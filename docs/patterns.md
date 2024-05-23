@@ -81,7 +81,7 @@ options = {
 # Isolines
 <img src="images/isolines.jpg">
 
-[<img src="images/isolines-1.png">](https://boytchev.github.io/texture-generator/online/isolines?a=50&b=10&d=20&c=16777215&k=0&r=10&s=50) [<img src="images/isolines-2.png">](https://boytchev.github.io/texture-generator/online/isolines?a=11&b=65&d=20&c=16777215&k=1443&r=10&s=81)  [<img src="images/isolines-3.png">](https://boytchev.github.io/texture-generator/online/isolines?a=22&b=0&d=15&c=13574176&k=16777215&r=10&s=100) 
+[<img src="images/isolines-1.png">](https://boytchev.github.io/texture-generator/online/isolines?a=50&b=10&d=20&c=16777215&k=0&r=9&s=50) [<img src="images/isolines-2.png">](https://boytchev.github.io/texture-generator/online/isolines?a=11&b=65&d=20&c=16777215&k=1443&r=9&s=81)  [<img src="images/isolines-3.png">](https://boytchev.github.io/texture-generator/online/isolines?a=22&b=0&d=15&c=13574176&k=16777215&r=9&s=100) 
 
 #### Options:
 
