@@ -2,7 +2,8 @@
 
 # Procedural Equirectangular Textures
 
-### What is it?
+
+# What is it?
 
 
 There are many types of textures depending on the way they are
@@ -22,60 +23,68 @@ image shows such texture, which is perfect for flat surfaces.
 An equirectangular version is shown on the right &ndash; it
 features strange deformations of shapes.
 
-	<div class="figures">
-		<span class="figure">Normal texture<br><img src="texture-normal.jpg"></span>
-		<span class="figure">Equirectangular texture<br><img src="texture-equirectangular.jpg"></span>
-	</div>
+
+<div class="figures">
+	<span class="figure">Normal texture<br><img src="texture-normal.jpg"></span>
+	<span class="figure">Equirectangular texture<br><img src="texture-equirectangular.jpg"></span>
+</div>
+
 	
-	<p>When mapped to a sphere, the normal alignment of texture
-	shapes gets distorted near the poles, while the equirectangular
-	texture creates good proportions of shapes and straight
-	lines. The deformation of shapes has been undeformed by
-	the curvature of the sphere surface. This is what this
-	project does &ndash; it generates equirectangular textures.</p>
+When mapped to a sphere, the normal alignment of texture shapes
+gets distorted near the poles, while the equirectangular texture
+creates good proportions of shapes and straight lines. The
+deformation of shapes has been undeformed by the curvature of
+the sphere surface. This is what this project does &ndash; it
+generates equirectangular textures.
 
-	<div class="figures">
-		<span class="figure">Normal texture on sphere<br><img src="texture-normal-sphere.jpg"></span>
-		<span class="figure">Equirectangular texture on sphere<br><img src="texture-equirectangular-sphere.jpg"></span>
-	</div>
+
+<div class="figures">
+	<span class="figure">Normal texture on sphere<br><img src="texture-normal-sphere.jpg"></span>
+	<span class="figure">Equirectangular texture on sphere<br><img src="texture-equirectangular-sphere.jpg"></span>
+</div>
 	
-	<h3>But wait, there is more</h3>
 
-	<p>When textures are applied to low-poly spheres there is
-	a noticeable zig-zag distortion of the texture shapes,
-	especially near the poles. This happens for normal and
-	equirectangular textures alike. This phenomena is not
-	caused by the texture itself, but by the algorithm that
-	maps the texture on a sphere. This project provides a
-	fix for this by modifying the shader code of materials.
-	Even after the fix, one could see sharp corners in the
-	lines. These are just optical illusions, caused by the
-	hard edges of a low-poly geometry.</p>
+# But wait, there is more
 
-	<div class="figures">
-		<span class="figure">Low-poly texture distortion<br><img src="texture-low-poly-distortion.jpg"></span>
-		<span class="figure">Low-poly shader fix<br><img src="texture-low-poly-fixed.jpg"></span>
-	</div>
+When textures are applied to low-poly spheres there is a noticeable
+zig-zag distortion of the texture shapes, especially near the
+poles. This happens for normal and equirectangular textures
+alike. This phenomena is not caused by the texture itself, but
+by the algorithm that maps the texture on a sphere. This project
+provides a fix for this by modifying the shader code of materials.
+Even after the fix, one could see sharp corners in the lines.
+These are just optical illusions, caused by the hard edges of
+a low-poly geometry.
+
+
+<div class="figures">
+	<span class="figure">Low-poly texture distortion<br><img src="texture-low-poly-distortion.jpg"></span>
+	<span class="figure">Low-poly shader fix<br><img src="texture-low-poly-fixed.jpg"></span>
+</div>
 	
-	<p>As the number of faces decreases, the deformation of
-	textures becomes disturbing. The following image shows
-	the normal, the equirectangular and the fixed equirectangular
-	textures on a dodecahedron.</p>
 
-	<div class="figures">
-		<span class="figure" style="width:70%">Extreme low-poly distortion fixed
-	by shader<br><img src="texture-low-poly-distortion-2.jpg"></span>
-	</div>
+As the number of faces decreases, the deformation of textures
+becomes disturbing. The following image shows the normal, the
+equirectangular and the fixed equirectangular textures on a
+dodecahedron.
 
-	<h3>What's the catch</h3>
 
-	<p>Fixing the shader code of Three.js materials adds
-	additional instructions as a patch. A better solution
-	would be if equirectangular mapping is supported
-	natively for all maps, not just the environment map.</p>
+<div class="figures">
+	<span class="figure" style="width:70%">Extreme low-poly distortion fixed
+by shader<br><img src="texture-low-poly-distortion-2.jpg"></span>
+</div>
 
-	<p>Unfortunately, there is another, bigger issue. Equirectangular
-	maps are not compatible with <a href="https://en.wikipedia.org/wiki/Mipmap">mipmaps</a>. If mipmaps are used, the result will have a thin
+
+# What's the catch
+
+
+Fixing the shader code of Three.js materials adds additional
+instructions as a patch. A better solution would be if
+equirectangular mapping is supported natively for all maps,
+not just the environment map.
+
+Unfortunately, there is another, bigger issue. Equirectangular
+maps are not compatible with <a href="https://en.wikipedia.org/wiki/Mipmap">mipmaps</a>. If mipmaps are used, the result will have a thin
 	pixel-wide seam along the edge of the texture. Currently
 	the project avoids the seam by turning off mipmaps. As a
 	side effect, this removes texture smoothing and makes

@@ -45,3 +45,25 @@ h1, h3 {
 h1:not([id])+p {
 	margin-bottom: 0 !important;
 }
+
+div.figures {
+	text-align: center;
+}
+
+span.figure {
+	display: inline-block;
+	border: solid 1px red;
+	width: 44%;
+	margin: 1em 0.25em;
+	font-weight: 300;
+	font-size: 0.85em;
+	padding: 0.5em;
+	border: 1px dotted lightgray;
+	border-radius: 0.5em;
+	background: linear-gradient(135deg, #ffffff 40%, #f0f0f0 80%);
+}
+
+span.figure img {
+	margin-top: 0.5em;
+	width: 100%;
+}
