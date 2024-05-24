@@ -53,7 +53,7 @@ p {
 
 
 ul, li {
-	font-size: 1.2em;
+	font-size: 1.1em;
 }
 
 
@@ -94,6 +94,10 @@ span.figure img {
 	text-align: center;
 	font-size: 1em;
 	font-weight: 300;
+}
+
+.footnote a, .footnote a:visited {
+	color: gray;
 }
 
 .footer {
