@@ -11,8 +11,8 @@ h1:not([id]) {
 body {
 	max-width: 50em;
 	margin: auto;
-	padding-top: 0;
-	font-family: Cordana, Calibri, sans-serif;
+	padding: 1em 2em;
+	font-family: Cordana, Calibri, sans-serif !important;
 }
 
 img.logo {
