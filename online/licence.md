@@ -2,17 +2,21 @@
 
 # Procedural Equirectangular Textures
 
-## Cookies Policy
+## Licence
+	
+You can use this site to generate online textures. You are allowed:
 
-We hate cookies.
-	
-We do not want your cookies.
-	
-No cookies or any other technology is used to track you.
-No data about you is being collected. However, there is
-no control on how the hosting service or any other server
-or service provider between you and this site behaves.
-	
+* **to freely use the textures** in anything: web sites, publications, presentations, printed materials, company logos, billboards, games, movies, adverticements;
+* **to modify, adapt and build** on the textures in any imaginable way;
+* **to release your work** with the textures under any licence of your choice.
+
+
+However, we hope that:
+
+* the textures are not used in any immoral, illegal, misleading or diceptive context;
+* you understand that anyone could recreate the exact same textures, that you have already created with pasion and love;
+* you find the textures useful.
+
 	
 <div class="footnote">
 	<a href="index.html">Back</a>

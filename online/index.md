@@ -1,4 +1,6 @@
-﻿<img class="logo" src="../assets/logo/logo.png">
+﻿<style> body {max-width: 55em !important;} </style>
+
+<img class="logo" src="../assets/logo/logo.png">
 
 
 # Procedural Equirectangular Textures
@@ -7,7 +9,7 @@
 ## Pick a style
 
 	
-<div class="gallery" style="width: 60em;">
+<div class="gallery">
 	<a class="style-block" href="camouflage.html">
 		<div class="title">Camouflage</div>
 		<img src="images/camouflage.png">
@@ -47,6 +49,6 @@
 
 <div class="footnote">
 	<a href="cookies.html">Cookies</a> &middot; 
-	<a href="license.html">License</a> &middot; 
+	<a href="licence.html">Licence</a> &middot; 
 	<a href="../index.html">Home</a>
 </div>
