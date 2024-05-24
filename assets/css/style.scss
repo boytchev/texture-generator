@@ -1,0 +1,10 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+h1, h2, h3 {
+	color: MediumSeaGreen;
+	font-weight: bold;
+	border-bottom: 1px dotted green;
+}
