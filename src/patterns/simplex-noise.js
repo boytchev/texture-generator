@@ -62,4 +62,5 @@ var info = {
 	};
 
 
+
 export { pattern, options, share, info };

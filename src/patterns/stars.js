@@ -1,22 +1,17 @@
 ﻿
+//	Procedural Equirectangular Textures
+//	Stars Pattern
+//
+//	pattern( ... )	- implements Stars pattern
+//	options( opt )	- converts options into internal format
+//	share( opt )	- converts options into URL
+//	info			- general info for the generator
 
-import { Vector3, Color, MathUtils } from "three";
-import { noise, noiseSeed } from "../noise.js";
 
 
+import { Color } from "three";
+import { noise } from "../noise.js";
 
-function options( opt )
-{
-	var options = { };
-	
-	options.brightness = opt.brightness ?? 2;
-	options.density = opt.density ?? 15;
-	options.starsColor = new Color( opt.starsColor ?? 0xdfdfff );
-	options.skyColor = new Color( opt.skyColor ?? 0x000045 );
-	
-	return options;
-}
-	
 
 
 function pattern( x, y, z, color, options, u, v, px, py, width, height )
@@ -37,23 +32,40 @@ function pattern( x, y, z, color, options, u, v, px, py, width, height )
 	if (k > noise( x, y, z+eps ))
 	if (k > noise( x, y, z-eps ))
 	{
-		s = options.brightness*(0.5+0.25*noise( y, z, x )+0.25*noise( z, x, y ))**(21-options.density);
+		s = options.brightness*(0.5+0.3*noise( y, z, x )+0.3*noise( z, x, y ))**options.density;
 	}
-	color.lerpColors( options.skyColor, options.starsColor, s );
-	color.offsetHSL( 0.3*Math.random()-0.15, 0, 0 );
+	
+	color.lerpColors( options.backgroundColor, options.color, s );
+	if( s > 0.1 ) color.offsetHSL( s*options.variation*k, 0, 0 );
 }
 
 
 
-function share( options )
+function options( opt )
+{
+	var options = { };
+	
+	options.brightness = 0.5 + (opt.brightness ?? 50)/20;
+	options.density = 200/(1+(opt.density ?? 30));
+	options.variation = (opt.variation ?? 0)/100;
+	options.color = new Color( opt.color ?? 0xfff5f0 );
+	options.backgroundColor = new Color( opt.backgroundColor ?? 0x000060 );
+	
+	return options;
+}
+	
+
+
+function share( opt )
 {
 	var params = [];
 	
-	params.push( `b=${options.brightness}` );
-	params.push( `c=${options.starsColor}` );
-	params.push( `d=${options.density}` );
-	params.push( `k=${options.skyColor}` );
-	params.push( `r=${options.resolution}` );
+	params.push( `b=${opt.brightness}` );
+	params.push( `c=${opt.color}` );
+	params.push( `d=${opt.density}` );
+	params.push( `k=${opt.backgroundColor}` );
+	params.push( `r=${opt.resolution}` );
+	params.push( `v=${opt.variation}` );
 	
 	params = params.join( '&' );
 	
@@ -64,8 +76,10 @@ function share( options )
 
 var info = {
 		name: 'Stars',
+		info: 'Designed for .map properties',
 		lightIntensity: 3,
 	};
+
 
 
 export { pattern, options, share, info };

@@ -14,7 +14,8 @@
 	  {
 		"imports": {
 		  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
-		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/"
+		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/",
+		  "pet/": "../src/"
 		}
 	  }
 	</script>
@@ -27,16 +28,17 @@
 
 		import * as THREE from "three";
 		import { model, canvas, installGui, urlOptions } from "./online.js";
-		import { pattern, options, share, info } from "../src/patterns/stars.js";
-		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
+		import { pattern, options, share, info } from "pet/patterns/stars.js";
+		import { equimaterial, equitexture, noise } from "pet/texture-generator.js";
 
 
 		var guiOptions = {
-				starsColor: urlOptions.c ?? 0xdFdFFF,
-				skyColor: urlOptions.k ?? 0x000045,
+				color: urlOptions.c ?? 0xfff5f0,
+				backgroundColor: urlOptions.k ?? 0x000060,
 				resolution: urlOptions.r ?? 9,
-				brightness: urlOptions.b ?? 2,
-				density: urlOptions.d ?? 15,
+				density: urlOptions.d ?? 30,
+				brightness: urlOptions.b ?? 50,
+				variation: urlOptions.v ?? 0,
 			};
 			
 		var gui = installGui( info, ()=>share(guiOptions), 'map' );
@@ -46,21 +48,26 @@
 			.onChange( onChange );
 						
 		gui.add( guiOptions, 'density' )
-			.min(1).max(20).step(1)
+			.min(0).max(100).step(1)
 			.name( 'Stars <right>density</right>' )
 			.onChange( onChange );
 			
 		gui.add( guiOptions, 'brightness' )
-			.min(0.5).max(4).step(0.01)
+			.min(0).max(100).step(1)
 			.name( '<right>brightness</right>' )
 			.onChange( onChange );
 			
-		gui.addColor( guiOptions, 'starsColor' )
+		gui.add( guiOptions, 'variation' )
+			.min(0).max(100).step(1)
+			.name( '<right>variation</right>' )
+			.onChange( onChange );
+			
+		gui.addColor( guiOptions, 'color' )
 			.name( 'Color <right>stars</right>' )
 			.onChange( onChange );
 			
-		gui.addColor( guiOptions, 'skyColor' )
-			.name( '<right>sky</right>' )
+		gui.addColor( guiOptions, 'backgroundColor' )
+			.name( '<right>background</right>' )
 			.onChange( onChange )
 			.$text.classList.add('bottom');
 		
