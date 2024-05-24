@@ -21,7 +21,5 @@ However, we hope that:
 
 	
 <div class="footnote">
-
-[Back](index.md)
-
+	<a href="index.html">Back</a>
 </div>
