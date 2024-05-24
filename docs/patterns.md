@@ -26,9 +26,25 @@ The following Generators are defined:
 ## Camouflage
 <img src="images/camouflage.jpg">
 
+#### Examples:
+
 [<img src="images/camouflage-1.png">](https://boytchev.github.io/texture-generator/online/camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=0&h=0&r=9&s=50&t=0) [<img src="images/camouflage-2.png">](https://boytchev.github.io/texture-generator/online/camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=22&h=194&r=9&s=73&t=4)  [<img src="images/camouflage-3.png">](https://boytchev.github.io/texture-generator/online/camouflage.html?a=16776960&b=0&c=16187392&d=5234974&g=-18&h=0&r=9&s=11&t=-2) 
 
 #### Options:
+
+| Parameter | URL | Type | Range | Description |
+| :-- | :-- | :-- | :-- | :-- |
+| colorA | a | integer | | the top-most camouflage color |
+| colorB | b | integer | | the secondary camouflage color |
+| colorC | c | integer | | the tertiary camouflage color |
+| colorD | d | integer | | the bottom-most camouflage color |
+| resolution | r | integer | 5..12 | the resolution of the texture is 2<sup>r</sup>&times;2<sup>r-1</sup> |
+| size | s | number | 0..100 | the visual size of the pattern |
+| hue | h | number |  -360&deg;..360&deg; | hue offset of all colors |
+| saturation | t | number | -100%..100% | saturation offset of all colors |
+| brightness | g | number | -100%..100% | brightness offset of all colors |
+
+
 
 * `colorA` (`a`) &ndash; integer; the top-most camouflage color
 * `colorB` (`b`) &ndash; integer; the secondary camouflage color
