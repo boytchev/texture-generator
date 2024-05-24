@@ -1,4 +1,4 @@
-﻿<style> .markdown-body {max-width: 60em !important;} </style><img class="logo" src="../assets/logo/logo.png">
+﻿<img class="logo" src="../assets/logo/logo.png">
 
 # Procedural Equirectangular Textures
 
@@ -48,3 +48,5 @@
 	<a href="licence.html">Licence</a> &middot; 
 	<a href="../index.html">Home</a>
 </div>
+
+<style> body {max-width: 60em !important;} </style>

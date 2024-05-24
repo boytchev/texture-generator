@@ -97,7 +97,13 @@ span.figure img {
 }
 
 .footnote a, .footnote a:visited {
+	padding: 0 1em;
 	color: gray;
+}
+
+.footnote a, .footnote a:hover {
+	padding: 0 1em;
+	color: black;
 }
 
 .footer {
