@@ -44,7 +44,7 @@ generates equirectangular textures.
 </div>
 	
 
-## But wait, there is more
+## But wait, there is more!
 
 When textures are applied to low-poly spheres there is a noticeable
 zig-zag distortion of the texture shapes, especially near the
@@ -75,7 +75,7 @@ by shader<br><img src="texture-low-poly-distortion-2.jpg"></span>
 </div>
 
 
-## What's the catch
+## What's the catch?!
 
 
 Fixing the shader code of Three.js materials adds additional
