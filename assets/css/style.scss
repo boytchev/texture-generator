@@ -12,6 +12,7 @@ body {
 	max-width: 50em;
 	margin: auto;
 	padding-top: 0;
+	font-family: Cordana, Calibri, sans-serif;
 }
 
 img.logo {
@@ -34,4 +35,8 @@ h1, h3 {
 
 .my-5 {
 	margin-top: 0 !important;
+}
+
+h1:not([id])+p {
+	margin-bottom: 0 !important;
 }
