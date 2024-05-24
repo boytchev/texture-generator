@@ -52,6 +52,16 @@ a:visited {
 	color: dimgray;
 }
 
+p a {
+	color: royalblue !important;
+}
+
+li a {
+	font-weight: bold;
+	color: royalblue !important;
+	text-transform: uppercase;
+}
+
 .style-block {
 	display: inline-block;
 	width: 10em;
@@ -100,6 +110,7 @@ a:visited {
 
 p {
 	font-size: 1.25em;
+	text-align: justify;
 }
 
 li {
@@ -110,4 +121,10 @@ li {
 
 .gallery {
 	text-align: center;
+}
+
+.role {
+	display: block;
+	font-weight: bold;
+	font-size: 120%;
 }
