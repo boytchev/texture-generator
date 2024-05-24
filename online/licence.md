@@ -21,5 +21,5 @@ However, we hope that:
 
 	
 <div class="footnote">
-	<a href="./index.html">Back</a>
+	[Back](index.html)
 </div>

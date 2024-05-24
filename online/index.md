@@ -1,25 +1,11 @@
-﻿<!DOCTYPE html>
+﻿<img class="logo" src="../assets/logo/logo.png">
 
 
-<html>
+# Procedural Equirectangular Textures
 
 
-<head>
-	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+## Pick a style
 
-	<link rel="shortcut icon" type="image/png" href="logo.png"/>
-	<link rel="stylesheet" href="index-styles.css">
-
-</head>
-
-
-<body style="max-width: 60em;">
-	<img class="logo" src="logo.png">
-	<h1>Procedural Equirectangular Textures</h1>
-	<h3>Pick a style</h3>
-	<br>
-	<br>
-	<br>
 	
 	<div class="gallery">
 		<a class="style-block" href="camouflage.html">
@@ -58,9 +44,6 @@
 		</a>
 	</div>
 	
-	<div class="footnote">
-		<a href="cookies.html">Cookies</a> &middot; <a href="licence.html">Licence</a> &middot; <a href="../index.html">Home</a>
-	</div>
-
-</body>
-</html>
+<div class="footnote">
+	[Cookies](cookies.md) &middot; [Licence](licence.md) &middot; [Home](../index.html)
+</div>

@@ -14,5 +14,5 @@ no control on how the hosting service or any other server
 or service provider between you and this site behaves.
 	
 <div class="footnote">
-	<a href="./index.html">Back</a>
+	[Back](index.html)
 </div>

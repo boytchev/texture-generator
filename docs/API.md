@@ -1,3 +1,6 @@
+<img class="logo" src="../online/logo.png">
+
+
 # Texture generator API
 
 The code of equirectangular texture generator is split into three modules. They
