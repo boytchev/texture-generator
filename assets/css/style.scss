@@ -26,7 +26,7 @@ img.logo {
 	padding: 0;
 }
 
-h1, h3 {
+h1, h2, h3 {
 	left: 0;
 	margin: 0 !important;
 	
@@ -38,8 +38,8 @@ h1, h3 {
 	font-family: Cordana, Calibri, sans-serif !important;
 }
 
-h2 {
-	font-weight: normal;
+.markdown-body h2 {
+	font-weight: normal !important;
 	font-size: 1.5em;
 }
 
