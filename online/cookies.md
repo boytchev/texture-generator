@@ -15,6 +15,6 @@ or service provider between you and this site behaves.
 	
 <div class="footnote">
 
-[Back](index.html)
+[Back](index.md)
 
 </div>
