@@ -44,11 +44,6 @@
 	</a>
 </div>
 	
-<span class="footnote">
-
-	[Cookies](cookies.md) &middot; [Licence](licence.md) &middot; [Home](../index.html)
-	
-</span>
 
 <div class="footnote">
 	<a href="cookies.html">Cookies</a> &middot; 
