@@ -14,7 +14,8 @@
 	  {
 		"imports": {
 		  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
-		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/"
+		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/",
+		  "pet/": "../src/"
 		}
 	  }
 	</script>
@@ -27,8 +28,8 @@
 
 		import * as THREE from "three";
 		import { model, canvas, installGui, urlOptions } from "./online.js";
-		import { pattern, options, share, info } from "../src/patterns/zebra-lines.js";
-		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
+		import { pattern, options, share, info } from "pet/patterns/zebra-lines.js";
+		import { equimaterial, equitexture, noise } from "pet/texture-generator.js";
 
 
 		var guiOptions = {
@@ -45,11 +46,11 @@
 			.onChange( onChange );
 			
 		gui.add( guiOptions, 'size' )
-			.name( 'Size' ).min(1).max(100).step(1)
+			.name( 'Size' ).min(0).max(100).step(1)
 			.onChange( onChange );
 			
 		gui.add( guiOptions, 'angle' )
-			.name( 'Angle' ).min(0).max(90).step(1)
+			.name( 'Angle' ).min(-180).max(180).step(1)
 			.onChange( onChange );
 			
 
