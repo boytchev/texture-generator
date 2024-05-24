@@ -3,3 +3,13 @@
 
 @import "{{ site.theme }}";
 
+
+/* hide H1 without id-s */
+
+h1:not([id]) {
+	display: none;
+}
+
+body {
+	max-width: 50em;
+}
