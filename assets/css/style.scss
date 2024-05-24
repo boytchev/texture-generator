@@ -3,8 +3,28 @@
 
 @import "{{ site.theme }}";
 
-h1, h2, h3 {
-	color: MediumSeaGreen;
+h1 {
+	display: none;
+}
+
+
+body {
+	max-width: 50em;
+	padding: 0 1em;
+}
+
+h1.custom, h3.custom {
+	left: 0;
+	margin: 0;
+	text-align: center;
+	width: 100%;
+	font-size: 2em;
 	font-weight: bold;
-	border-bottom: 1px dotted green;
+}
+
+
+h3.custom {
+	margin-top: 1em;
+	font-size: 1.75em;
+	font-weight: normal;
 }
