@@ -11,6 +11,7 @@ h1:not([id]) {
 body {
 	max-width: 50em;
 	margin: auto;
+	padding-top: 0;
 }
 
 img.logo {
@@ -28,5 +29,9 @@ h1, h3 {
 	width: 100%;
 	
 	font-size: 2em;
-	font-weight: bold;
+	font-weight: bold !important;
+}
+
+.my-5 {
+	margin-top: 0 !important;
 }
