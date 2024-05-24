@@ -39,10 +39,10 @@ h1, h2, h3 {
 }
 
 .markdown-body h2 {
-	margin-top: 1em;
+	margin-top: 1em !important;
 	font-weight: normal !important;
 	font-size: 1.5em;
-	border-bottom: null;
+	border-bottom: none !important;
 }
 
 p {
@@ -71,11 +71,23 @@ span.figure {
 	font-size: 0.85em;
 	padding: 0.5em;
 	border: 1px dotted lightgray;
-	border-radius: 0.5em;
-	background: linear-gradient(135deg, #ffffff 40%, #f0f0f0 80%);
+	border-radius: 0.3em;
+	/*background: linear-gradient(135deg, #ffffff 40%, #f0f0f0 80%);*/
 }
 
 span.figure img {
 	margin-top: 0.5em;
 	width: 100%;
+}
+
+.footnote {
+	margin-top: 2em;
+	border-top: solid whitesmoke 1px;
+	text-align: center;
+	font-size: 1em;
+	font-weight: 300;
+}
+
+.footer {
+	display: none;
 }
