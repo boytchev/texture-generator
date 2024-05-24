@@ -44,6 +44,10 @@
 	</a>
 </div>
 	
+<div class="footnote" markdown="1">
+	[Cookies](cookies.md) &middot; [Licence](licence.md) &middot; [Home](../index.html)
+</div>
+
 <div class="footnote">
 	<a href="cookies.html">Cookies</a> &middot; 
 	<a href="licence.html">Licence</a> &middot; 
