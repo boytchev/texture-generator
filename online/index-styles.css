@@ -32,6 +32,7 @@ img.logo {
 }
 
 .footnote {
+	display: block;
 	margin-top: 2em;
 	border-top: solid whitesmoke 1px;
 	text-align: center;
