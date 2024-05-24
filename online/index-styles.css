@@ -119,6 +119,12 @@ li {
 	font-weight: 300;
 }
 
+li.normal {
+	margin-bottom: 0.5em;
+	font-size: auto;
+	font-weight: normal;
+}
+
 .gallery {
 	text-align: center;
 }
@@ -127,4 +133,25 @@ li {
 	display: block;
 	font-weight: bold;
 	font-size: 120%;
+}
+
+div.figures {
+	text-align: center;
+}
+
+span.figure {
+	display: inline-block;
+	border: solid 1px red;
+	width: 44%;
+	margin: 1em 0.25em;
+	font-weight: 300;
+	font-size: 0.85em;
+	padding: 0.5em;
+	border: 1px dotted lightgray;
+	border-radius: 0.5em;
+}
+
+span.figure img {
+	margin-top: 0.5em;
+	width: 100%;
 }
