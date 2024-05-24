@@ -4,12 +4,28 @@
 @import "{{ site.theme }}";
 
 
-/* hide H1 without id-s */
-
 h1:not([id]) {
 	display: none;
 }
 
 body {
 	max-width: 50em;
+	margin: auto;
+}
+
+img.logo {
+	display: block;
+	width: 4em;
+	margin: auto;
+}
+
+h1, h3 {
+	left: 0;
+	margin: 0;
+	
+	text-align: center;
+	width: 100%;
+	
+	font-size: 2em;
+	font-weight: bold;
 }

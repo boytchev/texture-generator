@@ -1,3 +1,6 @@
+<img class="logo" src="../online/logo.png">
+
+
 # Predefined patterns
 
 * [Camouflage](#camouflage) &ndash; 4-color spots of camouflage design
