@@ -12,9 +12,7 @@ Pick the one that suits you most:
 
 	
 * [**ONLINE GENERATORS**](online/)<br>with customizable abstract or material-like texture styles
-
 * [**SOFTWARE GENERATORS**](docs/patterns.md)<br>as a collection of individual JS modules of texture generators
-
 * [**JAVASCRIPT LIBRARY**](docs/API.md)<br>for low-level access to equirectangular texture generation
 
 
