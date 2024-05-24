@@ -1,10 +1,6 @@
-﻿<style> body {max-width: 55em !important;} </style>
-
-<img class="logo" src="../assets/logo/logo.png">
-
+﻿<style> body {max-width: 60em !important;} </style><img class="logo" src="../assets/logo/logo.png">
 
 # Procedural Equirectangular Textures
-
 
 ## Pick a style
 
