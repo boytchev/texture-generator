@@ -39,9 +39,16 @@ h1, h2, h3 {
 }
 
 .markdown-body h2 {
+	margin-top: 1em;
 	font-weight: normal !important;
 	font-size: 1.5em;
+	border-bottom: null;
 }
+
+p {
+	font-size: 1.25em;
+}
+
 
 .my-5 {
 	margin-top: 0 !important;
