@@ -1,4 +1,4 @@
-﻿<style> body {max-width: 60em !important;} </style><img class="logo" src="../assets/logo/logo.png">
+﻿<style> .markdown-body {max-width: 60em !important;} </style><img class="logo" src="../assets/logo/logo.png">
 
 # Procedural Equirectangular Textures
 
