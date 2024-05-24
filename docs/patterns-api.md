@@ -4,13 +4,7 @@
 # Procedural Equirectangular Textures
 
 
-## Pattern generators
-
-The pattern generators are individual JS modules that generate specific equirectangular
-textures. They are the backbone of the [online generators](../online/index.md).
-All pattern generators share the same API.
-
-The following Generators are defined:
+# Software generators
 
 * [Camouflage](#camouflage) &ndash; 4-color spots of camouflage design
 * [Concrete](#concrete) &ndash; grainy surface of concrete
@@ -21,9 +15,18 @@ The following Generators are defined:
 * [Zebra lines](#zebra-lines) &ndash; alternating white and black stripes
 
 
+Each predefined pattern is implemented as JS module file, exporting the same set of functions:
+* **`pattern`** &ndash; the pattern function
+* **`options`** &ndash; converter from user-defined options to internal pettern-specific options
+* **`share`** &ndash; converter from user-defined options to shareable URL with options parameters
+* **`info`** &ndash; general info about the pattern, like name, description and so on
+
+The values of all colors are integers &#x2208; [0,16777215] (i.e. [0x000000,0xFFFFFF]).
 
 
-## Camouflage
+
+
+# Camouflage
 <img src="images/camouflage.jpg">
 
 [<img src="images/camouflage-1.png">](https://boytchev.github.io/texture-generator/online/camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=0&h=0&r=9&s=50&t=0) [<img src="images/camouflage-2.png">](https://boytchev.github.io/texture-generator/online/camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=22&h=194&r=9&s=73&t=4)  [<img src="images/camouflage-3.png">](https://boytchev.github.io/texture-generator/online/camouflage.html?a=16776960&b=0&c=16187392&d=5234974&g=-18&h=0&r=9&s=11&t=-2) 
@@ -60,7 +63,7 @@ options = {
 
 
 
-## Concrete
+# Concrete
 <img src="images/concrete.jpg">
 
 [<img src="images/concrete-1.png">](https://boytchev.github.io/texture-generator/online/concrete?h=100&r=9&s=50) [<img src="images/concrete-2.png">](https://boytchev.github.io/texture-generator/online/concrete?h=100&r=9&s=78) 
@@ -85,7 +88,7 @@ options = {
 
 
 
-## Isolines
+# Isolines
 <img src="images/isolines.jpg">
 
 [<img src="images/isolines-1.png">](https://boytchev.github.io/texture-generator/online/isolines?a=50&b=10&d=20&c=16777215&k=0&r=9&s=50) [<img src="images/isolines-2.png">](https://boytchev.github.io/texture-generator/online/isolines?a=11&b=65&d=20&c=16777215&k=1443&r=9&s=81)  [<img src="images/isolines-3.png">](https://boytchev.github.io/texture-generator/online/isolines?a=22&b=0&d=15&c=13574176&k=16777215&r=9&s=100) 
@@ -118,7 +121,7 @@ options = {
 
 
 
-## Polka dots
+# Polka dots
 <img src="images/polks-dots.jpg">
 
 [<img src="images/polka-dots-1.png">](https://boytchev.github.io/texture-generator/online/polka-dots?a=9&b=20&c=0&k=16777215&r=9&s=30) [<img src="images/polka-dots-2.png">](https://boytchev.github.io/texture-generator/online/polka-dots?a=3&b=20&c=15461355&k=53507&r=9&s=65)  [<img src="images/polka-dots-3.png">](https://boytchev.github.io/texture-generator/online/polka-dots?a=8&b=82&c=15263976&k=5187937&r=9&s=39) 
@@ -151,7 +154,7 @@ options = {
 
 
 
-## Simplex noise
+# Simplex noise
 <img src="images/simplex-noise.jpg">
 
 [<img src="images/simplex-noise-1.png">](https://boytchev.github.io/texture-generator/online/simplex-noise?b=50&c=16777215&k=0&r=9&s=52) [<img src="images/simplex-noise-2.png">](https://boytchev.github.io/texture-generator/online/simplex-noise?b=78&c=16766208&k=0&r=9&s=57)  [<img src="images/simplex-noise-3.png">](https://boytchev.github.io/texture-generator/online/simplex-noise?b=44&c=13893887&k=11592439&r=9&s=86) 
@@ -182,7 +185,7 @@ options = {
 
 
 
-## Stars
+# Stars
 <img src="images/stars.jpg">
 
 [<img src="images/stars-1.png">](https://boytchev.github.io/texture-generator/online/stars?b=50&c=16774640&d=30&k=96&r=9&v=0) [<img src="images/stars-2.png">](https://boytchev.github.io/texture-generator/online/stars?b=100&c=16774640&d=100&k=25343&r=9&v=0)  [<img src="images/stars-3.png">](https://boytchev.github.io/texture-generator/online/stars?b=100&c=16733440&d=84&k=16777205&r=9&v=100) 
@@ -214,7 +217,7 @@ options = {
 
 
 
-## Zebra lines
+# Zebra lines
 <img src="images/zebra-lines.jpg">
 
 [<img src="images/zebra-lines-1.png">](https://boytchev.github.io/texture-generator/online/zebra-lines?a=0&r=9&s=80) [<img src="images/zebra-lines-2.png">](https://boytchev.github.io/texture-generator/online/zebra-lines?a=45&r=9&s=30)  [<img src="images/zebra-lines-3.png">](https://boytchev.github.io/texture-generator/online/zebra-lines?a=-45&r=9&s=94	) 

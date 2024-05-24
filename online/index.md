@@ -44,9 +44,9 @@
 	
 
 <div class="footnote">
+	<a href="../index.html">Home</a> &middot; 
 	<a href="cookies.html">Cookies</a> &middot; 
-	<a href="licence.html">Licence</a> &middot; 
-	<a href="../index.html">Home</a>
+	<a href="licence.html">Licence</a>
 </div>
 
 <style> body {max-width: 70em !important;} </style>
