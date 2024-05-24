@@ -89,7 +89,7 @@ function installGui( info, shareFunction, mapName )
 				<span id="share" class="link">Share</span> &middot;
 				<span id="download" class="link">Download</span> &middot;
 				<span id="light" class="link">Light</span> &middot;
-				<a class="link" href="./">Home</a>
+				<a class="link" href="./">Back</a>
 			</small>`;
 					  
 	var gui = new lil.GUI({title: title});
