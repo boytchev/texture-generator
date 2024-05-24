@@ -1,6 +1,4 @@
-<link rel="stylesheet" href="online/index-styles.css">
-
-<img class="logo" src="online/logo.png">
+<img class="logo" src="assets/logo/logo.png">
 
 # Test page
 
