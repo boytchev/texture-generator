@@ -3,7 +3,7 @@
 # Procedural Equirectangular Textures
 
 
-# What is it?
+## What is it?
 
 
 There are many types of textures depending on the way they are
@@ -44,7 +44,7 @@ generates equirectangular textures.
 </div>
 	
 
-# But wait, there is more
+## But wait, there is more
 
 When textures are applied to low-poly spheres there is a noticeable
 zig-zag distortion of the texture shapes, especially near the
@@ -75,7 +75,7 @@ by shader<br><img src="texture-low-poly-distortion-2.jpg"></span>
 </div>
 
 
-# What's the catch
+## What's the catch
 
 
 Fixing the shader code of Three.js materials adds additional
@@ -84,20 +84,19 @@ equirectangular mapping is supported natively for all maps,
 not just the environment map.
 
 Unfortunately, there is another, bigger issue. Equirectangular
-maps are not compatible with <a href="https://en.wikipedia.org/wiki/Mipmap">mipmaps</a>. If mipmaps are used, the result will have a thin
-	pixel-wide seam along the edge of the texture. Currently
-	the project avoids the seam by turning off mipmaps. As a
-	side effect, this removes texture smoothing and makes
-	texture noise more prominent.</p>
+maps are not compatible with [mipmaps](https://en.wikipedia.org/wiki/Mipmap).
+If mipmaps are used, the result will have a thin pixel-wide
+seam along the edge of the texture. Currently the project
+avoids the seam by turning off mipmaps. As a side effect,
+this removes texture smoothing and makes texture noise more
+prominent.
 
-	<p>A possible solution might be to limit the mipmaps to
-	only the first few levels, or to mask the seam with
-	sufficiently picturesque texture. If anyone knows a
-	performant way to resolve this issue, it will make the
-	library more useful to the general community.</p>
+A possible solution might be to limit the mipmaps to only the
+first few levels, or to mask the seam with sufficiently
+picturesque texture. If anyone knows a performant way to resolve
+this issue, it will make the library more useful to the general
+community.
 		
-	<div class="footnote">
-		<a href="../index.html">Home</a>
-	</div>
-</body>
-</html>
+<div class="footnote">
+	<a href="../index.html">Home</a>
+</div>
