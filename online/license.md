@@ -2,7 +2,7 @@
 
 # Procedural Equirectangular Textures
 
-## Licence
+## License
 	
 You can use this site to generate online textures. You are allowed:
 
