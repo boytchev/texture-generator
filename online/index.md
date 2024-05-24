@@ -49,4 +49,4 @@
 	<a href="../index.html">Home</a>
 </div>
 
-<style> body {max-width: 60em !important;} </style>
+<style> body {max-width: 70em !important;} </style>
