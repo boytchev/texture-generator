@@ -18,7 +18,7 @@ an snapshot to open it online.
 		<img src="images/camouflage-1.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online//camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=22&h=512&w=1024&s=73&t=4&u=194">
+	<a class="style-block nocaption" href="../online/camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=22&h=512&w=1024&s=73&t=4&u=194">
 		<img src="images/camouflage-2.png">
 	</a>
 
