@@ -33,25 +33,29 @@
 
 
 		var guiOptions = {
-				color: urlOptions.c ?? 0xFFFFFF,
-				backgroundColor: urlOptions.k ?? 0x000000,
-				resolution: urlOptions.r ?? 9, // 512x256
-				size: urlOptions.s ?? 50,
+				width: urlOptions.w ?? 1024,
+				height: urlOptions.h ?? 512,
+				
+				scale: urlOptions.s ?? 50,
 				density: urlOptions.d ?? 20,
 				blur: urlOptions.b ?? 10,
 				balance: urlOptions.a ?? 50,
+
+				color: urlOptions.c ?? 0xFFFFFF,
+				backgroundColor: urlOptions.k ?? 0x000000,				
 			};
 			
 		var gui = installGui( info, ()=>share(guiOptions), 'map' );
 				
-		gui.add( guiOptions, 'resolution', {'256 x 128':8, '512 x 256':9, '1024 x 512':10, '2048 x 1024':11, '4096 x 2048':12, '8192 x 4096':13} )
+		gui.add( guiOptions, 'width', {'256 x 128':256, '512 x 256':512, '1024 x 512':1024, '2048 x 1024':2048, '4096 x 2048':4096, '8192 x 4096':8192} )
 			.name( 'Resolution',  )
 			.onChange( onChange );
 			
-		gui.add( guiOptions, 'size' )
+		gui.add( guiOptions, 'scale' )
 			.min(0).max(100).step(1)
-			.name( 'Line <right>size</right>' )
-			.onChange( onChange );
+			.name( 'Lines <right>scale</right>' )
+			.onChange( onChange )
+			.$input.classList.add('top');
 			
 		gui.add( guiOptions, 'density' )
 			.min(0).max(100).step(1)
@@ -66,11 +70,13 @@
 		gui.add( guiOptions, 'balance' )
 			.min(0).max(100).step(1)
 			.name( '<right>balance</right>' )
-			.onChange( onChange );
+			.onChange( onChange )
+			.$input.classList.add('bottom');
 			
 		gui.addColor( guiOptions, 'color' )
 			.name( 'Color <right>main</right>' )
-			.onChange( onChange );
+			.onChange( onChange )
+			.$text.classList.add('top');
 			
 		gui.addColor( guiOptions, 'backgroundColor' )
 			.name( '<right>background</right>' )
@@ -81,9 +87,10 @@
 		
 		function onChange( event )
 		{			
+			guiOptions.height = guiOptions.width/2;
+			
 			model.material.map = equimaterial( equitexture(
 					pattern,
-					2<<guiOptions.resolution,
 					canvas,
 					true,
 					options( guiOptions )
@@ -91,7 +98,7 @@
 		}
 
 		onChange( );
-
+		model.material = equimaterial( model.material );
 		
 	</script>
 </body>

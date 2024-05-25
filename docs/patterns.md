@@ -10,90 +10,10 @@ The pattern generators are individual JS modules that generate specific equirect
 textures. They are the backbones of the [online generators](../online/index.md).
 All pattern generators share the same API.
 
-* [Camouflage](#camouflage) &ndash; 4-color spots of camouflage design
-* [Concrete](#concrete) &ndash; grainy surface of concrete
-* [Isolines](#isolines) &ndash; looped concentric curves
 * [Polka dots](#polka-dots) &ndash; fashion design with dots
 * [Simplex noise](#simplex-noise) &ndash; gradient noise pattern
 * [Stars](#stars) &ndash; night sky stars
 * [Zebra lines](#zebra-lines) &ndash; alternating white and black stripes
-
-
-
-## Camouflage
-<img src="images/camouflage.jpg">
-
-
-<!--#### Examples:-->
-
-[<img src="images/camouflage-1.png">](https://boytchev.github.io/texture-generator/online/camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=0&h=0&r=9&s=50&t=0) [<img src="images/camouflage-2.png">](https://boytchev.github.io/texture-generator/online/camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=22&h=194&r=9&s=73&t=4)  [<img src="images/camouflage-3.png">](https://boytchev.github.io/texture-generator/online/camouflage.html?a=16776960&b=0&c=16187392&d=5234974&g=-18&h=0&r=9&s=11&t=-2) 
-
-<!--
-* `colorA` (`a`) &ndash; integer; the top-most camouflage color
-* `colorB` (`b`) &ndash; integer; the secondary camouflage color
-* `colorC` (`c`) &ndash; integer; the tertiary camouflage color
-* `colorD` (`d`) &ndash; integer; the bottom-most camouflage color
-* `resolution` (`r`) &ndash; integer; the resolution of the texture is 2<sup>r</sup>&times;2<sup>r-1</sup>
-* `size` (`s`) &ndash; number; the visual size of the pattern &#x2208; [0,100]
-* `hue` (`h`) &ndash; number; hue offset of all colors &#x2208; [-360&deg;,360&deg;]
-* `saturation` (`t`) &ndash; number; saturation offset of all colors &#x2208; [-100%,100%]
-* `brightness` (`g`) &ndash; number; brightness offset of all colors &#x2208; [-100%,100%]
-#### Defaults:
--->
-
-```js
-options = {
-	colorA: 0xc2bea8, // (a) top-most color
-	colorB: 0x9c895e, // (b) secondary color
-	colorC: 0x92a375, // (c) tertiary color
-	colorD: 0x717561, // (d) bottom-most color
-	resolution: 9,    // (r) horizontal resolution 2^r
-	size: 50,         // (s) size of pattern [0,100]
-	hue: 0,           // (h) hue offset of colors [-360,360]
-	saturation: 0,    // (s) saturation offset of colors [-100,100]
-	brightness: 0,    // (g) brightness offset of colors [-100,100]
-}
-```
-<!--
-```js
-options = {
-	colorA: 0xc2bea8,
-	colorB: 0x9c895e,
-	colorC: 0x92a375,
-	colorD: 0x717561,
-	resolution: 9, // 512x256
-	size: 50,
-	hue: 0,
-	saturation: 0,
-	brightness: 0,
-}
-```
--->
-
-
-
-## Concrete
-<img src="images/concrete.jpg">
-
-[<img src="images/concrete-1.png">](https://boytchev.github.io/texture-generator/online/concrete?h=100&r=9&s=50) [<img src="images/concrete-2.png">](https://boytchev.github.io/texture-generator/online/concrete?h=100&r=9&s=78) 
-
-#### Options:
-
-* `resolution` (`r`) &ndash; integer; the resolution of the texture is 2<sup>r</sup>&times;2<sup>r-1</sup>
-* `size` (`s`) &ndash; number; the visual size of the pattern &#x2208; [0,100]
-* `height` (`h`) &ndash; number; concrete bumps height &#x2208; [0%,100%]
-
-#### Defaults:
-
-```js
-options = {
-	resolution: 9, // 512x256
-	size: 50,
-	height: 100,
-}
-```
-
-
 
 
 

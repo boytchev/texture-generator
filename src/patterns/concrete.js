@@ -46,8 +46,8 @@ function share( params )
 {
 	var url = [];
 	
-	url.push( `h=${params.height}` );
 	url.push( `w=${params.width}` );
+	url.push( `h=${params.height}` );
 
 	url.push( `s=${params.scale}` );
 	url.push( `d=${params.density}` );

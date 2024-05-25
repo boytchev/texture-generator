@@ -13,16 +13,12 @@ snapshot to open it online.
 
 <p class="gallery">
 
-	<a class="style-block nocaption" href="../online/concrete.html?h=512&w=1024&s=40&d=100&b=100">
+	<a class="style-block nocaption" href="../online/concrete.html?w=1024&h=512&s=40&d=100&b=100">
 		<img src="images/concrete-1.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/concrete.html?h=512&w=1024&s=89&d=55&b=100">
+	<a class="style-block nocaption" href="../online/concrete.html?w=1024&h=512&s=89&d=55&b=100">
 		<img src="images/concrete-2.png">
-	</a>
-
-	<a class="style-block nocaption" href="../online/concrete.html?">
-		<img src="images/concrete-3.png">
 	</a>
 
 </p>
@@ -52,7 +48,7 @@ model.material = fix( material );
 Code template of default parameters for the [online generator](../online/concrete.html).
 
 ```php
-?w=512&h=256&s=50&a=12762792&b=10258782&c=9610101&d=7435617&u=0&t=0&g=0
+?h=256&w=512&s=50&d=100&b=100
 ```
 
 ### Parameters

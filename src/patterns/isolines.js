@@ -2,21 +2,23 @@
 //	Procedural Equirectangular Textures
 //	Isolines Pattern
 //
-//	pattern( ... )	- implements isolines pattern
-//	options( opt )	- converts options into internal format
-//	share( opt )	- converts options into URL
-//	info			- general info for the generator
+//	pattern( ... )		- implements the pattern
+//	texture( params )	- generate a texture with options
+//	options( params )	- converts options into internal format
+//	share( opt )		- converts options into URL
+//	info				- general info for the generator
+//	fix( ... )			- reexport from core
 
 
 
 import { Color, MathUtils } from "three";
-import { noise } from "../noise.js";
+import { noise, equitexture, equimaterial } from "pet/texture-generator.js";
 
 
 
-function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
+function pattern( x, y, z, color, options, /*u, v, px, py*/ )
 {
-	var k = noise( options.size*x, options.size*y, options.size*z );
+	var k = noise( options.scale*x, options.scale*y, options.scale*z );
 	
 	k = 0.5 - 0.5*Math.sin(options.density*k);
 	
@@ -27,52 +29,59 @@ function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
 
 
 
-function options( opt )
+function options( params )
 {
 	var options = { };
 	
-	var blur = (opt.blur??10)/100,
-		balance = (opt.balance??50)/100;
+	var blur = (params.blur??10)/100,
+		balance = (params.balance??50)/100;
 
-	options.size = 2**(-((opt.size??50)-100)/50 * 3 - 1);
-	options.density = 10 + 50 * (opt.density??20)/100;
+	options.scale = 2**(-((params.scale??50)-100)/50 * 3 - 1);
+	options.density = 10 + 50 * (params.density??20)/100;
 		
 	options.minSmooth = balance - blur - 0.01;
 	options.maxSmooth = balance + blur + 0.01;
 	
-	options.color = new Color( opt.color ?? 0xffffff );
-	options.backgroundColor = new Color( opt.backgroundColor ?? 0x000000 );
+	options.color = new Color( params.color ?? 0xffffff );
+	options.backgroundColor = new Color( params.backgroundColor ?? 0x000000 );
+
+	options.width = params.width ?? 1024;
+	options.height = params.height ?? 512;
 	
 	return options;
 }
 	
 
 
-function share( opt )
+function share( params )
 {
-	var params = [];
+	var url = [];
 	
-	params.push( `a=${opt.balance}` );
-	params.push( `b=${opt.blur}` );
-	params.push( `d=${opt.density}` );
-	params.push( `c=${opt.color}` );
-	params.push( `k=${opt.backgroundColor}` );
-	params.push( `r=${opt.resolution}` );
-	params.push( `s=${opt.size}` );
+	url.push( `w=${params.width}` );
+	url.push( `h=${params.height}` );
+
+	url.push( `s=${params.scale}` );
+	url.push( `b=${params.blur}` );
+	url.push( `d=${params.density}` );
+	url.push( `a=${params.balance}` );
+
+	url.push( `c=${params.color}` );
+	url.push( `k=${params.backgroundColor}` );
 	
-	params = params.join( '&' );
-	
-	return window.location.href.split('?')[0].split('#')[0] + '?' + params;
+	return url.join( '&' );
 }
 
 
 
-var info = {
-		name: 'Isolines',
-		info: 'Designed for .map properties',
-		lightIntensity: 4,
-	};
+function texture( opt )
+{
+	return equitexture( pattern, options(opt) )
+}
 
 
 
-export { pattern, options, share, info };
+var info = { name: 'Isolines', lightIntensity: 4 };
+
+
+
+export { pattern, options, share, info, texture, equimaterial as fix };
