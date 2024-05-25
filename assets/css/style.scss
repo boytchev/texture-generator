@@ -119,6 +119,7 @@ span.figure img {
 }
 
 .gallery {
+	display: block;
 	text-align: center;
 }
 
@@ -134,8 +135,8 @@ span.figure img {
 }
 
 .style-block .nocaption {
-	height: 10em;
-	padding: 1em;
+	height: 10em !important;
+	padding: 1em !important;
 }
 
 .style-block img {

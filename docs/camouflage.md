@@ -12,7 +12,7 @@ military clothes and vehicles. It overlaps four-color spots.
 The generated texture is intended for color maps. Click on
 an snapshot to open it online.
 
-<div class="gallery">
+<span class="gallery">
 
 	<a class="style-block nocaption" href="../online/camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=0&h=512&w=1024&s=50&t=0&u=0">
 		<img src="images/camouflage-1.png">
@@ -26,7 +26,7 @@ an snapshot to open it online.
 		<img src="images/camouflage-3.png">
 	</a>
 
-</div>
+</span>
 
 
 ### Code example
