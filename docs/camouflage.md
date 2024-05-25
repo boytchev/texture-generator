@@ -9,15 +9,22 @@
 
 This texture immitates the design of camouflage patters in
 military clothes and vehicles. It overlaps four-color spots.
-Click on an snapshot to open it online.
+The generated texture is intended for color maps. Click on
+an snapshot to open it online.
 
 <div class="gallery">
 
-	<a href="../online/camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=0&h=512&w=1024&s=50&t=0&u=0"><img src="images/camouflage-1.png"></a>
+	<a class="style-block" href="../online/camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=0&h=512&w=1024&s=50&t=0&u=0">
+		<img src="images/camouflage-1.png">
+	</a>
 
-	<a href="../online//camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=22&h=512&w=1024&s=73&t=4&u=194"><img src="images/camouflage-2.png"></a>
+	<a class="style-block" href="../online//camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=22&h=512&w=1024&s=73&t=4&u=194">
+		<img src="images/camouflage-2.png">
+	</a>
 
-	<a href="../online/camouflage.html?a=16776960&b=0&c=16187392&d=5234974&g=-18&h=512&w=1024&s=11&t=-2&u=0"><img src="images/camouflage-3.png"></a>
+	<a class="style-block" href="../online/camouflage.html?a=16776960&b=0&c=16187392&d=5234974&g=-18&h=512&w=1024&s=11&t=-2&u=0">
+		<img src="images/camouflage-3.png">
+	</a>
 
 </div>
 
@@ -48,10 +55,10 @@ model.material = fix( material );
 
 ### URL example
 
-Code template of default parameters passed in the URL of the online texture generator.
+Code template of default parameters for the [online generator]](../online/camouflage.html).
 
 ```php
-...camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&w=512&h=256&s=50&u=0&t=0&g=0
+...?a=12762792&b=10258782&c=9610101&d=7435617&w=512&h=256&s=50&u=0&t=0&g=0
 ```
 
 ### Parameters
@@ -72,6 +79,11 @@ Description of parameters and their URL names.
 
 ### API
 
+All texture modules share the same API. Note that *parameters*
+are the user-friendly set pattern characteristics, while
+*options* are the calculation-friendly version of the same
+characteristics, used internally by `pattern`.
+
 * `pattern( x, y, z, color, options )` &ndash; pattern implementation
 * `texture( params )` &ndash; generates a texture with given parameters
 * `options( params )` &ndash; converts parameters into internal options
@@ -79,9 +91,6 @@ Description of parameters and their URL names.
 * `info` &ndash; general info for the generator, contains its `name`
 * `fix( ... )` &ndash; reexport from core's equimaterial
 
-Note: *parameters* are the user-friendly set pattern characteristics,
-while *options* are the calculation-friendly characteristics,
-used internally by `pattern`.
 
 ### Online generator
 
