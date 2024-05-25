@@ -2,58 +2,71 @@
 //	Procedural Equirectangular Textures
 //	Concrete Pattern
 //
-//	pattern( ... )	- implements concrete pattern
-//	options( opt )	- converts options into internal format
-//	share( opt )	- converts options into URL
-//	info			- general info for the generator
+//	pattern( ... )		- implements the pattern
+//	texture( params )	- generate a texture with options
+//	options( params )	- converts options into internal format
+//	share( opt )		- converts options into URL
+//	info				- general info for the generator
+//	fix( ... )			- reexport from core
 
 
 
-import { noise } from "../noise.js";
+
+import { noise, equitexture, equimaterial } from "pet/texture-generator.js";
 
 
 
-function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
+function pattern( x, y, z, color, options, u, v, px, py )
 {
-	var k = noise( options.size*x, options.size*y, options.size*z );
+	var k = noise( options.scale*x, options.scale*y, options.scale*z );
 		
-	color.setHSL( 0, 0, options.height*(0.5+0.5*k) );
+	color.setHSL( 0, 0, options.bump*(0.5+0.5*k)**options.density );
 }
 
 
 
-function options( opt )
+function options( params )
 {
 	var options = { };
 		
-	options.size = 2**(-((opt.size??50)-100)/50 * 4 + 1);
-	options.height = (opt.height??100)/100;
+	options.scale = 2**(6.5-4*(params.scale??100)/100);
+	
+	options.density = 10-10*((params.density??100)/100*0.9)**0.5;
+	options.bump = (params.bump??100)/100;
+
+	options.width = params.width ?? 512;
+	options.height = params.height ?? 256;
 
 	return options;
 }
 	
 
 
-function share( opt )
+function share( params )
 {
-	var params = [];
+	var url = [];
 	
-	params.push( `h=${opt.height}` );
-	params.push( `r=${opt.resolution}` );
-	params.push( `s=${opt.size}` );
+	url.push( `h=${params.height}` );
+	url.push( `w=${params.width}` );
 
-	params = params.join( '&' );
-	return window.location.href.split('?')[0].split('#')[0] + '?' + params;
+	url.push( `s=${params.scale}` );
+	url.push( `d=${params.density}` );
+	url.push( `b=${params.bump}` );
+	
+	return url.join( '&' );
 }
 
 
 
-var info = {
-		name: 'Concrete',
-		info: 'Designed for .bumpMap properties',
-		lightIntensity: 3,
-	};
+function texture( opt )
+{
+	return equitexture( pattern, options(opt) )
+}
 
 
 
-export { pattern, options, share, info };
+var info = { name: 'Concrete', lightIntensity: 3 };
+
+
+
+export { pattern, options, share, info, texture, equimaterial as fix };

@@ -48,7 +48,10 @@ var light = new THREE.PointLight( 'white', 4 );
 var canvas = document.createElement( 'canvas' );
 
 var model = new THREE.Mesh(
-		new THREE.SphereGeometry( 1, 64, 32 ),
+		new THREE.SphereGeometry( 1, 64, 64 ),
+//		new THREE.SphereGeometry( 1, 6, 3 ),
+//		new THREE.DodecahedronGeometry( 1, 1 ),
+//		new THREE.IcosahedronGeometry( 1, 40 ),
 		new THREE.MeshLambertMaterial( )
 	);
 
@@ -98,7 +101,7 @@ function installGui( info, shareFunction, mapName )
 	
 	var title = `<big><em>${info.name}</em> generator</big>
 			<small class="fullline">
-				<a class="link" href="./index.html"><!--span>&#x2B9C</span-->More</a> &middot;
+				<a class="link" href="#" onclick="window.history.back(); return false;"><span>&#x2B9C</span>Back</a> &middot;
 				<span id="share" class="link">Share<!-- &#x1F517;--></span> &middot;
 				<span id="download" class="link">Download<!-- &#x2B73;--></span> &middot;
 				<span id="light" class="link">Light<!-- &#x263C--></span>
@@ -147,7 +150,9 @@ function shareURL( event )
 {
 	event.stopPropagation();
 	
-	navigator.clipboard.writeText( share() );
+	var url = window.location.href.split('?')[0].split('#')[0] + '?' + share();
+	
+	navigator.clipboard.writeText( url );
 	
 	alert( `URL for this ${filename} copied to the clipboard.` );
 }

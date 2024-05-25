@@ -25,8 +25,8 @@ features strange deformations of shapes.
 
 
 <div class="figures">
-	<span class="figure">Normal texture<br><img src="texture-normal.jpg"></span>
-	<span class="figure">Equirectangular texture<br><img src="texture-equirectangular.jpg"></span>
+	<span class="figure">Normal texture<br><img src="images/texture-normal.jpg"></span>
+	<span class="figure">Equirectangular texture<br><img src="images/texture-equirectangular.jpg"></span>
 </div>
 
 	
@@ -39,8 +39,8 @@ generates equirectangular textures.
 
 
 <div class="figures">
-	<span class="figure">Normal texture on sphere<br><img src="texture-normal-sphere.jpg"></span>
-	<span class="figure">Equirectangular texture on sphere<br><img src="texture-equirectangular-sphere.jpg"></span>
+	<span class="figure">Normal texture on sphere<br><img src="images/texture-normal-sphere.jpg"></span>
+	<span class="figure">Equirectangular texture on sphere<br><img src="images/texture-equirectangular-sphere.jpg"></span>
 </div>
 	
 
@@ -58,8 +58,8 @@ a low-poly geometry.
 
 
 <div class="figures">
-	<span class="figure">Low-poly texture distortion<br><img src="texture-low-poly-distortion.jpg"></span>
-	<span class="figure">Low-poly shader fix<br><img src="texture-low-poly-fixed.jpg"></span>
+	<span class="figure">Low-poly texture distortion<br><img src="images/texture-low-poly-distortion.jpg"></span>
+	<span class="figure">Low-poly shader fix<br><img src="images/texture-low-poly-fixed.jpg"></span>
 </div>
 	
 
@@ -71,7 +71,7 @@ dodecahedron.
 
 <div class="figures">
 	<span class="figure" style="width:70%">Extreme low-poly distortion fixed
-by shader<br><img src="texture-low-poly-distortion-2.jpg"></span>
+by shader<br><img src="images/texture-low-poly-distortion-2.jpg"></span>
 </div>
 
 

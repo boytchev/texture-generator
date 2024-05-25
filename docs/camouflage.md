@@ -37,16 +37,16 @@ Code template of parameters with their default values.
 import { texture, fix } from "pet/patterns/camouflage.js";
 :
 params = {
+	width: 512,
+	height: 256,
+	scale: 50,
 	colorA: 0xc2bea8,
 	colorB: 0x9c895e,
 	colorC: 0x92a375,
 	colorD: 0x717561,
-	width: 1024,
-	height: 512
-	scale: 50,
 	hue: 0,
 	saturation: 0,
-	brightness: 0,
+	brightness: 0
 };
 
 model.material.map = texture( params );
@@ -58,20 +58,20 @@ model.material = fix( material );
 Code template of default parameters for the [online generator](../online/camouflage.html).
 
 ```php
-...?a=12762792&b=10258782&c=9610101&d=7435617&w=512&h=256&s=50&u=0&t=0&g=0
+?w=512&h=256&s=50&a=12762792&b=10258782&c=9610101&d=7435617&u=0&t=0&g=0
 ```
 
 ### Parameters
 
 Description of parameters and their URL names.
 
+* `width` (`w`) &ndash; texture width in pixels (integer)
+* `height` (`h`) &ndash; texture height in pixels (integer)
+* `scale` (`s`) &ndash; pattern size (number &#x2208; [0,100])
 * `colorA` (`a`) &ndash; top color (integer)
 * `colorB` (`b`) &ndash; second color (integer)
 * `colorC` (`c`) &ndash; third color (integer)
 * `colorD` (`d`) &ndash; bottom color (integer)
-* `width` (`w`) &ndash; texture width in pixels (integer)
-* `height` (`h`) &ndash; texture height in pixels (integer)
-* `scale` (`s`) &ndash; pattern size (number &#x2208; [0,100])
 * `hue` (`u`) &ndash; hue shift (number &#x2208; [-360,360])
 * `saturation` (`t`) &ndash; saturation shift (number &#x2208; [-100,100])
 * `brightness` (`g`) &ndash; brightness shift (number &#x2208; [-100,100])

@@ -104,7 +104,7 @@ function batchReplace( string, from, to, name )
 	
 // patches material's shaders
 function equimaterial( material )
-{
+{	
 	var map = material.map?.mapping == EquirectangularReflectionMapping;
 	var bumpMap = material.bumpMap?.mapping == EquirectangularReflectionMapping;
 	var aoMap = material.aoMap?.mapping == EquirectangularReflectionMapping;

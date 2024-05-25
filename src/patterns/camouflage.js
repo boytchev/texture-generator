@@ -5,9 +5,9 @@
 //	pattern( ... )		- implements the pattern
 //	texture( params )	- generate a texture with options
 //	options( params )	- converts options into internal format
-//	share( opt )	- converts options into URL
-//	info			- general info for the generator
-//	fix( ... )		- reexport from core
+//	share( opt )		- converts options into URL
+//	info				- general info for the generator
+//	fix( ... )			- reexport from core
 
 
 
@@ -38,46 +38,48 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ )
 
 
 
-function options( opt )
+function options( params )
 {
 	var options = { };
 		
-	options.colorA = new Color( opt.colorA ?? 0xc2bea8 );
-	options.colorB = new Color( opt.colorB ?? 0x9c895e );
-	options.colorC = new Color( opt.colorC ?? 0x92a375 );
-	options.colorD = new Color( opt.colorD ?? 0x717561 );
+	options.colorA = new Color( params.colorA ?? 0xc2bea8 );
+	options.colorB = new Color( params.colorB ?? 0x9c895e );
+	options.colorC = new Color( params.colorC ?? 0x92a375 );
+	options.colorD = new Color( params.colorD ?? 0x717561 );
 
-	options.scale = 2**(-((opt.scale??50)-100)/50 * 3 - 1);
+	options.scale = 2**(-((params.scale??50)-100)/50 * 3 - 1);
 	
-	options.hue = (opt.hue??0)/360;
-	options.saturation = (opt.saturation??0)/100;
-	options.brightness = (opt.brightness??0)/100;
+	options.hue = (params.hue??0)/360;
+	options.saturation = (params.saturation??0)/100;
+	options.brightness = (params.brightness??0)/100;
 
-	options.width = opt.width ?? 512;
-	options.height = opt.height ?? 256;
+	options.width = params.width ?? 512;
+	options.height = params.height ?? 256;
 	
 	return options;
 }
 	
 
 
-function share( opt )
+function share( params )
 {
-	var params = [];
+	var url = [];
 	
-	params.push( `a=${opt.colorA}` );
-	params.push( `b=${opt.colorB}` );
-	params.push( `c=${opt.colorC}` );
-	params.push( `d=${opt.colorD}` );
-	params.push( `g=${opt.brightness}` );
-	params.push( `h=${opt.height}` );
-	params.push( `w=${opt.width}` );
-	params.push( `s=${opt.scale}` );
-	params.push( `t=${opt.saturation}` );
-	params.push( `u=${opt.hue}` );
+	url.push( `h=${params.height}` );
+	url.push( `w=${params.width}` );
 
-	params = params.join( '&' );
-	return window.location.href.split('?')[0].split('#')[0] + '?' + params;
+	url.push( `s=${params.scale}` );
+
+	url.push( `a=${params.colorA}` );
+	url.push( `b=${params.colorB}` );
+	url.push( `c=${params.colorC}` );
+	url.push( `d=${params.colorD}` );
+	
+	url.push( `u=${params.hue}` );
+	url.push( `t=${params.saturation}` );
+	url.push( `g=${params.brightness}` );
+
+	return url.join( '&' );
 }
 
 

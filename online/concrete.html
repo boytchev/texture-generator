@@ -33,40 +33,49 @@
 
 
 		var guiOptions = {
-				size: urlOptions.s ?? 50,
-				height: urlOptions.h ?? 100,
-				resolution: urlOptions.r ?? 9, // 512x256
+				width: urlOptions.w ?? 512,
+				height: urlOptions.h ?? 256,
+				scale: urlOptions.s ?? 50,
+				density: urlOptions.d ?? 100,
+				bump: urlOptions.b ?? 100,
 			};
 
 		var gui = installGui( info, ()=>share(guiOptions), 'bumpMap' );
 		
 
-		gui.add( guiOptions, 'resolution', {'256 x 128':8, '512 x 256':9, '1024 x 512':10, '2048 x 1024':11, '4096 x 2048':12, '8192 x 4096':13} )
+		gui.add( guiOptions, 'width', {'256 x 128':256, '512 x 256':512, '1024 x 512':1024, '2048 x 1024':2048, '4096 x 2048':4096, '8192 x 4096':8192} )
 			.name( 'Resolution',  )
 			.onChange( onChange );
 			
-		gui.add( guiOptions, 'size' )
-			.name( 'Size' ).min(0).max(100).step(1)
+		gui.add( guiOptions, 'scale' )
+			.name( 'Bumps<right>scale</right>' ).min(0).max(100).step(1)
+			.onChange( onChange )
+			.$input.classList.add('top');
+			
+		gui.add( guiOptions, 'density' )
+			.name( '<right>Density</right>' ).min(0).max(100).step(1)
 			.onChange( onChange );
 			
-		gui.add( guiOptions, 'height' )
-			.name( 'Height' ).min(0).max(100).step(1)
-			.onChange( onChange );
+		gui.add( guiOptions, 'bump' )
+			.name( '<right>bumpiness</right>' ).min(0).max(100).step(1)
+			.onChange( onChange )
+			.$input.classList.add('bottom');
 			
-
-
+		
 		function onChange( event )
 		{
-			model.material.bumpMap = equimaterial( equitexture(
+			guiOptions.height = guiOptions.width/2;
+
+			model.material.bumpMap = equitexture(
 					pattern,
-					2<<guiOptions.resolution,
 					canvas,
 					true,
 					options( guiOptions )
-			) );
+			);
 		}
 
 		onChange( );
+		model.material = equimaterial( model.material );
 
 	</script>
 </body>

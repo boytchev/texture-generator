@@ -33,13 +33,13 @@
 
 
 		var guiOptions = {
+				width: urlOptions.w ?? 512,
+				height: urlOptions.h ?? 256,
+				scale: urlOptions.s ?? 50,
 				colorA: urlOptions.a ?? 0xc2bea8,
 				colorB: urlOptions.b ?? 0x9c895e,
 				colorC: urlOptions.c ?? 0x92a375,
 				colorD: urlOptions.d ?? 0x717561,
-				width: urlOptions.w ?? 512,
-				height: urlOptions.h ?? 256,
-				scale: urlOptions.s ?? 50,
 				hue: urlOptions.u ?? 0,
 				saturation: urlOptions.t ?? 0,
 				brightness: urlOptions.g ?? 0,
@@ -89,9 +89,6 @@
 			.$input.classList.add('bottom');
 			
 			
-
-		model.material = equimaterial( model.material );
-		
 		function onChange( event )
 		{
 			guiOptions.height = guiOptions.width/2;
@@ -105,6 +102,7 @@
 		}
 
 		onChange( );
+		model.material = equimaterial( model.material );
 
 	</script>
 </body>
