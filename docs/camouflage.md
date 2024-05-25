@@ -14,15 +14,15 @@ an snapshot to open it online.
 
 <div class="gallery">
 
-	<a class="style-block" href="../online/camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=0&h=512&w=1024&s=50&t=0&u=0">
+	<a class="style-block nocaption" href="../online/camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=0&h=512&w=1024&s=50&t=0&u=0">
 		<img src="images/camouflage-1.png">
 	</a>
 
-	<a class="style-block" href="../online//camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=22&h=512&w=1024&s=73&t=4&u=194">
+	<a class="style-block nocaption" href="../online//camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=22&h=512&w=1024&s=73&t=4&u=194">
 		<img src="images/camouflage-2.png">
 	</a>
 
-	<a class="style-block" href="../online/camouflage.html?a=16776960&b=0&c=16187392&d=5234974&g=-18&h=512&w=1024&s=11&t=-2&u=0">
+	<a class="style-block nocaption" href="../online/camouflage.html?a=16776960&b=0&c=16187392&d=5234974&g=-18&h=512&w=1024&s=11&t=-2&u=0">
 		<img src="images/camouflage-3.png">
 	</a>
 
@@ -55,7 +55,7 @@ model.material = fix( material );
 
 ### URL example
 
-Code template of default parameters for the [online generator]](../online/camouflage.html).
+Code template of default parameters for the [online generator](../online/camouflage.html).
 
 ```php
 ...?a=12762792&b=10258782&c=9610101&d=7435617&w=512&h=256&s=50&u=0&t=0&g=0
