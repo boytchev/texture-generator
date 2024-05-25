@@ -68,6 +68,16 @@ function equicanvas( ...args ) // number, number, canvas, function, object
 			console.warn( `Ignored parameter '${param}'. The parameters of generate(...) are two numbers, a canvas, a pattern function (in any order) and options object.` );
 	}
 
+	if( width==undefined && Number.isFinite(options.width) )
+	{
+		width = Math.round( options.width );
+	}
+	
+	if( height==undefined && Number.isFinite(options.height) )
+	{
+		height = Math.round( options.height );
+	}
+	
 	if( Number.isFinite(width) && height==undefined )
 	{
 		height = Math.round( width/2 );
@@ -207,7 +217,6 @@ function equitexture( ...args )
 	return texture;
 	
 } // equitexture
-
 
 
 export { equicanvas, equitexture };

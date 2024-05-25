@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+
+
+<!-- A minimal demo of using a procedural equirectangular -->
+<!-- texture generator (in this case it is "template.js") -->
+
+
+<html>
+
+	<head>
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+		<link rel="shortcut icon" type="image/png" href="logo.png"/>
+		<link rel="stylesheet" href="styles.css">
+
+		<script type="importmap">
+		  {
+			"imports": {
+			  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
+			  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/",
+			  "pet/": "../src/"
+			}
+		  }
+		</script>
+	</head>
+
+
+	<body>
+		
+		<script type="module">
+
+			import * as THREE from "three";
+			import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+			
+			// import of a generator of a procedural equirectangular texture (pet)
+			import { texture, fix } from "pet/patterns/template.js";
+
+
+			// setting up the scene
+
+			var scene = new THREE.Scene();
+			
+			var camera = new THREE.PerspectiveCamera( 5, innerWidth/innerHeight );
+				camera.position.set( 0, 0, 30 );
+
+			var renderer = new THREE.WebGLRenderer( {antialias: true} );
+				renderer.setSize( innerWidth, innerHeight );
+				renderer.setAnimationLoop( animationLoop );
+				document.body.appendChild( renderer.domElement );
+				
+			var controls = new OrbitControls( camera, renderer.domElement );
+
+			function animationLoop( t )
+			{
+				renderer.render( scene, camera );
+			}
+
+
+			// defining a model with equirectangular texture
+			
+			var map = texture( {size:5, width:512} );
+			
+			var model = new THREE.Mesh(
+					new THREE.SphereGeometry( 1 ),
+					fix( new THREE.MeshBasicMaterial( {map:map} ) )
+				);
+
+			scene.add( model );
+
+		</script>
+	</body>
+</html>

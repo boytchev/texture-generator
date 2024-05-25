@@ -21,9 +21,8 @@ All pattern generators share the same API.
 
 
 ## Camouflage
-<img src="images/camouflage.jpg" onclick=" document.getElementById('i_camouflage').style.display = document.getElementById('i_camouflage').style.display=='none'?'block':'none'" >
+<img src="images/camouflage.jpg">
 
-<span id="i_camouflage">
 
 <!--#### Examples:-->
 
@@ -70,7 +69,6 @@ options = {
 }
 ```
 -->
-</span>
 
 
 

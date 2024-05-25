@@ -101,7 +101,6 @@ pattern( x,y,z, color )
 pattern( x,y,z, color, options )
 pattern( x,y,z, color, options, u,v )
 pattern( x,y,z, color, options, u,v, px,py )
-pattern( x,y,z, color, options, u,v, px,py, width,height )
 ```
 
 where:
@@ -113,7 +112,7 @@ An additional property *a* &#x2208; [0,1] could be set for encoding alpha transp
 * `options` &ndash; object; contains customization parameters of the pattern function. 
 * `u`,`v` &ndash; floats; texture coordiates of a pixel on the texture, *u,v* &#x2208; [0,1].
 * `px`,`py` &ndash; integers; coordiates of a pixel in the texture, *px* &#x2208; [0,width-1], *py* &#x2208; [0,height-1].
-* `width`,`height` &ndash; integers; size of the texture in pixels.
+<!--* `width`,`height` &ndash; integers; size of the texture in pixels.-->
 
 
 ## Deferred textures

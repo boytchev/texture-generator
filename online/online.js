@@ -19,12 +19,23 @@ var renderer = new THREE.WebGLRenderer( {antialias: true} );
 	renderer.toneMapping = THREE.LinearToneMapping;
 	document.body.appendChild( renderer.domElement );
 			
-window.addEventListener( "resize", (event) => {
-	camera.aspect = innerWidth/innerHeight;
+window.addEventListener( "resize", onResize );
+		
+function onResize( event )
+{
+	// shift horizontally the image
+	// to comppensate for the GUI
+	
+	var offset = innerWidth>innerHeight ? (gui?.domElement.clientWidth??0) : 0;
+
+	camera.setViewOffset( innerWidth+offset, innerHeight, 0, 0, innerWidth, innerHeight);
+	camera.aspect = (innerWidth+offset)/innerHeight;
 	camera.updateProjectionMatrix( );
 	renderer.setSize( innerWidth, innerHeight );
-});
-		
+}
+
+
+
 var controls = new OrbitControls( camera, renderer.domElement );
 	controls.enableDamping = true;
 	//controls.autoRotate = true;
@@ -74,7 +85,8 @@ function animationLoop( t )
 
 var filename,
 	share,
-	map;
+	map,
+	gui;
 
 function installGui( info, shareFunction, mapName )
 {
@@ -86,21 +98,23 @@ function installGui( info, shareFunction, mapName )
 	
 	var title = `<big><em>${info.name}</em> generator</big>
 			<small class="fullline">
-				<span id="share" class="link">Share</span> &middot;
-				<span id="download" class="link">Download</span> &middot;
-				<span id="light" class="link">Light</span> &middot;
-				<a class="link" href="./">Back</a>
+				<a class="link" href="./index.html"><!--span>&#x2B9C</span-->More</a> &middot;
+				<span id="share" class="link">Share<!-- &#x1F517;--></span> &middot;
+				<span id="download" class="link">Download<!-- &#x2B73;--></span> &middot;
+				<span id="light" class="link">Light<!-- &#x263C--></span>
 			</small>`;
 					  
-	var gui = new lil.GUI({title: title});
-		gui.$title.style.marginBottom = "12em";
-		gui.domElement.children[0].appendChild( canvas );
+	gui = new lil.GUI({title: title});
+	gui.$title.style.marginBottom = "12em";
+	gui.domElement.children[0].appendChild( canvas );
 
 		
 	document.getElementById( 'light' ).addEventListener( 'click', toggleBackground );
 	document.getElementById( 'download' ).addEventListener( 'click', downloadTexture );
 	document.getElementById( 'share' ).addEventListener( 'click', shareURL );
 
+	onResize( );
+	
 	return gui.addFolder( '<big>Options</big>' );
 }
 
@@ -148,5 +162,9 @@ for( var [key, value] of urlParameters.entries() )
 {
 	urlOptions[key] = parseFloat(value);
 }
+
+
+onResize( );
+
 
 export { model, canvas, installGui, urlOptions };

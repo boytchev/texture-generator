@@ -37,9 +37,10 @@
 				colorB: urlOptions.b ?? 0x9c895e,
 				colorC: urlOptions.c ?? 0x92a375,
 				colorD: urlOptions.d ?? 0x717561,
-				resolution: urlOptions.r ?? 9, // 512x256
-				size: urlOptions.s ?? 50,
-				hue: urlOptions.h ?? 0,
+				width: urlOptions.w ?? 512,
+				height: urlOptions.h ?? 256,
+				scale: urlOptions.s ?? 50,
+				hue: urlOptions.u ?? 0,
 				saturation: urlOptions.t ?? 0,
 				brightness: urlOptions.g ?? 0,
 			};
@@ -47,29 +48,36 @@
 		var gui = installGui( info, ()=>share(guiOptions), 'map' );
 		
 
-		gui.add( guiOptions, 'resolution', {'256 x 128':8, '512 x 256':9, '1024 x 512':10, '2048 x 1024':11, '4096 x 2048':12, '8192 x 4096':13} )
+		gui.add( guiOptions, 'width', {'256 x 128':256, '512 x 256':512, '1024 x 512':1024, '2048 x 1024':2048, '4096 x 2048':4096, '8192 x 4096':8192} )
 			.name( 'Resolution',  )
 			.onChange( onChange );
 			
-		gui.addColor( guiOptions, 'colorA' )
-			.name( 'Colors <right>A</right>' )
+		gui.add( guiOptions, 'scale' )
+			.name( 'Scale' ).min(0).max(100).step(1)
 			.onChange( onChange );
 			
+		gui.addColor( guiOptions, 'colorA' )
+			.name( 'Colors' )
+			.onChange( onChange )
+			.$text.classList.add('top');
+			
 		gui.addColor( guiOptions, 'colorB' )
-			.name( '<right>B</right>' )
+			.name( '' )
 			.onChange( onChange );
 			
 		gui.addColor( guiOptions, 'colorC' )
-			.name( '<right>C</right>' )
+			.name( '' )
 			.onChange( onChange );
 			
 		gui.addColor( guiOptions, 'colorD' )
-			.name( '<right>D</right>' )
-			.onChange( onChange );
+			.name( '' )
+			.onChange( onChange )
+			.$text.classList.add('bottom');
 			
 		gui.add( guiOptions, 'hue' )
-			.name( 'Tone <right>hue</right>' ).min(-360).max(360).step(1)
-			.onChange( onChange );
+			.name( 'Toning <right>hue</right>' ).min(-360).max(360).step(1)
+			.onChange( onChange )
+			.$input.classList.add('top');
 			
 		gui.add( guiOptions, 'saturation' )
 			.name( '<right>saturation</right>' ).min(-100).max(100).step(1)
@@ -77,23 +85,23 @@
 			
 		gui.add( guiOptions, 'brightness' )
 			.name( '<right>brightness</right>' ).min(-100).max(100).step(1)
-			.onChange( onChange );
+			.onChange( onChange )
+			.$input.classList.add('bottom');
 			
-		gui.add( guiOptions, 'size' )
-			.name( 'Details' ).min(0).max(100).step(1)
-			.onChange( onChange );
 			
 
-
+		model.material = equimaterial( model.material );
+		
 		function onChange( event )
 		{
-			model.material.map = equimaterial( equitexture(
+			guiOptions.height = guiOptions.width/2;
+			
+			model.material.map = equitexture(
 					pattern,
-					2<<guiOptions.resolution,
 					canvas,
 					true,
 					options( guiOptions )
-			) );
+			);
 		}
 
 		onChange( );

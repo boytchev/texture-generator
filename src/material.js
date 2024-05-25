@@ -1,7 +1,7 @@
 ﻿
 //	Equirectangular Texture Generator - Material Patcher
 //
-//	equimaterial( material )	- patches material's shaders
+//	fix( material )	- patches material's shaders
 
 
 import { EquirectangularReflectionMapping, MathUtils } from "three";
