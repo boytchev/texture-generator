@@ -4,19 +4,25 @@
 # Procedural Equirectangular Textures
 
 
-### Camouflage
+## Camouflage
 <img src="images/camouflage.jpg">
 
 This texture immitates the design of camouflage patters in
 military clothes and vehicles. It overlaps four-color spots.
 Click on an snapshot to open it online.
 
+<div class="gallery">
 
-[<img src="images/camouflage-1.png">](../online/camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=0&h=512&w=1024&s=50&t=0&u=0)  [<img src="images/camouflage-2.png">](../online//camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=22&h=512&w=1024&s=73&t=4&u=194) [<img src="images/camouflage-3.png">](../online/camouflage.html?a=16776960&b=0&c=16187392&d=5234974&g=-18&h=512&w=1024&s=11&t=-2&u=0) 
+	<a href="../online/camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=0&h=512&w=1024&s=50&t=0&u=0"><img src="images/camouflage-1.png"></a>
+
+	<a href="../online//camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=22&h=512&w=1024&s=73&t=4&u=194"><img src="images/camouflage-2.png"></a>
+
+	<a href="../online/camouflage.html?a=16776960&b=0&c=16187392&d=5234974&g=-18&h=512&w=1024&s=11&t=-2&u=0"><img src="images/camouflage-3.png"></a>
+
+</div>
 
 
-
-### Code example
+## Code example
 
 Code template of parameters with their default values.
 
@@ -40,7 +46,7 @@ model.material.map = texture( params );
 model.material = fix( material );
 ```
 
-### URL example
+## URL example
 
 Code template of default parameters passed in the URL of the online texture generator.
 
@@ -48,7 +54,7 @@ Code template of default parameters passed in the URL of the online texture gene
 ...camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&w=512&h=256&s=50&u=0&t=0&g=0
 ```
 
-### Parameters
+## Parameters
 
 Description of parameters and their URL names.
 
@@ -64,7 +70,7 @@ Description of parameters and their URL names.
 * `brightness` (`g`) &ndash; brightness shift (number &#x2208; [-100,100])
 
 
-### API
+## API
 
 * `pattern( x, y, z, color, options )` &ndash; pattern implementation
 * `texture( params )` &ndash; generates a texture with given parameters
@@ -77,11 +83,11 @@ Note: *parameters* are the user-friendly set pattern characteristics,
 while *options* are the calculation-friendly characteristics,
 used internally by `pattern`.
 
-### Online generator
+## Online generator
 
 [online/camouflage.html](../online/camouflage.html)
 
-### Source
+## Source
 
 [src/patterns/camouflage.js](https://github.com/boytchev/texture-generator/blob/main/src/patterns/camouflage.js)
 
