@@ -5,36 +5,6 @@ The pattern generators are individual JS modules that generate specific equirect
 textures. They are the backbones of the [online generators](../online/index.md).
 All pattern generators share the same API.
 
-?b=50&c=16777215&k=0&r=9&s=52
-?b=78&c=16766208&k=0&r=9&s=57
-?b=44&c=13893887&k=11592439&r=9&s=86
-
-#### Options:
-
-* `color` (`c`) &ndash; integer; the color of simplex-noise
-* `backgroundColor` (`k`) &ndash; integer; the color of background
-* `resolution` (`r`) &ndash; integer; the resolution of the texture is 2<sup>r</sup>&times;2<sup>r-1</sup>
-* `size` (`s`) &ndash; number; the visual size of the pattern &#x2208; [0,100]
-* `balance` (`a`) &ndash; number; balance of foreground and background colors &#x2208; [0,100]
-
-#### Defaults:
-
-```js
-options = {
-	color: 0xffffff,
-	backgroundColor: 0x000000,
-	resolution: 9, // 512x256
-	size: 30,
-	balance: 50,
-}
-```
-
-
-
-
-
-
-
 ## Stars
 <img src="images/stars.jpg">
 

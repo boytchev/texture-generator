@@ -2,84 +2,107 @@
 //	Procedural Equirectangular Textures
 //	Stars Pattern
 //
-//	pattern( ... )	- implements Stars pattern
-//	options( opt )	- converts options into internal format
-//	share( opt )	- converts options into URL
-//	info			- general info for the generator
+//	pattern( ... )		- implements the pattern
+//	texture( params )	- generate a texture with options
+//	options( params )	- converts options into internal format
+//	share( opt )		- converts options into URL
+//	info				- general info for the generator
+//	fix( ... )			- reexport from core
 
 
 
-import { Color } from "three";
-import { noise } from "../noise.js";
+import { Vector3,Color,MathUtils } from "three";
+import { noise, equitexture, equimaterial } from "pet/texture-generator.js";
 
 
 
-function pattern( x, y, z, color, options, u, v, px, py, width, height )
+var pts = [];
+var n = 6000;
+for( var i=0; i<n; i++)
+{
+	pts.push( new Vector3().randomDirection() );
+}
+
+var vec = new Vector3();
+
+function pattern( x, y, z, color, options, u, v, px, py )
 {
 	var s = 0,
-		eps = 0.2,
-		H = 0.2*width;
-	
+		H = options.width/25,
+		eps = 0.15;
+
 	x *= H;
 	y *= H;
 	z *= H;
 
 	var k = noise( x, y, z );
-	if (k > noise( x+eps, y, z ))
-	if (k > noise( x-eps, y, z ))
-	if (k > noise( x, y+eps, z ))
-	if (k > noise( x, y-eps, z ))
-	if (k > noise( x, y, z+eps ))
-	if (k > noise( x, y, z-eps ))
+	var n = false;
+	for( var dx=-1; dx<=1; dx++ ) if( !n )
+	for( var dy=-1; dy<=1; dy++ ) if( !n )
+	for( var dz=-1; dz<=1; dz++ ) if( !n )
+		if( dx && dy && dz )
+		if (k < noise( x+dx*eps, y+dy*eps, z+dz*eps ))
+			n=true;
+		
+	if( !n )
 	{
-		s = options.brightness*(0.5+0.3*noise( y, z, x )+0.3*noise( z, x, y ))**options.density;
+		s = options.brightness*(0.6+0.3*noise( y/4, z/4, x/4 )+0.3*noise( z/2, x/2, y/2 ))**options.density;
 	}
-	
+
 	color.lerpColors( options.backgroundColor, options.color, s );
-	if( s > 0.1 ) color.offsetHSL( s*options.variation*k, 0, 0 );
+	
+	if( s > 0.1 ) color.offsetHSL( s*options.variation/*k*/, 0, 0 );
 }
 
 
 
-function options( opt )
+function options( params )
 {
 	var options = { };
 	
-	options.brightness = 0.5 + (opt.brightness ?? 50)/20;
-	options.density = 200/(1+(opt.density ?? 30));
-	options.variation = (opt.variation ?? 0)/100;
-	options.color = new Color( opt.color ?? 0xfff5f0 );
-	options.backgroundColor = new Color( opt.backgroundColor ?? 0x000060 );
+	options.brightness = 0.3 + (params.brightness ?? 20)/20;
+	options.density = 100/(0+(params.density ?? 20));
+	options.variation = (params.variation ?? 0)/100;
+	
+	options.color = new Color( params.color ?? 0xfff5f0 );
+	options.backgroundColor = new Color( params.backgroundColor ?? 0x000060 );
+	
+	options.width = params.width ?? 512;
+	options.height = params.height ?? 256;
 	
 	return options;
 }
 	
 
 
-function share( opt )
+function share( params )
 {
-	var params = [];
+	var url = [];
 	
-	params.push( `b=${opt.brightness}` );
-	params.push( `c=${opt.color}` );
-	params.push( `d=${opt.density}` );
-	params.push( `k=${opt.backgroundColor}` );
-	params.push( `r=${opt.resolution}` );
-	params.push( `v=${opt.variation}` );
+	url.push( `w=${params.width}` );
+	url.push( `h=${params.height}` );
+
+	url.push( `d=${params.density}` );
+	url.push( `b=${params.brightness}` );
+	url.push( `v=${params.variation}` );
+
+	url.push( `c=${params.color}` );
+	url.push( `k=${params.backgroundColor}` );
 	
-	params = params.join( '&' );
-	
-	return window.location.href.split('?')[0].split('#')[0] + '?' + params;
+	return url.join( '&' );
 }
 
 
 
-var info = {
-		name: 'Stars',
-		info: 'Designed for .map properties',
-		lightIntensity: 3,
-	};
+function texture( opt )
+{
+	return equitexture( pattern, options(opt) )
+}
 
 
 
-export { pattern, options, share, info };
+var info = {name: 'Stars', lightIntensity: 3};
+
+
+
+export { pattern, options, share, info, texture, equimaterial as fix };

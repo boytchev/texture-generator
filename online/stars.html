@@ -33,24 +33,28 @@
 
 
 		var guiOptions = {
+				width: urlOptions.w ?? 1024,
+				height: urlOptions.h ?? 512,
+				
+				density: urlOptions.d ?? 20,
+				brightness: urlOptions.b ?? 20,
+				variation: urlOptions.v ?? 0,
+
 				color: urlOptions.c ?? 0xfff5f0,
 				backgroundColor: urlOptions.k ?? 0x000060,
-				resolution: urlOptions.r ?? 9, // 512x256
-				density: urlOptions.d ?? 30,
-				brightness: urlOptions.b ?? 50,
-				variation: urlOptions.v ?? 0,
 			};
 			
 		var gui = installGui( info, ()=>share(guiOptions), 'map' );
 				
-		gui.add( guiOptions, 'resolution', {'256 x 128':8, '512 x 256':9, '1024 x 512':10, '2048 x 1024':11, '4096 x 2048':12, '8192 x 4096':13} )
+		gui.add( guiOptions, 'width', {'256 x 128':256, '512 x 256':512, '1024 x 512':1024, '2048 x 1024':2048, '4096 x 2048':4096, '8192 x 4096':8192} )
 			.name( 'Resolution',  )
 			.onChange( onChange );
 						
 		gui.add( guiOptions, 'density' )
 			.min(0).max(100).step(1)
 			.name( 'Stars <right>density</right>' )
-			.onChange( onChange );
+			.onChange( onChange )
+			.$input.classList.add('top');
 			
 		gui.add( guiOptions, 'brightness' )
 			.min(0).max(100).step(1)
@@ -60,11 +64,13 @@
 		gui.add( guiOptions, 'variation' )
 			.min(0).max(100).step(1)
 			.name( '<right>variation</right>' )
-			.onChange( onChange );
+			.onChange( onChange )
+			.$input.classList.add('bottom');
 			
 		gui.addColor( guiOptions, 'color' )
 			.name( 'Color <right>stars</right>' )
-			.onChange( onChange );
+			.onChange( onChange )
+			.$text.classList.add('top');
 			
 		gui.addColor( guiOptions, 'backgroundColor' )
 			.name( '<right>background</right>' )
@@ -75,17 +81,18 @@
 		
 		function onChange( event )
 		{			
-			model.material.map = equimaterial( equitexture(
+			guiOptions.height = guiOptions.width/2;
+
+			model.material.map = equitexture(
 					pattern,
-					2<<guiOptions.resolution,
 					canvas,
 					true,
 					options( guiOptions )
-			) );
+			);
 		}
 
 		onChange( );
-
+		model.material = equimaterial( model.material );
 		
 	</script>
 </body>

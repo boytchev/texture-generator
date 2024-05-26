@@ -138,7 +138,7 @@ function equicanvas( ...args ) // number, number, canvas, function, object
 					
 				vector.setFromSphericalCoords( 1, Math.PI*v, 2*Math.PI*u );
 			
-				pattern( vector.x, vector.y, vector.z, color, options, u, v, x, y, width, height );
+				pattern( vector.x, vector.y, vector.z, color, options, u, v, x, y );
 
 				data[index++] = 255*color.r;
 				data[index++] = 255*color.g;

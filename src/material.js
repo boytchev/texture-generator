@@ -81,7 +81,7 @@ const // another specific patch for аоMap in fragment shader
 // replace a group of strings as a transaction, i.e. either all replacements are done, or none is done
 function batchReplace( string, from, to, name )
 {
-	// check all patterns exist
+	// check weather all patterns exist
 	for( var i in from )
 	{
 		if( string.indexOf(from[i]) < 0 )

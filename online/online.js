@@ -51,7 +51,7 @@ var model = new THREE.Mesh(
 		new THREE.SphereGeometry( 1, 64, 64 ),
 //		new THREE.SphereGeometry( 1, 6, 3 ),
 //		new THREE.DodecahedronGeometry( 1, 1 ),
-//		new THREE.IcosahedronGeometry( 1, 40 ),
+//		new THREE.IcosahedronGeometry( 1, 10 ),
 		new THREE.MeshLambertMaterial( )
 	);
 
