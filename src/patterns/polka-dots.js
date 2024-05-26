@@ -1,5 +1,6 @@
 ﻿
 //	Procedural Equirectangular Textures
+//	Polka dots Pattern
 //
 //	pattern( ... )		- implements the pattern
 //	texture( params )	- generate a texture with options
@@ -118,7 +119,7 @@ layouts.sort( (a,b)=>a.points.length-b.points.length );
 
 var vec = new Vector3();
 
-function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
+function pattern( x, y, z, color, options, /*u, v, px, py*/ )
 {
 	vec.set( z, y, x );
 	

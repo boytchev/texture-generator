@@ -19,11 +19,11 @@ open it online.
 		<img src="images/stars-1.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/stars.html?w=1024&h=512&d=100&b=100&v=0&c=16774640&k=25343">
+	<a class="style-block nocaption" href="../online/stars.html?w=1024&h=512&d=100&b=30&v=0&c=16774640&k=25343">
 		<img src="images/stars-2.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/stars.html?w=1024&h=512&d=80&b=100&v=100&c=16733440&k=16777205">
+	<a class="style-block nocaption" href="../online/stars.html?w=1024&h=512&d=50&b=50&v=100&c=16733440&k=16777205">
 		<img src="images/stars-3.png">
 	</a>
 

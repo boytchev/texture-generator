@@ -47,7 +47,7 @@
 		var gui = installGui( info, ()=>share(guiOptions), 'map' );
 				
 		gui.add( guiOptions, 'width', {'256 x 128':256, '512 x 256':512, '1024 x 512':1024, '2048 x 1024':2048, '4096 x 2048':4096, '8192 x 4096':8192} )
-			.name( 'Resolution',  )
+			.name( 'Resolution' )
 			.onChange( onChange );
 			
 		gui.add( guiOptions, 'layout' )
