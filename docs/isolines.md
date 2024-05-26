@@ -10,7 +10,8 @@
 This texture renders looped concentric lines like
 [contour lines](https://en.wikipedia.org/wiki/Contour_line)
 found in topographic and meteorological maps. The generated
-texture is intended for color maps. Click on an snapshot to open it online.
+texture is intended for color maps. Click on a snapshot to
+open it online.
 
 <p class="gallery">
 

@@ -10,7 +10,7 @@
 This texture immitates the design of camouflage patters in
 military clothes and vehicles. It overlaps four-color spots.
 The generated texture is intended for color maps. Click on
-an snapshot to open it online.
+a snapshot to open it online.
 
 <p class="gallery">
 

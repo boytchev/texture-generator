@@ -1,16 +1,18 @@
 ﻿
 //	Procedural Equirectangular Textures
-//	Polka dots Pattern
 //
-//	pattern( ... )	- implements Polks dots pattern
-//	options( opt )	- converts options into internal format
-//	share( opt )	- converts options into URL
-//	info			- general info for the generator
+//	pattern( ... )		- implements the pattern
+//	texture( params )	- generate a texture with options
+//	options( params )	- converts options into internal format
+//	share( opt )		- converts options into URL
+//	info				- general info for the generator
+//	fix( ... )			- reexport from core
 
 
 
 import { Vector3, Color, PolyhedronGeometry, TetrahedronGeometry, OctahedronGeometry, DodecahedronGeometry, IcosahedronGeometry, MathUtils } from "three";
 import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+import { equitexture, equimaterial } from "pet/texture-generator.js";
 
 
 
@@ -40,52 +42,79 @@ class HexahedronGeometry extends PolyhedronGeometry
 
 
 
-// generate predefined arrangeents of points on a unit sphere
+// generate predefined layouts of points on a unit sphere
 
-var arrangements = [
-	{geometry: TetrahedronGeometry, level: 0, points: [], maxSize: 1.157},	// 0
+var layouts = [
+	{geometry: TetrahedronGeometry, level: 0, points: [], maxScale: 106},	// #2, pts=4
 
-	{geometry: OctahedronGeometry, level: 0, points: [], maxSize: 0.922},	// 1
-	{geometry: OctahedronGeometry, level: 1, points: [], maxSize: 0.607},	// 4
+	{geometry: OctahedronGeometry, level: 0, points: [], maxScale: 95},		// #3, pts=6
+	{geometry: OctahedronGeometry, level: 1, points: [], maxScale: 77},		// #6, pts=18
 
-	{geometry: HexahedronGeometry, level: 0, points: [], maxSize: 0.941},	// 2
-	{geometry: HexahedronGeometry, level: 1, points: [], maxSize: 0.479},	// 6
+	{geometry: HexahedronGeometry, level: 0, points: [], maxScale: 96},		// #4, pts=8
+	{geometry: HexahedronGeometry, level: 1, points: [], maxScale: 69},		// #8, pts=26
 	
-	{geometry: DodecahedronGeometry, level: 0, points: [], maxSize: 0.644},	// 5
+	{geometry: DodecahedronGeometry, level: 0, points: [], maxScale: 79},	// #7, pts=20
 
-	{geometry: IcosahedronGeometry, level: 0, points: [], maxSize: 0.643},	// 3
-	{geometry: IcosahedronGeometry, level: 1, points: [], maxSize: 0.365},	// 7
-	{geometry: IcosahedronGeometry, level: 2, points: [], maxSize: 0.240},	// 8
-	{geometry: IcosahedronGeometry, level: 3, points: [], maxSize: 0.191},	// 9
-	{geometry: IcosahedronGeometry, level: 4, points: [], maxSize: 0.153},	// 10
-	{geometry: IcosahedronGeometry, level: 5, points: [], maxSize: 0.128},	// 11
+	{geometry: IcosahedronGeometry, level: 0, points: [], maxScale: 79},	// #5, pts=12
+	{geometry: IcosahedronGeometry, level: 1, points: [], maxScale: 59},	// #9, pts=42
+	{geometry: IcosahedronGeometry, level: 2, points: [], maxScale: 48},	// #10, pts=92
+	{geometry: IcosahedronGeometry, level: 3, points: [], maxScale: 42},	// #11, pts=162
+	{geometry: IcosahedronGeometry, level: 4, points: [], maxScale: 37},	// #12, pts=252
+	{geometry: IcosahedronGeometry, level: 5, points: [], maxScale: 32},	// #13, pts=361
+	{count: 1, points: [], maxScale: 141}, // #1, pts=1
+	{count: 500, points: [], maxScale: 33}, // #14, pts=500
+	{count: 750, points: [], maxScale: 30}, // #15, pts=750
+	{count: 1000, points: [], maxScale: 28}, // #16, pts=1000
+	{count: 1500, points: [], maxScale: 25}, // #17, pts=1500
+	{count: 2000, points: [], maxScale: 23}, // #18, pts=2000
+	{count: 3000, points: [], maxScale: 21}, // #19, pts=3000
+	{count: 5000, points: [], maxScale: 18}, // #20, pts=5000
 ]
-
 
 
 // generate dot positions
 
-for( var index in arrangements )
+for( var index in layouts )
 {
-	var level = arrangements[index].level,
-		geometryClass = arrangements[index].geometry;
+	var level = layouts[index].level,
+		geometryClass = layouts[index].geometry;
 		
-	var geometry = new geometryClass(1,level);
-		geometry.deleteAttribute( 'normal' );
-		geometry.deleteAttribute( 'uv' );
-		
-	var	mergedGeometry = mergeVertices( geometry );
+	if( geometryClass )
+	{
+		// platonic
+		var geometry = new geometryClass(1,level);
+			geometry.deleteAttribute( 'normal' );
+			geometry.deleteAttribute( 'uv' );
+			
+		var	mergedGeometry = mergeVertices( geometry );
 
-	var positions = mergedGeometry.getAttribute( 'position' );
+		var positions = mergedGeometry.getAttribute( 'position' );
+			
+		for( var i=0; i<positions.count; i++ )
+			layouts[index].points.push( new Vector3().fromBufferAttribute( positions, i ) );
+			
+		geometry.dispose( );
+		mergedGeometry.dispose( );
+	}
+	else
+	{
+		// fibonaccic
+		var n = layouts[index].count;
 		
-	for( var i=0; i<positions.count; i++ )
-		arrangements[index].points.push( new Vector3().fromBufferAttribute( positions, i ) );
-		
-	geometry.dispose( );
-	mergedGeometry.dispose( );
+		var gr = (1+5**0.5)/2;
+
+		for( var i=0; i<n; i++ )
+		{
+			var theta = 2*Math.PI*i/gr;
+			var phi = Math.acos(1-(2*i+1)/n);
+			layouts[index].points.push(new Vector3().setFromSphericalCoords(1,phi,theta));
+		}
+	}
 }
 
-arrangements.sort( (a,b)=>a.points.length-b.points.length );
+layouts.sort( (a,b)=>a.points.length-b.points.length );
+
+
 
 var vec = new Vector3();
 
@@ -104,51 +133,62 @@ function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
 
 
 
-function options( opt )
+function options( params )
 {
 	var options = { };
 
-	options.color = new Color( opt.color ?? 0x000000 );
-	options.backgroundColor = new Color( opt.backgroundColor ?? 0xffffff );
+	options.color = new Color( params.color ?? 0x000000 );
+	options.backgroundColor = new Color( params.backgroundColor ?? 0xffffff );
 
-	var data = arrangements[opt.arrangement ?? 7];
+	var data = layouts[(params.layout ?? 8)-1];
 	
 	options.points = data.points;
 	
-	var blur = ((opt.blur??20) / 100)**2.5 / 3,
-		size = ((opt.size??30) / 100)**2;
+	var blur = ((params.blur??20) / 100)**2.5 / 3;
 	
-	options.minSmooth = size - blur;
-	options.maxSmooth = size + blur;
+	var scale = (params.scale??50);
+		scale = MathUtils.mapLinear(scale,0,100,0,data.maxScale);
+		scale = (scale / 100)**2;
+
+	options.minSmooth = scale - blur;
+	options.maxSmooth = scale + blur;
+
+	options.width = params.width ?? 512;
+	options.height = params.height ?? 256;
+	
 	return options;
 }
 
 
 
-function share( opt )
+function share( params )
 {
-	var params = [];
+	var url = [];
 	
-	params.push( `a=${opt.arrangement}` );
-	params.push( `b=${opt.blur}` );
-	params.push( `c=${opt.color}` );
-	params.push( `k=${opt.backgroundColor}` );
-	params.push( `r=${opt.resolution}` );
-	params.push( `s=${opt.size}` );
+	url.push( `w=${params.width}` );
+	url.push( `h=${params.height}` );
 
-	params = params.join( '&' );
-	
-	return window.location.href.split('?')[0].split('#')[0] + '?' + params;
+	url.push( `l=${params.layout}` );
+	url.push( `s=${params.scale}` );
+	url.push( `b=${params.blur}` );
+
+	url.push( `c=${params.color}` );
+	url.push( `k=${params.backgroundColor}` );
+
+	return url.join( '&' );
 }
 
 
 
-var info = {
-		name: 'Polka dots',
-		info: 'Designed for .map properties',
-		maxArrangement: arrangements.length-1,
-	};
+function texture( opt )
+{
+	return equitexture( pattern, options(opt) )
+}
 
 
 
-export { pattern, options, share, info };
+var info = { name: 'Polka dots', layouts: layouts.length };
+
+
+
+export { pattern, options, share, info, texture, equimaterial as fix };

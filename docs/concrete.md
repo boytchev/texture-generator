@@ -8,7 +8,7 @@
 <img src="images/concrete.jpg">
 
 This texture immitates the grains of a rough concrete 
-surface. It is designed to be used as bump map. Click on an
+surface. It is designed to be used as bump map. Click on a
 snapshot to open it online.
 
 <p class="gallery">
