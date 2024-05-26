@@ -2,65 +2,73 @@
 //	Procedural Equirectangular Textures
 //	Simplex noise Pattern
 //
-//	pattern( ... )	- implements Simplex noise pattern
-//	options( opt )	- converts options into internal format
-//	share( opt )	- converts options into URL
-//	info			- general info for the generator
+//	pattern( ... )		- implements the pattern
+//	texture( params )	- generate a texture with options
+//	options( params )	- converts options into internal format
+//	share( opt )		- converts options into URL
+//	info				- general info for the generator
+//	fix( ... )			- reexport from core
 
 
 
 import { Color } from "three";
-import { noise } from "../noise.js";
+import { noise, equitexture, equimaterial } from "pet/texture-generator.js";
 
 
 
-function pattern( x, y, z, color, options, /*u, v, px, py, width, height*/ )
+function pattern( x, y, z, color, options, /*u, v, px, py*/ )
 {
-	var k = 0.5 - 0.5*noise( options.size*x, options.size*y, options.size*z );
+	var k = 0.5 - 0.5*noise( options.scale*x, options.scale*y, options.scale*z );
 	
 	color.lerpColors( options.color, options.backgroundColor, k**options.balance );
 }
 
 
 
-function options( opt )
+function options( params )
 {
 	var options = { };
 	
-	options.size = 2**(-((opt.size??50)-100)/50 * 3 - 1);
-	options.balance = Math.exp(((opt.balance??50)-50)/10);
-	options.color = new Color( opt.color ?? 0xffffff );
-	options.backgroundColor = new Color( opt.backgroundColor ?? 0x000000 );
+	options.scale = 2**(-((params.scale??50)-100)/50 * 3 - 1);
+	options.balance = Math.exp(((params.balance??50)-50)/10);
+	options.color = new Color( params.color ?? 0xffffff );
+	options.backgroundColor = new Color( params.backgroundColor ?? 0x000000 );
+	
+	options.width = params.width ?? 512;
+	options.height = params.height ?? 256;
 	
 	return options;
 }
 	
 
 
-
-function share( opt )
+function share( params )
 {
-	var params = [];
+	var url = [];
 	
-	params.push( `b=${opt.balance}` );
-	params.push( `c=${opt.color}` );
-	params.push( `k=${opt.backgroundColor}` );
-	params.push( `r=${opt.resolution}` );
-	params.push( `s=${opt.size}` );
+	url.push( `w=${params.width}` );
+	url.push( `h=${params.height}` );
+
+	url.push( `s=${params.scale}` );
+	url.push( `b=${params.balance}` );
 	
-	params = params.join( '&' );
+	url.push( `c=${params.color}` );
+	url.push( `k=${params.backgroundColor}` );
 	
-	return window.location.href.split('?')[0].split('#')[0] + '?' + params;
+	return url.join( '&' );
 }
 
 
 
-var info = {
-		name: 'Simplex noise',
-		info: 'Designed for .map properties',
-		lightIntensity: 3,
-	};
+function texture( opt )
+{
+	return equitexture( pattern, options(opt) )
+}
 
 
 
-export { pattern, options, share, info };
+var info = {name: 'Simplex noise', lightIntensity: 3 }
+
+
+
+export { pattern, options, share, info, texture, equimaterial as fix };

@@ -1,8 +1,3 @@
-<img class="logo" src="../assets/logo/logo.png">
-
-
-# Procedural Equirectangular Textures
-
 
 ## Pattern generators
 
@@ -10,16 +5,9 @@ The pattern generators are individual JS modules that generate specific equirect
 textures. They are the backbones of the [online generators](../online/index.md).
 All pattern generators share the same API.
 
-
-* [Simplex noise](#simplex-noise) &ndash; gradient noise pattern
-* [Stars](#stars) &ndash; night sky stars
-* [Zebra lines](#zebra-lines) &ndash; alternating white and black stripes
-
-
-## Simplex noise
-<img src="images/simplex-noise.jpg">
-
-[<img src="images/simplex-noise-1.png">](https://boytchev.github.io/texture-generator/online/simplex-noise?b=50&c=16777215&k=0&r=9&s=52) [<img src="images/simplex-noise-2.png">](https://boytchev.github.io/texture-generator/online/simplex-noise?b=78&c=16766208&k=0&r=9&s=57)  [<img src="images/simplex-noise-3.png">](https://boytchev.github.io/texture-generator/online/simplex-noise?b=44&c=13893887&k=11592439&r=9&s=86) 
+?b=50&c=16777215&k=0&r=9&s=52
+?b=78&c=16766208&k=0&r=9&s=57
+?b=44&c=13893887&k=11592439&r=9&s=86
 
 #### Options:
 
