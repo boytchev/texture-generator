@@ -98,5 +98,5 @@ this issue, it will make the library more useful to the general
 community.
 		
 <div class="footnote">
-	<a href="../index.html">Home</a>
+	<a href="#" onclick="window.history.back(); return false;">Back</a>
 </div>
