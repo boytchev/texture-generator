@@ -3,7 +3,7 @@
 # Procedural Equirectangular Textures
 
 The source code of the project is [hosted on GitHub](https://github.com/boytchev/texture-generator).
-The software is licenced under [MIT licence](https://github.com/boytchev/texture-generator?tab=MIT-1-ov-file#readme).
+It is licenced under [MIT licence](https://github.com/boytchev/texture-generator?tab=MIT-1-ov-file#readme).
 
 
 ## Generators
