@@ -27,12 +27,17 @@ The core of all generators is also available as JS modules.
 They could be used is one wants to build own generator of
 equirectangular textures.
 
-* [generator.js](#generatorjs)
-* [noise.js](#noisejs)
-* [material.js](#materialjs)
-* [texture-generator.js](#texture-generatorjs)
+* [generator.js](#generatorjs) - to do
+* [noise.js](api-noise.md) - to do
+* [material.js](#materialjs) - to do
+* [texture-generator.js](#texture-generatorjs) - to do
 	
-	
+## Tutorials
+
+* [Using generators](#) - to do
+* [Using low-level API](#) - to do
+
+
 <div class="footnote">
 	<a href="https://github.com/boytchev/texture-generator" >@GitHub</a> &middot;
 	<a href="#" onclick="window.history.back(); return false;">Back</a>

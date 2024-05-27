@@ -1,0 +1,59 @@
+<img class="logo" src="../assets/logo/logo.png">
+
+
+# Procedural Equirectangular Textures
+
+## noise.js
+
+Module. Defines a seedable 3D noise function, that is used by variour texture
+patterns. It is based on [THREE.SimplexNoise](https://github.com/mrdoob/three.js/blob/master/examples/jsm/math/SimplexNoise.js)
+and [THREE.MathUtils.seededRandom](https://threejs.org/docs/#api/en/math/MathUtils.seededRandom).
+
+
+### noise
+
+Function. A 3D noise function. Returns a pseudo-random number
+&#x2208; [-1,1] for a point in 3D space.
+
+```js
+noise( x, y, z )
+```
+
+where:
+
+* `x` &ndash; x coordinate of 3D point (float)
+* `y` &ndash; y coordinate of 3D point (float)
+* `z` &ndash; z coordinate of 3D point (float)
+
+
+
+
+### noiseSeed
+
+Command. Sets the behavior of the [noise](#noise) function.
+If the optional seed is an integer number, the next generated
+pseudo-random numbers are based on this seed. Otherwise the
+current timestamp is used as a seed to achieve a kind of
+randomization.
+
+```js
+noiseSeed( )
+noiseSeed( seed )
+```
+
+where:
+
+* `seed` &ndash; the seed vale for future pseudo-random numbers (integer, optional) 
+
+		
+		
+
+### Source
+
+[src/noise.js](https://github.com/boytchev/texture-generator/blob/main/src/noise.js)
+
+
+
+<div class="footnote">
+	<a href="#" onclick="window.history.back(); return false;">Back</a>
+</div>
