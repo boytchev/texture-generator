@@ -3,7 +3,7 @@
 # Procedural Equirectangular Textures
 
 The source code of the project is [hosted on GitHub](https://github.com/boytchev/texture-generator).
-It is licenced under [MIT licence](https://github.com/boytchev/texture-generator?tab=MIT-1-ov-file#readme).
+The software is licenced under [MIT licence](https://github.com/boytchev/texture-generator?tab=MIT-1-ov-file#readme).
 
 
 ## Generators
@@ -34,7 +34,6 @@ equirectangular textures.
 	
 	
 <div class="footnote">
-	<a href="https://github.com/boytchev/texture-generator" >GitHub Repository</a>
-	&middot;
+	<a href="https://github.com/boytchev/texture-generator" >@GitHub</a> &middot;
 	<a href="#" onclick="window.history.back(); return false;">Back</a>
 </div>
