@@ -127,6 +127,10 @@ li.normal {
 }
 
 .gallery {
+	/*
+	border-top: 1px dotted lightgray;
+	border-bottom: 1px dotted lightgray;
+	*/
 	text-align: center;
 }
 

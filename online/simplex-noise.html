@@ -7,7 +7,7 @@
 <head>
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-	<link rel="shortcut icon" type="image/png" href="logo.png"/>
+	<link rel="shortcut icon" type="image/png" href="../assets/logo/logo.png"/>
 	<link rel="stylesheet" href="styles.css">
 
 	<script type="importmap">
@@ -27,66 +27,54 @@
 	<script type="module">
 
 		import * as THREE from "three";
-		import { model, canvas, installGui, urlOptions } from "./online.js";
-		import { pattern, options, share, info } from "pet/patterns/simplex-noise.js";
-		import { equimaterial, equitexture } from "pet/texture-generator.js";
+		import { model, canvas, install, url } from "./online.js";
+		import * as PET from "pet/patterns/simplex-noise.js";
 
 
-		var guiOptions = {
-				width: urlOptions.w ?? 512,
-				height: urlOptions.h ?? 256,
+
+		var params = {
+				width: url.w ?? 512,
+				height: url.h ?? 256,
 				
-				scale: urlOptions.s ?? 50,
-				balance: urlOptions.b ?? 50,
+				scale: url.s ?? 50,
+				balance: url.b ?? 50,
 				
-				color: urlOptions.c ?? 0xFFFFFF,
-				backgroundColor: urlOptions.k ?? 0x000000,
+				color: url.c ?? 0xFFFFFF,
+				backgroundColor: url.k ?? 0x000000,
 			};
 			
-		var gui = installGui( info, ()=>share(guiOptions), 'map' );
-				
-		gui.add( guiOptions, 'width', {'256 x 128':256, '512 x 256':512, '1024 x 512':1024, '2048 x 1024':2048, '4096 x 2048':4096, '8192 x 4096':8192} )
-			.name( 'Resolution',  )
-			.onChange( onChange );
 			
-		gui.add( guiOptions, 'scale' )
+			
+		var gui = install( PET, params );
+			
+		gui.add( params, 'scale' )
 			.min(0).max(100).step(1)
 			.name( 'Noise <right>scale</right>' )
-			.onChange( onChange )
-			.$input.classList.add('top');
+			.$input.classList.add( 'top' );
 			
-		gui.add( guiOptions, 'balance' )
+		gui.add( params, 'balance' )
 			.min(0).max(100).step(1)
 			.name( '<right>balance</right>' )
-			.onChange( onChange )
-			.$input.classList.add('bottom');
+			.$input.classList.add( 'bottom' );
 			
-		gui.addColor( guiOptions, 'color' )
+		gui.addColor( params, 'color' )
 			.name( 'Color <right>main</right>' )
-			.onChange( onChange )
-			.$text.classList.add('top');
+			.$text.classList.add( 'top' );
 			
-		gui.addColor( guiOptions, 'backgroundColor' )
+		gui.addColor( params, 'backgroundColor' )
 			.name( '<right>background</right>' )
-			.onChange( onChange )
-			.$text.classList.add('bottom');
+			.$text.classList.add( 'bottom' );
 		
 		
 		
-		function onChange( event )
-		{			
-			guiOptions.height = guiOptions.width/2;
-			
-			model.material.map = equitexture(
-					pattern,
-					canvas,
-					true,
-					options( guiOptions )
-			) );
-		}
+		model.material.map = PET.fix(
+				PET.pattern,
+				canvas,
+				true,
+				PET.options( params )
+		);
 
-		onChange( );
-		model.material = equimaterial( model.material );
+		model.material = PET.fix( model.material );
 		
 	</script>
 </body>

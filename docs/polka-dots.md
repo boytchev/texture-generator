@@ -83,7 +83,7 @@ characteristics, used internally by `pattern`.
 * `texture( params )` &ndash; generates a texture with given parameters
 * `options( params )` &ndash; converts parameters into internal options
 * `share( params )` &ndash; generates URL with the given parameters
-* `info` &ndash; general info for the generator, contains its `name`
+* `info` &ndash; general info for the generator, contains its `name`, and 'layouts' wth the number of layouts
 * `fix( ... )` &ndash; reexport from core's equimaterial
 
 

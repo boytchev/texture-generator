@@ -1,6 +1,6 @@
 ﻿
 //	Procedural Equirectangular Textures
-//	Polka dots Pattern
+//	Polka Dots Pattern
 //
 //	pattern( ... )		- implements the pattern
 //	texture( params )	- generate a texture with options
@@ -13,7 +13,7 @@
 
 import { Vector3, Color, PolyhedronGeometry, TetrahedronGeometry, OctahedronGeometry, DodecahedronGeometry, IcosahedronGeometry, MathUtils } from "three";
 import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
-import { equitexture, equimaterial } from "pet/texture-generator.js";
+import { noise, fix } from "pet/texture-generator.js";
 
 
 
@@ -183,7 +183,7 @@ function share( params )
 
 function texture( opt )
 {
-	return equitexture( pattern, options(opt) )
+	return fix( pattern, options(opt) )
 }
 
 
@@ -192,4 +192,5 @@ var info = { name: 'Polka dots', layouts: layouts.length };
 
 
 
-export { pattern, options, share, info, texture, equimaterial as fix };
+export { pattern, options, share, info, texture };
+export * from "pet/texture-generator.js";

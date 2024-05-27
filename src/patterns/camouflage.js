@@ -12,7 +12,7 @@
 
 
 import { Color } from "three";
-import { noise, equitexture, equimaterial } from "pet/texture-generator.js";
+import { noise, fix } from "pet/texture-generator.js";
 
 
 
@@ -86,7 +86,7 @@ function share( params )
 
 function texture( opt )
 {
-	return equitexture( pattern, options(opt) )
+	return fix( pattern, options(opt) )
 }
 
 
@@ -95,4 +95,5 @@ var info = { name: 'Camouflage' };
 
 
 
-export { pattern, options, share, info, texture, equimaterial as fix };
+export { pattern, options, share, info, texture };
+export * from "pet/texture-generator.js";

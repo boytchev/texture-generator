@@ -12,50 +12,52 @@
 
 
 import { Color } from "three";
-import { noise, equitexture, equimaterial } from "pet/texture-generator.js";
+import { noise, fix } from "pet/texture-generator.js";
 
 
 
 function pattern( x, y, z, color, options, /*u, v, px, py*/ )
 {
 	color.set( 
-		Math.sin( options.size*noise(x,y,z) ),
-		Math.sin( options.size*noise(y,z,x) ),
-		Math.sin( options.size*noise(z,x,y) ),
+		Math.sin( options.scale*noise(x,y,z) ),
+		Math.sin( options.scale*noise(y,z,x) ),
+		Math.sin( options.scale*noise(z,x,y) ),
 	);
 }
 
 
 
-function options( opt )
+function options( params )
 {
 	var options = { };
 		
-	options.size = opt.size;
-	options.width = opt.width;
-	options.height = opt.height;
+	options.scale = params.scale;
+	
+	options.width = params.width;
+	options.height = params.height;
 
 	return options;
 }
 	
 
 
-function share( opt )
+function share( params )
 {
 	var params = [];
 	
-	params.push( `r=${opt.resolution}` );
-	params.push( `s=${opt.size}` );	params.push( `t=${opt.saturation}` );
+	url.push( `w=${params.width}` );
+	url.push( `h=${params.height}` );
 
-	params = params.join( '&' );
-	return window.location.href.split('?')[0].split('#')[0] + '?' + params;
+	url.push( `s=${params.scale}` );
+
+	return url.join( '&' );
 }
 
 
 
 function texture( opt )
 {
-	return equitexture( pattern, options(opt) )
+	return fix( pattern, options(opt) )
 }
 
 
@@ -64,4 +66,5 @@ var info = { name: 'Template' };
 
 
 
-export { pattern, options, share, info, texture, equimaterial as fix };
+export { pattern, options, share, info, texture };
+export * from "pet/texture-generator.js";

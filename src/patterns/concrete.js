@@ -12,11 +12,11 @@
 
 
 
-import { noise, equitexture, equimaterial } from "pet/texture-generator.js";
+import { noise, fix } from "pet/texture-generator.js";
 
 
 
-function pattern( x, y, z, color, options, u, v, px, py )
+function pattern( x, y, z, color, options, /*u, v, px, py*/ )
 {
 	var k = noise( options.scale*x, options.scale*y, options.scale*z );
 		
@@ -60,7 +60,7 @@ function share( params )
 
 function texture( opt )
 {
-	return equitexture( pattern, options(opt) )
+	return fix( pattern, options(opt) )
 }
 
 
@@ -69,4 +69,5 @@ var info = { name: 'Concrete', lightIntensity: 3 };
 
 
 
-export { pattern, options, share, info, texture, equimaterial as fix };
+export { pattern, options, share, info, texture };
+export * from "pet/texture-generator.js";

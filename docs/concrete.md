@@ -48,7 +48,7 @@ model.material = fix( material );
 Code template of default parameters for the [online generator](../online/concrete.html).
 
 ```php
-?h=256&w=512&s=50&d=100&b=100
+?w=512&h=256&s=50&d=100&b=100
 ```
 
 ### Parameters
@@ -73,7 +73,7 @@ characteristics, used internally by `pattern`.
 * `texture( params )` &ndash; generates a texture with given parameters
 * `options( params )` &ndash; converts parameters into internal options
 * `share( params )` &ndash; generates URL with the given parameters
-* `info` &ndash; general info for the generator, contains its `name`
+* `info` &ndash; general info for the generator, contains its `name`, and 'lightIntensity' (used only by the online editor)
 * `fix( ... )` &ndash; reexport from core's equimaterial
 
 

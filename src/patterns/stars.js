@@ -11,8 +11,8 @@
 
 
 
-import { Vector3,Color,MathUtils } from "three";
-import { noise, equitexture, equimaterial } from "pet/texture-generator.js";
+import { Vector3, Color, MathUtils } from "three";
+import { noise, fix } from "pet/texture-generator.js";
 
 
 
@@ -25,7 +25,7 @@ for( var i=0; i<n; i++)
 
 var vec = new Vector3();
 
-function pattern( x, y, z, color, options, u, v, px, py )
+function pattern( x, y, z, color, options, /*u, v, px, py*/ )
 {
 	var s = 0,
 		H = options.width/25,
@@ -96,7 +96,7 @@ function share( params )
 
 function texture( opt )
 {
-	return equitexture( pattern, options(opt) )
+	return fix( pattern, options(opt) )
 }
 
 
@@ -105,4 +105,5 @@ var info = {name: 'Stars', lightIntensity: 3};
 
 
 
-export { pattern, options, share, info, texture, equimaterial as fix };
+export { pattern, options, share, info, texture };
+export * from "pet/texture-generator.js";

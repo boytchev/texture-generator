@@ -57,7 +57,7 @@ model.material = fix( material );
 Code template of default parameters for the [online generator](../online/isolines.html).
 
 ```php
-?h=512&w=1024&s=50&b=10&d=20&a=50&c=16777215&k=0
+?w=1024&h=512&s=50&b=10&d=20&a=50&c=16777215&k=0
 ```
 
 ### Parameters
@@ -85,7 +85,7 @@ characteristics, used internally by `pattern`.
 * `texture( params )` &ndash; generates a texture with given parameters
 * `options( params )` &ndash; converts parameters into internal options
 * `share( params )` &ndash; generates URL with the given parameters
-* `info` &ndash; general info for the generator, contains its `name`
+* `info` &ndash; general info for the generator, contains its `name`, and 'lightIntensity' (used only by the online editor)
 * `fix( ... )` &ndash; reexport from core's equimaterial
 
 

@@ -1,6 +1,6 @@
 ﻿
 //	Procedural Equirectangular Textures
-//	Simplex noise Pattern
+//	Simplex Noise Pattern
 //
 //	pattern( ... )		- implements the pattern
 //	texture( params )	- generate a texture with options
@@ -12,7 +12,7 @@
 
 
 import { Color } from "three";
-import { noise, equitexture, equimaterial } from "pet/texture-generator.js";
+import { noise, fix } from "pet/texture-generator.js";
 
 
 
@@ -71,4 +71,5 @@ var info = {name: 'Simplex noise', lightIntensity: 3 }
 
 
 
-export { pattern, options, share, info, texture, equimaterial as fix };
+export { pattern, options, share, info, texture };
+export * from "pet/texture-generator.js";

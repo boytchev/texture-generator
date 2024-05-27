@@ -26,7 +26,7 @@ function onResize( event )
 	// shift horizontally the image
 	// to comppensate for the GUI
 	
-	var offset = innerWidth>innerHeight ? (gui?.domElement.clientWidth??0) : 0;
+	var offset = innerWidth>innerHeight ? (mainGui?.domElement.clientWidth??0) : 0;
 
 	camera.setViewOffset( innerWidth+offset, innerHeight, 0, 0, innerWidth, innerHeight);
 	camera.aspect = (innerWidth+offset)/innerHeight;
@@ -68,6 +68,9 @@ function animationLoop( t )
 	controls.update( );
 	light.position.copy( camera.position );
 
+	var map = 'map';
+	if( model.material.bumpMap ) map = 'bumpMap';
+
 	var percent = model.material[map].update( );
 
 	var now = performance.now();
@@ -88,18 +91,16 @@ function animationLoop( t )
 
 var filename,
 	share,
-	map,
-	gui;
+	mainGui;
 
-function installGui( info, shareFunction, mapName )
+function install( PET, params )
 {
-	filename = info.name.split(' ').join('-').toLowerCase();
-	share = shareFunction;
-	map = mapName;
+	filename = PET.info.name.split(' ').join('-').toLowerCase();
+	share = ()=>PET.share(params);
 	
-	light.intensity = info.lightIntensity ?? 6;
+	light.intensity = PET.info.lightIntensity ?? 6;
 	
-	var title = `<big><em>${info.name}</em> generator</big>
+	var title = `<big><em>${PET.info.name}</em> generator</big>
 			<small class="fullline">
 				<a class="link" href="#" onclick="window.history.back(); return false;"><span>&#x2B9C</span>Back</a> &middot;
 				<span id="share" class="link">Share<!-- &#x1F517;--></span> &middot;
@@ -107,18 +108,39 @@ function installGui( info, shareFunction, mapName )
 				<span id="light" class="link">Light<!-- &#x263C--></span>
 			</small>`;
 					  
-	gui = new lil.GUI({title: title});
-	gui.$title.style.marginBottom = "12em";
-	gui.domElement.children[0].appendChild( canvas );
+	mainGui = new lil.GUI({title: title});
+	mainGui.$title.style.marginBottom = "12em";
+	mainGui.domElement.children[0].appendChild( canvas );
 
-		
+	mainGui.onChange( ()=>{
+
+		params.height = params.width/2;
+
+		var map = 'map';
+		if( model.material.bumpMap ) map = 'bumpMap';
+	
+		model.material[map] = PET.fix(
+					PET.pattern,
+					canvas,
+					true,
+					PET.options( params )
+			);
+			
+//		onChange( );
+	});
+
 	document.getElementById( 'light' ).addEventListener( 'click', toggleBackground );
 	document.getElementById( 'download' ).addEventListener( 'click', downloadTexture );
 	document.getElementById( 'share' ).addEventListener( 'click', shareURL );
 
 	onResize( );
 	
-	return gui.addFolder( '<big>Options</big>' );
+	var gui = mainGui.addFolder( '<big>Options</big>' );
+	
+	gui.add( params, 'width', {'256 x 128':256, '512 x 256':512, '1024 x 512':1024, '2048 x 1024':2048, '4096 x 2048':4096, '8192 x 4096':8192} )
+			.name( 'Resolution' );
+			
+	return gui;
 }
 
 
@@ -161,15 +183,15 @@ function shareURL( event )
 // process URL options
 var urlAddress = window.location.search.split('#')[0], // skip all after #
 	urlParameters = new URLSearchParams( urlAddress ),
-	urlOptions = {};
+	url = {};
 	
 for( var [key, value] of urlParameters.entries() )
 {
-	urlOptions[key] = parseFloat(value);
+	url[key] = parseFloat(value);
 }
 
 
 onResize( );
 
 
-export { model, canvas, installGui, urlOptions };
+export { model, canvas, install, url };

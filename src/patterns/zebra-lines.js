@@ -1,6 +1,6 @@
 ﻿
 //	Procedural Equirectangular Textures
-//	Zebra lines Pattern
+//	Zebra Lines Pattern
 //
 //	pattern( ... )	- implements Zebra lines pattern
 //	options( opt )	- converts options into internal format
@@ -10,8 +10,7 @@
 
 
 import { Vector3, MathUtils } from "three";
-import { noise } from "../noise.js";
-import { equitexture, equimaterial } from "pet/texture-generator.js";
+import { noise, fix } from "pet/texture-generator.js";
 
 
 
@@ -75,4 +74,5 @@ var info = {name: 'Zebra lines', lightIntensity: 5 };
 
 
 
-export { pattern, options, share, info, texture, equimaterial as fix };
+export { pattern, options, share, info, texture };
+export * from "pet/texture-generator.js";

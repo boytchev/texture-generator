@@ -7,7 +7,7 @@
 <head>
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-	<link rel="shortcut icon" type="image/png" href="logo.png"/>
+	<link rel="shortcut icon" type="image/png" href="../assets/logo/logo.png"/>
 	<link rel="stylesheet" href="styles.css">
 
 	<script type="importmap">
@@ -27,72 +27,59 @@
 	<script type="module">
 
 		import * as THREE from "three";
-		import { model, canvas, installGui, urlOptions } from "./online.js";
-		import { pattern, options, share, info } from "pet/patterns/stars.js";
-		import { equimaterial, equitexture, noise } from "pet/texture-generator.js";
+		import { model, canvas, install, url } from "./online.js";
+		import * as PET from "pet/patterns/stars.js";
 
 
-		var guiOptions = {
-				width: urlOptions.w ?? 1024,
-				height: urlOptions.h ?? 512,
+
+		var params = {
+				width: url.w ?? 1024,
+				height: url.h ?? 512,
 				
-				density: urlOptions.d ?? 20,
-				brightness: urlOptions.b ?? 20,
-				variation: urlOptions.v ?? 0,
+				density: url.d ?? 20,
+				brightness: url.b ?? 20,
+				variation: url.v ?? 0,
 
-				color: urlOptions.c ?? 0xfff5f0,
-				backgroundColor: urlOptions.k ?? 0x000060,
+				color: url.c ?? 0xfff5f0,
+				backgroundColor: url.k ?? 0x000060,
 			};
 			
-		var gui = installGui( info, ()=>share(guiOptions), 'map' );
+			
+			
+		var gui = install( PET, params );
 				
-		gui.add( guiOptions, 'width', {'256 x 128':256, '512 x 256':512, '1024 x 512':1024, '2048 x 1024':2048, '4096 x 2048':4096, '8192 x 4096':8192} )
-			.name( 'Resolution',  )
-			.onChange( onChange );
-						
-		gui.add( guiOptions, 'density' )
+		gui.add( params, 'density' )
 			.min(0).max(100).step(1)
 			.name( 'Stars <right>density</right>' )
-			.onChange( onChange )
-			.$input.classList.add('top');
+			.$input.classList.add( 'top' );
 			
-		gui.add( guiOptions, 'brightness' )
+		gui.add( params, 'brightness' )
 			.min(0).max(100).step(1)
-			.name( '<right>brightness</right>' )
-			.onChange( onChange );
+			.name( '<right>brightness</right>' );
 			
-		gui.add( guiOptions, 'variation' )
+		gui.add( params, 'variation' )
 			.min(0).max(100).step(1)
 			.name( '<right>variation</right>' )
-			.onChange( onChange )
-			.$input.classList.add('bottom');
+			.$input.classList.add( 'bottom' );
 			
-		gui.addColor( guiOptions, 'color' )
+		gui.addColor( params, 'color' )
 			.name( 'Color <right>stars</right>' )
-			.onChange( onChange )
-			.$text.classList.add('top');
+			.$text.classList.add( 'top' );
 			
-		gui.addColor( guiOptions, 'backgroundColor' )
+		gui.addColor( params, 'backgroundColor' )
 			.name( '<right>background</right>' )
-			.onChange( onChange )
-			.$text.classList.add('bottom');
+			.$text.classList.add( 'bottom' );
 		
 		
 		
-		function onChange( event )
-		{			
-			guiOptions.height = guiOptions.width/2;
+		model.material.map = PET.fix(
+				PET.pattern,
+				canvas,
+				true,
+				PET.options( params )
+		);
 
-			model.material.map = equitexture(
-					pattern,
-					canvas,
-					true,
-					options( guiOptions )
-			);
-		}
-
-		onChange( );
-		model.material = equimaterial( model.material );
+		model.material = PET.fix( model.material );
 		
 	</script>
 </body>

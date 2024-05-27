@@ -9,4 +9,14 @@ import { equimaterial } from "./material.js";
 
 
 
-export { equimaterial, equicanvas, equitexture, noise, noiseSeed };
+function fix( ...args )
+{
+	if( args.length==1 && args[0].isMaterial )
+		return equimaterial( ...args );
+	else
+		return equitexture( ...args );
+}
+
+
+
+export { equimaterial, equicanvas, equitexture, noise, noiseSeed, fix };

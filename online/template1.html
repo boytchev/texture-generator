@@ -10,7 +10,7 @@
 	<head>
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-		<link rel="shortcut icon" type="image/png" href="logo.png"/>
+		<link rel="shortcut icon" type="image/png" href="../assets/logo/logo.png"/>
 		<link rel="stylesheet" href="styles.css">
 
 		<script type="importmap">
@@ -32,8 +32,7 @@
 			import * as THREE from "three";
 			import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 			
-			// import of a generator of a procedural equirectangular texture (pet)
-			import { texture, fix } from "pet/patterns/template.js";
+			import * as PET from "pet/patterns/template.js";
 
 
 			// setting up the scene
@@ -58,11 +57,11 @@
 
 			// defining a model with equirectangular texture
 			
-			var map = texture( {size:5, width:512} );
+			var map = PET.texture( {scale:5, width:512, height:256} );
 			
 			var model = new THREE.Mesh(
 					new THREE.SphereGeometry( 1 ),
-					fix( new THREE.MeshBasicMaterial( {map:map} ) )
+					PET.fix( new THREE.MeshBasicMaterial( {map:map} ) )
 				);
 
 			scene.add( model );

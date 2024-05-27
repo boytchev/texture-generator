@@ -14,15 +14,15 @@ a snapshot to open it online.
 
 <p class="gallery">
 
-	<a class="style-block nocaption" href="../online/camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=0&h=512&w=1024&s=50&t=0&u=0">
+	<a class="style-block nocaption" href="../online/camouflage.html?w=512&h=256&s=50&a=12762792&b=10258782&c=9610101&d=7435617&u=0&t=0&g=0">
 		<img src="images/camouflage-1.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/camouflage.html?a=12762792&b=10258782&c=9610101&d=7435617&g=22&h=512&w=1024&s=73&t=4&u=194">
+	<a class="style-block nocaption" href="../online/camouflage.html?w=1024&h=512&s=73&a=12762792&b=10258782&c=9610101&d=7435617&u=194&t=4&g=22">
 		<img src="images/camouflage-2.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/camouflage.html?a=16776960&b=0&c=16187392&d=5234974&g=-18&h=512&w=1024&s=11&t=-2&u=0">
+	<a class="style-block nocaption" href="../online/camouflage.html?w=1024&h=512&s=11&a=16776960&b=0&c=16187392&d=5234974&u=0&t=-2&g=-18">
 		<img src="images/camouflage-3.png">
 	</a>
 

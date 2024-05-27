@@ -7,7 +7,7 @@
 <head>
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-	<link rel="shortcut icon" type="image/png" href="logo.png"/>
+	<link rel="shortcut icon" type="image/png" href="../assets/logo/logo.png"/>
 	<link rel="stylesheet" href="styles.css">
 
 	<script type="importmap">
@@ -27,55 +27,45 @@
 	<script type="module">
 
 		import * as THREE from "three";
-		import { model, canvas, installGui, urlOptions } from "./online.js";
-		import { pattern, options, share, info } from "pet/patterns/concrete.js";
-		import { equimaterial, equitexture, noise } from "pet/texture-generator.js";
+		import { model, canvas, install, url } from "./online.js";
+		import * as PET from "pet/patterns/concrete.js";
 
 
-		var guiOptions = {
-				width: urlOptions.w ?? 512,
-				height: urlOptions.h ?? 256,
-				scale: urlOptions.s ?? 50,
-				density: urlOptions.d ?? 100,
-				bump: urlOptions.b ?? 100,
+
+		var params = {
+				width: url.w ?? 512,
+				height: url.h ?? 256,
+				
+				scale: url.s ?? 50,
+				density: url.d ?? 100,
+				bump: url.b ?? 100,
 			};
-
-		var gui = installGui( info, ()=>share(guiOptions), 'bumpMap' );
-		
-
-		gui.add( guiOptions, 'width', {'256 x 128':256, '512 x 256':512, '1024 x 512':1024, '2048 x 1024':2048, '4096 x 2048':4096, '8192 x 4096':8192} )
-			.name( 'Resolution',  )
-			.onChange( onChange );
 			
-		gui.add( guiOptions, 'scale' )
+			
+
+		var gui = install( PET, params );
+		
+		gui.add( params, 'scale' )
 			.name( 'Bumps<right>scale</right>' ).min(0).max(100).step(1)
-			.onChange( onChange )
-			.$input.classList.add('top');
+			.$input.classList.add( 'top' );
 			
-		gui.add( guiOptions, 'density' )
-			.name( '<right>Density</right>' ).min(0).max(100).step(1)
-			.onChange( onChange );
+		gui.add( params, 'density' )
+			.name( '<right>Density</right>' ).min(0).max(100).step(1);
 			
-		gui.add( guiOptions, 'bump' )
+		gui.add( params, 'bump' )
 			.name( '<right>bumpiness</right>' ).min(0).max(100).step(1)
-			.onChange( onChange )
-			.$input.classList.add('bottom');
+			.$input.classList.add( 'bottom' );
+
 			
 		
-		function onChange( event )
-		{
-			guiOptions.height = guiOptions.width/2;
-
-			model.material.bumpMap = equitexture(
-					pattern,
-					canvas,
-					true,
-					options( guiOptions )
-			);
-		}
-
-		onChange( );
-		model.material = equimaterial( model.material );
+		model.material.bumpMap = PET.fix(
+				PET.pattern,
+				canvas,
+				true,
+				PET.options( params )
+		);
+		
+		model.material = PET.fix( model.material );
 
 	</script>
 </body>

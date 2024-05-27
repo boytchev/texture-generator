@@ -7,7 +7,7 @@
 <head>
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-	<link rel="shortcut icon" type="image/png" href="logo.png"/>
+	<link rel="shortcut icon" type="image/png" href="../assets/logo/logo.png"/>
 	<link rel="stylesheet" href="styles.css">
 
 	<script type="importmap">
@@ -27,52 +27,41 @@
 	<script type="module">
 
 		import * as THREE from "three";
-		import { model, canvas, installGui, urlOptions } from "./online.js";
-		import { pattern, options, share, info } from "pet/patterns/zebra-lines.js";
-		import { equimaterial, equitexture } from "pet/texture-generator.js";
+		import { model, canvas, install, url } from "./online.js";
+		import * as PET from "pet/patterns/zebra-lines.js";
 
 
-		var guiOptions = {
-				width: urlOptions.w ?? 1024,
-				height: urlOptions.h ?? 512,
 
-				scale: urlOptions.s ?? 60,
-				angle: urlOptions.a ?? 0,
+		var params = {
+				width: url.w ?? 1024,
+				height: url.h ?? 512,
+
+				scale: url.s ?? 60,
+				angle: url.a ?? 0,
 			};
 
-		var gui = installGui( info, ()=>share(guiOptions), 'map' );
-		
 
-		gui.add( guiOptions, 'width', {'256 x 128':256, '512 x 256':512, '1024 x 512':1024, '2048 x 1024':2048, '4096 x 2048':4096, '8192 x 4096':8192} )
-			.name( 'Resolution' )
-			.onChange( onChange );
-			
-		gui.add( guiOptions, 'scale' )
+
+		var gui = install( PET, params );
+
+		gui.add( params, 'scale' )
 			.name( 'Scale' ).min(0).max(100).step(1)
-			.onChange( onChange )
-			.$input.classList.add('top');
+			.$input.classList.add( 'top' );
 			
-		gui.add( guiOptions, 'angle' )
+		gui.add( params, 'angle' )
 			.name( 'Angle' ).min(-180).max(180).step(1)
-			.onChange( onChange )
-			.$input.classList.add('bottom');
+			.$input.classList.add( 'bottom' );
 			
 
 
-		function onChange( event )
-		{
-			guiOptions.height = guiOptions.width/2;
-			
-			model.material.map = equitexture(
-					pattern,
-					canvas,
-					true,
-					options( guiOptions )
-			);
-		}
+		model.material.map = PET.fix(
+				PET.pattern,
+				canvas,
+				true,
+				PET.options( params )
+		);
 
-		onChange( );
-		model.material = equimaterial( model.material );
+		model.material = PET.fix( model.material );
 		
 	</script>
 </body>

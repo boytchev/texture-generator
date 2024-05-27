@@ -7,7 +7,7 @@
 <head>
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-	<link rel="shortcut icon" type="image/png" href="logo.png"/>
+	<link rel="shortcut icon" type="image/png" href="../assets/logo/logo.png"/>
 	<link rel="stylesheet" href="styles.css">
 
 	<script type="importmap">
@@ -27,82 +27,69 @@
 	<script type="module">
 
 		import * as THREE from "three";
-		import { model, canvas, installGui, urlOptions } from "./online.js";
-		import { pattern, options, share, info } from "pet/patterns/camouflage.js";
-		import { equimaterial, equitexture, noise } from "pet/texture-generator.js";
+		import { model, canvas, install, url } from "./online.js";
+		import * as PET from "pet/patterns/camouflage.js";
 
 
-		var guiOptions = {
-				width: urlOptions.w ?? 512,
-				height: urlOptions.h ?? 256,
-				scale: urlOptions.s ?? 50,
-				colorA: urlOptions.a ?? 0xc2bea8,
-				colorB: urlOptions.b ?? 0x9c895e,
-				colorC: urlOptions.c ?? 0x92a375,
-				colorD: urlOptions.d ?? 0x717561,
-				hue: urlOptions.u ?? 0,
-				saturation: urlOptions.t ?? 0,
-				brightness: urlOptions.g ?? 0,
+
+		var params = {
+				width: url.w ?? 512,
+				height: url.h ?? 256,
+				
+				scale: url.s ?? 50,
+				
+				colorA: url.a ?? 0xc2bea8,
+				colorB: url.b ?? 0x9c895e,
+				colorC: url.c ?? 0x92a375,
+				colorD: url.d ?? 0x717561,
+				
+				hue: url.u ?? 0,
+				saturation: url.t ?? 0,
+				brightness: url.g ?? 0,
 			};
 
-		var gui = installGui( info, ()=>share(guiOptions), 'map' );
-		
 
-		gui.add( guiOptions, 'width', {'256 x 128':256, '512 x 256':512, '1024 x 512':1024, '2048 x 1024':2048, '4096 x 2048':4096, '8192 x 4096':8192} )
-			.name( 'Resolution',  )
-			.onChange( onChange );
+
+		var gui = install( PET, params );
 			
-		gui.add( guiOptions, 'scale' )
-			.name( 'Scale' ).min(0).max(100).step(1)
-			.onChange( onChange );
+		gui.add( params, 'scale' )
+			.name( 'Scale' ).min(0).max(100).step(1);
 			
-		gui.addColor( guiOptions, 'colorA' )
+		gui.addColor( params, 'colorA' )
 			.name( 'Colors' )
-			.onChange( onChange )
-			.$text.classList.add('top');
+			.$text.classList.add( 'top' );
 			
-		gui.addColor( guiOptions, 'colorB' )
+		gui.addColor( params, 'colorB' )
+			.name( '' );
+			
+		gui.addColor( params, 'colorC' )
+			.name( '' );
+			
+		gui.addColor( params, 'colorD' )
 			.name( '' )
-			.onChange( onChange );
+			.$text.classList.add( 'bottom' );
 			
-		gui.addColor( guiOptions, 'colorC' )
-			.name( '' )
-			.onChange( onChange );
-			
-		gui.addColor( guiOptions, 'colorD' )
-			.name( '' )
-			.onChange( onChange )
-			.$text.classList.add('bottom');
-			
-		gui.add( guiOptions, 'hue' )
+		gui.add( params, 'hue' )
 			.name( 'Toning <right>hue</right>' ).min(-360).max(360).step(1)
-			.onChange( onChange )
-			.$input.classList.add('top');
+			.$input.classList.add( 'top' );
 			
-		gui.add( guiOptions, 'saturation' )
-			.name( '<right>saturation</right>' ).min(-100).max(100).step(1)
-			.onChange( onChange );
+		gui.add( params, 'saturation' )
+			.name( '<right>saturation</right>' ).min(-100).max(100).step(1);
 			
-		gui.add( guiOptions, 'brightness' )
+		gui.add( params, 'brightness' )
 			.name( '<right>brightness</right>' ).min(-100).max(100).step(1)
-			.onChange( onChange )
-			.$input.classList.add('bottom');
+			.$input.classList.add( 'bottom' );
 			
-			
-		function onChange( event )
-		{
-			guiOptions.height = guiOptions.width/2;
-			
-			model.material.map = equitexture(
-					pattern,
-					canvas,
-					true,
-					options( guiOptions )
-			);
-		}
 
-		onChange( );
-		model.material = equimaterial( model.material );
+			
+		model.material.map = PET.fix(
+				PET.pattern,
+				canvas,
+				true,
+				PET.options( params )
+		);
+		
+		model.material = PET.fix( model.material );
 
 	</script>
 </body>

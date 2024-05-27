@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+
+
+<!-- A minimal demo of using deferred generation -->
+<!-- of procedural equirectangular -->
+
+
+<html>
+
+	<head>
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+		<link rel="shortcut icon" type="image/png" href="../assets/logo/logo.png"/>
+		<link rel="stylesheet" href="styles.css">
+
+		<style>
+			#counter {
+				position: absolute;
+				z-index: 100;
+				text-align: center;
+				text-shadow: 0 0 0.15em black;
+				color: rgba( 255, 200, 100, 0.75 );
+				font-size: 5em;
+				font-weight: bold;
+				width: 100%;
+				top: calc(50% - 0.5em);
+				-webkit-text-stroke: 1px black;
+			}
+		</style>
+		
+		<script type="importmap">
+		  {
+			"imports": {
+			  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
+			  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/",
+			  "pet/": "../src/"
+			}
+		  }
+		</script>
+	</head>
+
+
+	<body>
+		
+		<div id="counter"></div>
+		
+		<script type="module">
+
+			import * as THREE from "three";
+			import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+			
+			import * as PET from "pet/patterns/template.js";
+
+
+			// setting up the scene
+
+			var scene = new THREE.Scene();
+			
+			var camera = new THREE.PerspectiveCamera( 50, innerWidth/innerHeight );
+				camera.position.set( 0, 0, 4 );
+
+			var renderer = new THREE.WebGLRenderer( {antialias: true} );
+				renderer.setSize( innerWidth, innerHeight );
+				renderer.setAnimationLoop( animationLoop );
+				document.body.appendChild( renderer.domElement );
+				
+			var controls = new OrbitControls( camera, renderer.domElement );
+				controls.autoRotate = true;
+
+
+			// defining a model with deferred texture
+			
+			var map = PET.equitexture( PET.pattern, true, {scale:50, width:1024, height:512} );
+			
+			var model = new THREE.Mesh(
+					new THREE.SphereGeometry( 1 ),
+					PET.fix( new THREE.MeshBasicMaterial( {map:map} ) )
+				);
+			
+			var box = new THREE.Mesh(
+					new THREE.BoxGeometry( 2, 2, 2 ),
+					new THREE.MeshNormalMaterial( {transparent: true, opacity: 0.3, side: THREE.DoubleSide} )
+				);
+			
+			scene.add( model, box );
+
+
+			var frame = 0,
+				counter = document.getElementById( 'counter' );
+				
+			function animationLoop( t )
+			{
+				frame++;
+				
+				if( frame%20==0 )
+				{
+					var percent = 100*model.material.map.update( );
+					if( percent < 100 )
+					{
+						counter.innerHTML = Math.floor(percent) + '%';
+						model.material.map.needsUpdate = true;
+					}
+					else
+						counter.style.display = 'none';
+				}
+				
+				controls.update( );
+				
+				renderer.render( scene, camera );
+			}
+
+		</script>
+	</body>
+</html>
