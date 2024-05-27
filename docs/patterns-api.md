@@ -240,3 +240,7 @@ options = {
 
 
 
+		
+<div class="footnote">
+	<a href="#" onclick="window.history.back(); return false;">Back</a>
+</div>

@@ -91,3 +91,7 @@ characteristics, used internally by `pattern`.
 [src/patterns/simplex-noise.js](https://github.com/boytchev/texture-generator/blob/main/src/patterns/simplex-noise.js)
 
 
+		
+<div class="footnote">
+	<a href="#" onclick="window.history.back(); return false;">Back</a>
+</div>

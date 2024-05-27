@@ -212,3 +212,7 @@ all the rest maps are not patched (i.e. `alphaMap`, `anisotropyMap`, `aoMap`,
 `lightMap`, `matcap`, `metalnessMap`, `normalMap`, `roughnessMap`, `sheenColorMap`,
 `sheenRoughnessMap`, `specularMap`, `specularColorMap`, `specularIntensityMap`,
 `thicknessMap`, `transmissionMap`).
+		
+<div class="footnote">
+	<a href="#" onclick="window.history.back(); return false;">Back</a>
+</div>

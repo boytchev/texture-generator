@@ -101,3 +101,7 @@ characteristics, used internally by `pattern`.
 [src/patterns/camouflage.js](https://github.com/boytchev/texture-generator/blob/main/src/patterns/camouflage.js)
 
 
+		
+<div class="footnote">
+	<a href="#" onclick="window.history.back(); return false;">Back</a>
+</div>

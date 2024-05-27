@@ -96,3 +96,7 @@ characteristics, used internally by `pattern`.
 [src/patterns/stars.js](https://github.com/boytchev/texture-generator/blob/main/src/patterns/stars.js)
 
 
+		
+<div class="footnote">
+	<a href="#" onclick="window.history.back(); return false;">Back</a>
+</div>
