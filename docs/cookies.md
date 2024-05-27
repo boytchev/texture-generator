@@ -2,7 +2,7 @@
 
 # Procedural Equirectangular Textures
 
-### Cookies Policy
+## Cookies Policy
 	
 
 We hate cookies.
