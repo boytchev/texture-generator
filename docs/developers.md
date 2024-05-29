@@ -13,6 +13,7 @@ distributed as JS modules. Each generator supports cutomization
 parameters. 
 
 * [camouflage.js](camouflage.md)
+* [cave-art.js](cave-art.md)
 * [concrete.js](concrete.md)
 * [isolines.js](isolines.md)
 * [polka-dots.js](polka-dots.md)
