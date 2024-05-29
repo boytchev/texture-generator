@@ -14,7 +14,7 @@ a snapshot to open it online.
 
 <p class="gallery">
 
-	<a class="style-block nocaption" href="../online/camouflage.html?width=512&height=256&scale=50&colorA=12762792&colorB=10258782&colorC=9610101&colorD=7435617&hue=0&saturation=0&brightness=0">
+	<a class="style-block nocaption" href="../online/camouflage.html?width=1024&height=512&scale=50&colorA=12762792&colorB=10258782&colorC=9610101&colorD=7435617&hue=0&saturation=0&brightness=0">
 		<img src="images/camouflage-1.png">
 	</a>
 
