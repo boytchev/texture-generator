@@ -8,7 +8,7 @@
 <img src="images/cave-art.jpg">
 
 This texture recreates a pattern that resembles
-[paleolithic cave art](https://en.wikipedia.org/wiki/Cave_painting).
+[Paleolithic cave art](https://en.wikipedia.org/wiki/Cave_painting).
 With some level of imagination and [pareidolia](https://en.wikipedia.org/wiki/Pareidolia)
 it is possible to see animals, peoples and even extraterrestrials. 
 Click on a snapshot to open it online.
