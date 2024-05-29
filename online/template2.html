@@ -64,13 +64,13 @@
 			
 			var modelA = new THREE.Mesh(
 					new THREE.SphereGeometry( 1 ),
-					PET.fix( new THREE.MeshBasicMaterial( {map:mapA} ) )
+					PET.material( new THREE.MeshBasicMaterial( {map:mapA} ) )
 				);
 				
 
 			var modelB = new THREE.Mesh(
 					new THREE.SphereGeometry( 1 ),
-					PET.fix( new THREE.MeshBasicMaterial( {map:mapB} ) )
+					PET.material( new THREE.MeshBasicMaterial( {map:mapB} ) )
 				);
 
 			modelA.position.x = -1.1;

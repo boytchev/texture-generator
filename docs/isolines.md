@@ -35,63 +35,41 @@ open it online.
 Code template of parameters with their default values.
 
 ```js
-import { texture, fix } from "pet/patterns/isolines.js";
+import * as PET from "pet/patterns/isolines.js";
 :
-params = {
-	width: 1024,
-	height: 512,
-	scale: 50,
-	density: 20,
-	blur: 10,
-	balance: 50,
-	color: 0xffffff,
-	backgroundColor: 0x000000
-};
-
-model.material.map = texture( params );
-model.material = fix( material );
+model.material.map = PET.texture( );
+PET.material( model.material );
 ```
 
-### URL example
-
-Code template of default parameters for the [online generator](../online/isolines.html).
-
-```php
-?w=1024&h=512&s=50&b=10&d=20&a=50&c=16777215&k=0
-```
 
 ### Parameters
 
-Description of parameters and their URL names.
+The parameters of the texture generator are:
 
-* `width` (`w`) &ndash; texture width in pixels (integer)
-* `height` (`h`) &ndash; texture height in pixels (integer)
-* `scale` (`s`) &ndash; pattern size (number &#x2208; [0,100])
-* `density` (`d`) &ndash; density of lines (number &#x2208; [0,100])
-* `blur` (`b`) &ndash; smoothness of lines edges (number &#x2208; [0,100])
-* `balance` (`s`) &ndash; thickness of lines (number &#x2208; [0,100])
-* `color` (`c`) &ndash; color of lines (integer)
-* `backgroundColor` (`k`) &ndash; color of background (integer)
+* `width` &ndash; texture width in pixels, default 1024
+* `height` &ndash; texture height in pixels, default 512
+* `scale` &ndash; pattern size [0,100], default 50
+* `density` &ndash; density of lines [0,100], default 20
+* `blur` &ndash; smoothness of lines edges [0,100], default 10
+* `balance` &ndash; thickness of lines [0,100], default 50
+* `color` &ndash; color of lines, default 0xFFFFFF (white)
+* `background &ndash; color of background, default 0x000000 (black)
 
 
 ### API
 
-All texture modules share the same API. Note that *parameters*
-are the user-friendly set pattern characteristics, while
-*options* are the calculation-friendly version of the same
-characteristics, used internally by `pattern`.
+All texture modules share the same API.
 
 * `pattern( x, y, z, color, options )` &ndash; pattern implementation
-* `texture( params )` &ndash; generates a texture with given parameters
-* `options( params )` &ndash; converts parameters into internal options
-* `share( params )` &ndash; generates URL with the given parameters
-* `info` &ndash; general info for the generator, contains its `name`, and 'lightIntensity' (used only by the online editor)
-* `fix( ... )` &ndash; reexport from core's equimaterial
+* `texture( {params} )` &ndash; generator for a texture with given parameters
+* `defaults` &ndash; object with default parameters
+* `material( ... )` &ndash; material shader patcher
 
 
 ### Online generator
 
 [online/isolines.html](../online/isolines.html)
+
 
 ### Source
 

@@ -57,13 +57,15 @@
 
 			// defining a model with equirectangular texture
 			
-			var map = PET.texture( {scale:5, width:512, height:256} );
+			var map = PET.texture( );
 			
 			var model = new THREE.Mesh(
 					new THREE.SphereGeometry( 1 ),
-					PET.fix( new THREE.MeshBasicMaterial( {map:map} ) )
+					new THREE.MeshBasicMaterial( {map:map} )
 				);
 
+			PET.material( model );
+			
 			scene.add( model );
 
 		</script>

@@ -2,20 +2,29 @@
 //	Procedural Equirectangular Textures
 //	Template Pattern
 //
-//	pattern( ... )	- implements the pattern
-//	texture( opt )	- generate a texture with options
-//	options( opt )	- converts options into internal format
-//	share( opt )	- converts options into URL
-//	info			- general info for the generator
-//	fix( ... )		- reexport from core
+//	defaults = {...}	- default parameters
+//	pattern( ... )		- calculate color of pixel
+//	texture( params )	- generate a texture
+//	material( ... )		- material shader fix
 
 
 
 import { Color } from "three";
-import { noise, fix } from "pet/texture-generator.js";
+import { noise, texture as coreTexture } from "pet/texture-generator.js";
 
 
 
+var defaults = {
+		$name: 'Template',
+		
+		width: 512,
+		height: 256,
+
+		scale: 5,
+	};
+	
+	
+	
 function pattern( x, y, z, color, options, /*u, v, px, py*/ )
 {
 	color.set( 
@@ -31,40 +40,33 @@ function options( params )
 {
 	var options = { };
 		
-	options.scale = params.scale;
+	options.scale = params.scale ?? defaults.scale;
 	
-	options.width = params.width;
-	options.height = params.height;
+	options.width = params.width ?? defaults.width;
+	options.height = params.height ?? defaults.height;
 
 	return options;
 }
 	
 
 
-function share( params )
+function texture( ...opt )
 {
-	var params = [];
+	if( opt.length==0 ) opt = [defaults];
 	
-	url.push( `w=${params.width}` );
-	url.push( `h=${params.height}` );
+	// if there is {...}, assume it is user options, compile them
+	var params = opt.map( (e) => (e!=-null) && (typeof e =='object') && !(e instanceof HTMLCanvasElement) ? options(e) : e );
 
-	url.push( `s=${params.scale}` );
-
-	return url.join( '&' );
+	// if pattern is missing, add pattern
+	if( params.findIndex((e)=>e instanceof Function) == -1 )
+	{
+		params.push( pattern );
+	}
+		
+	return coreTexture( ... params );
 }
 
 
 
-function texture( opt )
-{
-	return fix( pattern, options(opt) )
-}
-
-
-
-var info = { name: 'Template' };
-
-
-
-export { pattern, options, share, info, texture };
-export * from "pet/texture-generator.js";
+export { pattern, defaults, texture };
+export { material } from "pet/texture-generator.js";

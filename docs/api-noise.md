@@ -9,8 +9,12 @@ Module. Defines a seedable 3D noise function, that is used by variour texture
 patterns. It is based on [THREE.SimplexNoise](https://github.com/mrdoob/three.js/blob/master/examples/jsm/math/SimplexNoise.js)
 and [THREE.MathUtils.seededRandom](https://threejs.org/docs/#api/en/math/MathUtils.seededRandom).
 
+* API Reference<br>
+&nbsp; [noise](#noise)<br>
+&nbsp; [noiseSeed](#noiseseed)
 
-### noise
+
+### noise(...)
 
 Function. A 3D noise function. Returns a pseudo-random number
 &#x2208; [-1,1] for a point in 3D space.
@@ -21,14 +25,14 @@ noise( x, y, z )
 
 where:
 
-* `x` &ndash; x coordinate of 3D point (float)
-* `y` &ndash; y coordinate of 3D point (float)
-* `z` &ndash; z coordinate of 3D point (float)
+* `x` &ndash; x coordinate of 3D point (number)
+* `y` &ndash; y coordinate of 3D point (number)
+* `z` &ndash; z coordinate of 3D point (number)
 
 
 
 
-### noiseSeed
+### noiseSeed(...)
 
 Command. Sets the behavior of the [noise](#noise) function.
 If the optional seed is an integer number, the next generated
@@ -43,7 +47,8 @@ noiseSeed( seed )
 
 where:
 
-* `seed` &ndash; the seed vale for future pseudo-random numbers (integer, optional) 
+* `seed` &ndash; optional the seed value for next pseudo-random
+numbers (integer) 
 
 		
 		

@@ -27,25 +27,12 @@
 	<script type="module">
 
 		import * as THREE from "three";
-		import { model, canvas, install, url } from "./online.js";
+		import { model, canvas, install, params, light } from "./online.js";
 		import * as PET from "pet/patterns/simplex-noise.js";
 
-
-
-		var params = {
-				width: url.w ?? 512,
-				height: url.h ?? 256,
-				
-				scale: url.s ?? 50,
-				balance: url.b ?? 50,
-				
-				color: url.c ?? 0xFFFFFF,
-				backgroundColor: url.k ?? 0x000000,
-			};
+		light.intensity = 3;			
 			
-			
-			
-		var gui = install( PET, params );
+		var gui = install( PET );
 			
 		gui.add( params, 'scale' )
 			.min(0).max(100).step(1)
@@ -61,20 +48,20 @@
 			.name( 'Color <right>main</right>' )
 			.$text.classList.add( 'top' );
 			
-		gui.addColor( params, 'backgroundColor' )
+		gui.addColor( params, 'background' )
 			.name( '<right>background</right>' )
 			.$text.classList.add( 'bottom' );
 		
 		
 		
-		model.material.map = PET.fix(
+		model.material.map = PET.texture(
 				PET.pattern,
 				canvas,
 				true,
-				PET.options( params )
+				params
 		);
 
-		model.material = PET.fix( model.material );
+		PET.material( model );
 		
 	</script>
 </body>

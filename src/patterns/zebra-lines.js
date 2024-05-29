@@ -2,18 +2,30 @@
 //	Procedural Equirectangular Textures
 //	Zebra Lines Pattern
 //
-//	pattern( ... )	- implements Zebra lines pattern
-//	options( opt )	- converts options into internal format
-//	share( opt )	- converts options into URL
-//	info			- general info for the generator
+//	defaults = {...}	- default parameters
+//	pattern( ... )		- calculate color of pixel
+//	texture( params )	- generate a texture
+//	material( ... )		- material shader fix
 
 
 
 import { Vector3, MathUtils } from "three";
-import { noise, fix } from "pet/texture-generator.js";
+import { noise, texture as coreTexture } from "pet/texture-generator.js";
 
 
 
+var defaults = {
+		$name: 'Zebra lines',
+		
+		width: 512,
+		height: 256,
+
+		scale: 60,
+		angle: 0,
+	};
+	
+	
+	
 var vec = new Vector3( );
 
 function pattern( x, y, z, color, options, /*u, v, px, py*/ )
@@ -34,45 +46,37 @@ function options( params )
 {
 	var options = { };
 		
-	var angle = (params.angle??0)*Math.PI/180;
+	var angle = (params.angle??defaults.angle)*Math.PI/180;
 	
-	options.scale = MathUtils.mapLinear( (params.scale??60), 0, 100, 151, 2 );
+	options.scale = MathUtils.mapLinear( (params.scale??defaults.scale), 0, 100, 151, 2 );
 
 	options.up = new Vector3( 0, 1e-6*Math.round(1e6*Math.cos( angle )), 1e-6*Math.round(1e6*Math.sin( angle )) );
 
-	options.width = params.width ?? 1024;
-	options.height = params.height ?? 512;
+	options.width = params.width ?? defaults.width;
+	options.height = params.height ?? defaults.height;
 	
 	return options;
 }
 	
 
 
-function share( params )
+function texture( ...opt )
 {
-	var url = [];
+	if( opt.length==0 ) opt = [defaults];
 	
-	url.push( `w=${params.width}` );
-	url.push( `h=${params.height}` );
+	// if there is {...}, assume it is user options, compile them
+	var params = opt.map( (e) => (e!=-null) && (typeof e =='object') && !(e instanceof HTMLCanvasElement) ? options(e) : e );
 
-	url.push( `s=${params.scale}` );
-	url.push( `a=${params.angle}` );
-
-	return url.join( '&' );
+	// if pattern is missing, add pattern
+	if( params.findIndex((e)=>e instanceof Function) == -1 )
+	{
+		params.push( pattern );
+	}
+		
+	return coreTexture( ... params );
 }
 
 
 
-function texture( opt )
-{
-	return equitexture( pattern, options(opt) )
-}
-
-
-
-var info = {name: 'Zebra lines', lightIntensity: 5 };
-
-
-
-export { pattern, options, share, info, texture };
-export * from "pet/texture-generator.js";
+export { pattern, defaults, texture };
+export { material } from "pet/texture-generator.js";

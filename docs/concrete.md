@@ -29,57 +29,42 @@ snapshot to open it online.
 Code template of parameters with their default values.
 
 ```js
-import { texture, fix } from "pet/patterns/concrete.js";
+import * as PET from "pet/patterns/concrete.js";
 :
-params = {
-	width: 512,
-	height: 256
-	scale: 50,
-	density: 100,
-	bump: 100
-};
-
-model.material.map = texture( params );
-model.material = fix( material );
+model.material.map = PET.texture( );
+PET.material( model.material );
 ```
 
-### URL example
 
-Code template of default parameters for the [online generator](../online/concrete.html).
-
-```php
-?w=512&h=256&s=50&d=100&b=100
-```
 
 ### Parameters
 
-Description of parameters and their URL names.
+The parameters of the texture generator are:
 
-* `width` (`w`) &ndash; texture width in pixels (integer)
-* `height` (`h`) &ndash; texture height in pixels (integer)
-* `scale` (`s`) &ndash; pattern size (number &#x2208; [0,100])
-* `density` (`d`) &ndash; pattern density (number &#x2208; [0,100])
-* `bump` (`b`) &ndash; bump height (number &#x2208; [0,100])
+* `width` &ndash; texture width in pixels, default 512
+* `height` &ndash; texture height in pixels, default 256
+* `scale` &ndash; pattern size [0,100], default 50
+* `density` &ndash; pattern density [0,100], default 100
+* `bump` &ndash; bump height [0,100], default 100
+
 
 
 ### API
 
-All texture modules share the same API. Note that *parameters*
-are the user-friendly set pattern characteristics, while
-*options* are the calculation-friendly version of the same
-characteristics, used internally by `pattern`.
+All texture modules share the same API.
 
 * `pattern( x, y, z, color, options )` &ndash; pattern implementation
-* `texture( params )` &ndash; generates a texture with given parameters
-* `options( params )` &ndash; converts parameters into internal options
-* `share( params )` &ndash; generates URL with the given parameters
-* `info` &ndash; general info for the generator, contains its `name`, and 'lightIntensity' (used only by the online editor)
-* `fix( ... )` &ndash; reexport from core's equimaterial
+* `texture( {params} )` &ndash; generator for a texture with given parameters
+* `defaults` &ndash; object with default parameters
+* `material( ... )` &ndash; material shader patcher
+
 
 
 ### Online generator
 
 [online/concrete.html](../online/concrete.html)
+
+
 
 ### Source
 

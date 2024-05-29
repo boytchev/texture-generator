@@ -1,59 +1,36 @@
 ﻿
 //	Equirectangular Texture Generator - Texture Generator
 //
-//	equicanvas( ...args )	- generating texture in a canvas
-//	equitexture( ...args )	- generating texture in Three.js texture
+//	texture( ...args )	- generates texture as Three.js texture
+//	[ ].update(ms)		- updates the texture with few more rows
+//	[ ].border](rows)	- draws a red border
 
 
-import { Color, Vector3, CanvasTexture, LinearFilter, EquirectangularReflectionMapping, MathUtils, SRGBColorSpace } from "three";
+
+import { Color, Vector3, CanvasTexture, LinearFilter, EquirectangularReflectionMapping, SRGBColorSpace } from "three";
 
 
+
+// to speed up some Firefox stuff (reportedly)
 CanvasRenderingContext2D.prototype.clip = function () { };
 
 
-function defaultPattern( x, y, z, color, u, v, px, py, width, height, options )
+
+// generates texture as a canvas
+function canvas( ...args ) // pattern, canvas, deferred, options
 {
-	var xx = Math.round(10*x)/10,
-		yy = Math.round(10*y)/10,
-		zz = Math.round(10*z)/10;
-		
-	var k = 1-15*Math.sqrt( (x-xx)**2 + (y-yy)**2 + (z-zz)**2 );
-	
-	if( k > 0.4 )
-		k = 1;
-	else
-		k = MathUtils.mapLinear( k, 0, 0.4, -3, 0.4 );
+	var width, height, _canvas, pattern, deferred = false, options = {};
 
-	color.setHSL( 0, 0, k );
-	
-} // defaultPattern
-	
-	
 
-// generating texture in a canvas
-function equicanvas( ...args ) // number, number, canvas, function, object
-{
-	var width, height, canvas, pattern, deferred = false, options = {};
-
-	// processing input parameters
+	// load input parameters
 
 	for( var param of args )
 	{
 		if( param instanceof HTMLCanvasElement )
-			canvas = param;
+			_canvas = param;
 		else
 		if( param instanceof Function )
 			pattern = param;
-		else
-		if( Number.isFinite(param) && width==undefined)
-		{
-			width = Math.round( param );
-		}
-		else
-		if( Number.isFinite(param) && height==undefined)
-		{
-			height = Math.round( param );
-		}
 		else
 		if( param===true || param===false )
 		{
@@ -65,15 +42,20 @@ function equicanvas( ...args ) // number, number, canvas, function, object
 			options = param;
 		}
 		else
-			console.warn( `Ignored parameter '${param}'. The parameters of generate(...) are two numbers, a canvas, a pattern function (in any order) and options object.` );
+		{
+			console.warn( `Ignored parameter '${param}'. The parameters coule be a function, a canvas, an object and a boolean.` );
+		}
 	}
 
-	if( width==undefined && Number.isFinite(options.width) )
+
+	// process texture resolution
+	
+	if( Number.isFinite(options.width) )
 	{
 		width = Math.round( options.width );
 	}
 	
-	if( height==undefined && Number.isFinite(options.height) )
+	if( Number.isFinite(options.height) )
 	{
 		height = Math.round( options.height );
 	}
@@ -83,42 +65,42 @@ function equicanvas( ...args ) // number, number, canvas, function, object
 		height = Math.round( width/2 );
 	}
 	
-	if( canvas==undefined && width==undefined )
+	if( _canvas==undefined && width==undefined )
 	{
 		width = 1024;
 		height = 512;
 	}
 
-	if( !canvas )
+	if( !_canvas )
 	{
-		canvas = document.createElement( 'canvas' );
+		_canvas = document.createElement( 'canvas' );
 	}
 	
 	if( Number.isFinite(width) )
 	{
-		if( canvas.width != width ) canvas.width = width;
-		if( canvas.height != height ) canvas.height = height;
+		if( _canvas.width != width ) _canvas.width = width;
+		if( _canvas.height != height ) _canvas.height = height;
 	}
-	
 	
 	if( !pattern )
 	{
-		pattern = defaultPattern;
+		console.error( 'No pattern function provided to texture generator.' );
+		return;
 	}
 	
-	width = canvas.width;
-	height = canvas.height;
+	width = _canvas.width;
+	height = _canvas.height;
 
 	// generating texture
 	
-	var context = canvas.getContext( '2d' ),
+	var context = _canvas.getContext( '2d' ),
 		imageData = new ImageData( width, 1 ),
 		data = imageData.data,
 		color = new Color(),
 		vector = new Vector3(),
 		y = 0;
 	
-	canvas.update = function ( ms = 20 ) {
+	_canvas.update = function ( ms = 20 ) {
 		
 		if( y>=height )
 		{
@@ -155,11 +137,11 @@ function equicanvas( ...args ) // number, number, canvas, function, object
 		return v;
 	}
 
-	canvas.border = function ( lines ) {
+	_canvas.border = function ( rows = 1 ) {
 		context.fillStyle = 'black';
-		context.fillRect( 0, y+lines, width, height-y-lines );
+		context.fillRect( 0, y+rows, width, height-y-rows );
 		context.fillStyle = 'crimson';
-		context.fillRect( 0, y, width, lines );
+		context.fillRect( 0, y, width, rows );
 	}
 
 	if( deferred )
@@ -172,51 +154,51 @@ function equicanvas( ...args ) // number, number, canvas, function, object
 			if( ((x>>5)+(y>>5))%2 )
 				context.fillRect( x, y, 4, 4 );
 		*/	
-		return canvas;
+		return _canvas;
 	}
 
-	while( canvas.update( 1000 ) < 1 );
+	while( _canvas.update( 1000 ) < 1 );
 	
-	return canvas;
+	return _canvas;
 	
-} // equicanvas
+} // canvas
 
 
-// generating texture in Three.js texture
-function equitexture( ...args )
+
+// generates texture in Three.js texture
+function texture( ...args )
 {
-	var canvas = equicanvas(...args);
-	var texture = new CanvasTexture( canvas );
-		texture.needsUpdate = false;
+	var _canvas = canvas(...args);
+	var _texture = new CanvasTexture( _canvas );
+		_texture.needsUpdate = false;
 
 	var incomplete = true;
 	
-	texture.update = function ( ms = 20 ) {
-		var progress = canvas.update( ms );
+	_texture.update = function ( ms = 20 ) {
+		var progress = _canvas.update( ms );
 		if( progress==1 && incomplete )
 		{
-			texture.needsUpdate = true;
+			_texture.needsUpdate = true;
 			incomplete = false;
 		}
 		return progress;
 	}
 	
-	texture.border = function ( lines ) {
-		canvas.border( lines );
+	_texture.border = function ( rows = 1 ) {
+		_canvas.border( rows );
 	}
 		
-	texture.mapping = EquirectangularReflectionMapping; 
+	_texture.mapping = EquirectangularReflectionMapping; 
 	
 	// turn off mipmaps, as they create a seam and destroy the poles
-	texture.minFilter = LinearFilter; 
-	texture.generateMipmaps = false;
-	//texture.needsUpdate = true;
+	_texture.minFilter = LinearFilter; 
+	_texture.generateMipmaps = false;
 	
-	texture.colorSpace = SRGBColorSpace;
+	_texture.colorSpace = SRGBColorSpace;
 				
-	return texture;
+	return _texture;
 	
-} // equitexture
+} // texture
 
 
-export { equicanvas, equitexture };
+export { texture};

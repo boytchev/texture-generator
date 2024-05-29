@@ -35,50 +35,30 @@ Click on a snapshot to open it online.
 Code template of parameters with their default values.
 
 ```js
-import { texture, fix } from "pet/patterns/zebra-lines.js";
+import * as PET from "pet/patterns/zebra-lines.js";
 :
-params = {
-	width: 1024,
-	height: 512,
-	scale: 60,
-	angle: 0,
-};
-
-model.material.map = texture( params );
-model.material = fix( material );
-```
-
-### URL example
-
-Code template of default parameters for the [online generator](../online/zebra-lines.html).
-
-```php
-?w=1024&h=512&s=60&a=0
+model.material.map = PET.texture( );
+PET.material( model.material );
 ```
 
 ### Parameters
 
-Description of parameters and their URL names.
+The parameters of the texture generator are:
 
-* `width` (`w`) &ndash; texture width in pixels (integer)
-* `height` (`h`) &ndash; texture height in pixels (integer)
-* `scale` (`s`) &ndash; pattern size (number &#x2208; [0,100])
-* `angle` (`a`) &ndash; pattern tilt angle (number &#x2208; [-180,180])
+* `width` &ndash; texture width in pixels, default 512
+* `height` &ndash; texture height in pixels, default 256
+* `scale` &ndash; pattern size [0,100], default 60
+* `angle` &ndash; pattern tilt angle in degrees [-180,180], default 0
 
 
 ### API
 
-All texture modules share the same API. Note that *parameters*
-are the user-friendly set pattern characteristics, while
-*options* are the calculation-friendly version of the same
-characteristics, used internally by `pattern`.
+All texture modules share the same API.
 
 * `pattern( x, y, z, color, options )` &ndash; pattern implementation
-* `texture( params )` &ndash; generates a texture with given parameters
-* `options( params )` &ndash; converts parameters into internal options
-* `share( params )` &ndash; generates URL with the given parameters
-* `info` &ndash; general info for the generator, contains its `name`, and 'lightIntensity' (used only by the online editor)
-* `fix( ... )` &ndash; reexport from core's equimaterial
+* `texture( {params} )` &ndash; generator for a texture with given parameters
+* `defaults` &ndash; object with default parameters
+* `material( ... )` &ndash; material shader patcher
 
 
 ### Online generator

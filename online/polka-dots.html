@@ -27,29 +27,15 @@
 	<script type="module">
 
 		import * as THREE from "three";
-		import { model, canvas, install, url } from "./online.js";
+		import { model, canvas, install, params } from "./online.js";
 		import * as PET from "pet/patterns/polka-dots.js";
 
 
 
-		var params = {
-				width: url.w ?? 512,
-				height: url.h ?? 256,
-
-				layout: url.l ?? 9,
-				scale: url.s ?? 50,
-				blur: url.b ?? 20,
-				
-				color: url.c ?? 0x000000,
-				backgroundColor: url.k ?? 0xFFFFFF,
-			};
-			
-			
-			
-		var gui = install( PET, params );
+		var gui = install( PET );
 				
 		gui.add( params, 'layout' )
-			.min(1).max(PET.info.layouts).step(1)
+			.min(1).max(PET.defaults.$layouts).step(1)
 			.name( 'Dots <right>layout</right>',  )
 			.$input.classList.add( 'top' );
 			
@@ -66,20 +52,20 @@
 			.name( 'Color <right>main</right>' )
 			.$text.classList.add( 'top' );
 			
-		gui.addColor( params, 'backgroundColor' )
+		gui.addColor( params, 'background' )
 			.name( '<right>background</right>' )
 			.$text.classList.add( 'bottom' );
 		
 		
 		
-		model.material.map = PET.fix(
+		model.material.map = PET.texture(
 				PET.pattern,
 				canvas,
 				true,
-				PET.options( params )
+				params
 		);
 
-		model.material = PET.fix( model.material );
+		PET.material( model );
 		
 	</script>
 </body>

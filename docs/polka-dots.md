@@ -35,61 +35,44 @@ lattice) with up to 5000 dots. Click on a snapshot to open it online.
 Code template of parameters with their default values.
 
 ```js
-import { texture, fix } from "pet/patterns/polka-dots.js";
+import * as PET from "pet/patterns/polka-dots.js";
 :
-params = {
-	width: 512,
-	height: 256,
-	layout: 9,
-	scale: 50,
-	blur: 20,
-	color: 0x000000,
-	backgroundColor: 0xffffff
-};
-
-model.material.map = texture( params );
-model.material = fix( material );
+model.material.map = PET.texture( );
+PET.material( model.material );
 ```
 
-### URL example
-
-Code template of default parameters for the [online generator](../online/polka-dots.html).
-
-```php
-?w=512&h=256&l=9&s=50&b=20&c=0&k=16777215
-```
 
 ### Parameters
 
-Description of parameters and their URL names.
+The parameters of the texture generator are:
 
-* `width` (`w`) &ndash; texture width in pixels (integer)
-* `height` (`h`) &ndash; texture height in pixels (integer)
-* `layout` (`l`) &ndash; dot layout number (integer &#x2208; [1,20])
-* `scale` (`s`) &ndash; relative dot size (number &#x2208; [0,100])
-* `blur` (`b`) &ndash; smoothness of dots edges (number &#x2208; [0,100])
-* `color` (`c`) &ndash; color of lines (integer)
-* `backgroundColor` (`k`) &ndash; color of background (integer)
+* `width` &ndash; texture width in pixels, default 512
+* `height` &ndash; texture height in pixels, default 256
+* `layout` &ndash; dot layout number [1,*$layouts*], default 9
+* `scale` &ndash; relative dot size [0,100], default 50
+* `blur` &ndash; smoothness of dots edges [0,100], default 20
+* `color` &ndash; color of dots, default 0x000000 (black)
+* `background` &ndash; color of background, default 0xFFFFFF (white)
+
+Additional system parameter:
+
+* `$layouts` &ndash; the number of supported layouts, currently 20
 
 
 ### API
 
-All texture modules share the same API. Note that *parameters*
-are the user-friendly set pattern characteristics, while
-*options* are the calculation-friendly version of the same
-characteristics, used internally by `pattern`.
+All texture modules share the same API.
 
 * `pattern( x, y, z, color, options )` &ndash; pattern implementation
-* `texture( params )` &ndash; generates a texture with given parameters
-* `options( params )` &ndash; converts parameters into internal options
-* `share( params )` &ndash; generates URL with the given parameters
-* `info` &ndash; general info for the generator, contains its `name`, and 'layouts' wth the number of layouts
-* `fix( ... )` &ndash; reexport from core's equimaterial
+* `texture( {params} )` &ndash; generator for a texture with given parameters
+* `defaults` &ndash; object with default parameters
+* `material( ... )` &ndash; material shader patcher
 
 
 ### Online generator
 
 [online/polka-dots.html](../online/polka-dots.html)
+
 
 ### Source
 

@@ -27,30 +27,11 @@
 	<script type="module">
 
 		import * as THREE from "three";
-		import { model, canvas, install, url } from "./online.js";
+		import { model, canvas, install, params } from "./online.js";
 		import * as PET from "pet/patterns/camouflage.js";
 
 
-
-		var params = {
-				width: url.w ?? 512,
-				height: url.h ?? 256,
-				
-				scale: url.s ?? 50,
-				
-				colorA: url.a ?? 0xc2bea8,
-				colorB: url.b ?? 0x9c895e,
-				colorC: url.c ?? 0x92a375,
-				colorD: url.d ?? 0x717561,
-				
-				hue: url.u ?? 0,
-				saturation: url.t ?? 0,
-				brightness: url.g ?? 0,
-			};
-
-
-
-		var gui = install( PET, params );
+		var gui = install( PET );
 			
 		gui.add( params, 'scale' )
 			.name( 'Scale' ).min(0).max(100).step(1);
@@ -82,14 +63,14 @@
 			
 
 			
-		model.material.map = PET.fix(
+		model.material.map = PET.texture(
 				PET.pattern,
 				canvas,
 				true,
-				PET.options( params )
+				params
 		);
 		
-		model.material = PET.fix( model.material );
+		PET.material( model );
 
 	</script>
 </body>

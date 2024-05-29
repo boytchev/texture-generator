@@ -2,20 +2,30 @@
 //	Procedural Equirectangular Textures
 //	Concrete Pattern
 //
-//	pattern( ... )		- implements the pattern
-//	texture( params )	- generate a texture with options
-//	options( params )	- converts options into internal format
-//	share( opt )		- converts options into URL
-//	info				- general info for the generator
-//	fix( ... )			- reexport from core
+//	defaults = {...}	- default parameters
+//	pattern( ... )		- calculate color of pixel
+//	texture( params )	- generate a texture
+//	material( ... )		- material shader fix
 
 
 
-
-import { noise, fix } from "pet/texture-generator.js";
-
+import { noise, texture as coreTexture } from "pet/texture-generator.js";
 
 
+
+var defaults = {
+		$name: 'Concrete',
+		
+		width: 512,
+		height: 256,
+		
+		scale: 50,
+		density: 100,
+		bump: 100,
+	};
+	
+	
+	
 function pattern( x, y, z, color, options, /*u, v, px, py*/ )
 {
 	var k = noise( options.scale*x, options.scale*y, options.scale*z );
@@ -29,45 +39,36 @@ function options( params )
 {
 	var options = { };
 		
-	options.scale = 2**(6.5-4*(params.scale??100)/100);
+	options.scale = 2**(6.5-4*(params.scale??defaults.scales)/100);
 	
-	options.density = 10-10*((params.density??100)/100*0.9)**0.5;
-	options.bump = (params.bump??100)/100;
+	options.density = 10-10*((params.density??defaults.density)/100*0.9)**0.5;
+	options.bump = (params.bump??defaults.bump)/100;
 
-	options.width = params.width ?? 512;
-	options.height = params.height ?? 256;
+	options.width = params.width ?? defaults.width;
+	options.height = params.height ?? defaults.height;
 
 	return options;
 }
 	
 
 
-function share( params )
+function texture( ...opt )
 {
-	var url = [];
+	if( opt.length==0 ) opt = [defaults];
 	
-	url.push( `w=${params.width}` );
-	url.push( `h=${params.height}` );
+	// if there is {...}, assume it is user options, compile them
+	var params = opt.map( (e) => (e!=-null) && (typeof e =='object') && !(e instanceof HTMLCanvasElement) ? options(e) : e );
 
-	url.push( `s=${params.scale}` );
-	url.push( `d=${params.density}` );
-	url.push( `b=${params.bump}` );
-	
-	return url.join( '&' );
+	// if pattern is missing, add pattern
+	if( params.findIndex((e)=>e instanceof Function) == -1 )
+	{
+		params.push( pattern );
+	}
+		
+	return coreTexture( ... params );
 }
 
 
 
-function texture( opt )
-{
-	return fix( pattern, options(opt) )
-}
-
-
-
-var info = { name: 'Concrete', lightIntensity: 3 };
-
-
-
-export { pattern, options, share, info, texture };
-export * from "pet/texture-generator.js";
+export { pattern, defaults, texture };
+export { material } from "pet/texture-generator.js";

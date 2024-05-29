@@ -70,11 +70,11 @@
 
 			// defining a model with deferred texture
 			
-			var map = PET.equitexture( PET.pattern, true, {scale:50, width:1024, height:512} );
+			var map = PET.texture( PET.pattern, true, {scale:50, width:1024, height:512} );
 			
 			var model = new THREE.Mesh(
 					new THREE.SphereGeometry( 1 ),
-					PET.fix( new THREE.MeshBasicMaterial( {map:map} ) )
+					PET.material( new THREE.MeshBasicMaterial( {map:map} ) )
 				);
 			
 			var box = new THREE.Mesh(

@@ -29,67 +29,43 @@ a snapshot to open it online.
 </p>
 
 
-### Code example
+### Code template
 
 Code template of parameters with their default values.
 
 ```js
-import { texture, fix } from "pet/patterns/camouflage.js";
+import * as PET from "pet/patterns/camouflage.js";
 :
-params = {
-	width: 512,
-	height: 256,
-	scale: 50,
-	colorA: 0xc2bea8,
-	colorB: 0x9c895e,
-	colorC: 0x92a375,
-	colorD: 0x717561,
-	hue: 0,
-	saturation: 0,
-	brightness: 0
-};
-
-model.material.map = texture( params );
-model.material = fix( material );
+model.material.map = PET.texture( );
+PET.material( model.material );
 ```
 
-### URL example
-
-Code template of default parameters for the [online generator](../online/camouflage.html).
-
-```php
-?w=512&h=256&s=50&a=12762792&b=10258782&c=9610101&d=7435617&u=0&t=0&g=0
-```
 
 ### Parameters
 
-Description of parameters and their URL names.
+The parameters of the texture generator are:
 
-* `width` (`w`) &ndash; texture width in pixels (integer)
-* `height` (`h`) &ndash; texture height in pixels (integer)
-* `scale` (`s`) &ndash; pattern size (number &#x2208; [0,100])
-* `colorA` (`a`) &ndash; top color (integer)
-* `colorB` (`b`) &ndash; second color (integer)
-* `colorC` (`c`) &ndash; third color (integer)
-* `colorD` (`d`) &ndash; bottom color (integer)
-* `hue` (`u`) &ndash; hue shift (number &#x2208; [-360,360])
-* `saturation` (`t`) &ndash; saturation shift (number &#x2208; [-100,100])
-* `brightness` (`g`) &ndash; brightness shift (number &#x2208; [-100,100])
+* `width` &ndash; texture width in pixels, default 512
+* `height` &ndash; texture height in pixels, default 256
+* `scale` &ndash; pattern size [0,100], default 50
+* `colorA` &ndash; top color, default 0xC2BEA8
+* `colorB` &ndash; second color, default 0x9C895E
+* `colorC` &ndash; third color, default 0x92A375
+* `colorD` &ndash; bottom color, default 0x717561
+* `hue` &ndash; hue shift [-360,360], default 0
+* `saturation` &ndash; saturation shift [-100,100], default 0
+* `brightness` &ndash; brightness shift [-100,100], default 0
+
 
 
 ### API
 
-All texture modules share the same API. Note that *parameters*
-are the user-friendly set pattern characteristics, while
-*options* are the calculation-friendly version of the same
-characteristics, used internally by `pattern`.
+All texture modules share the same API.
 
 * `pattern( x, y, z, color, options )` &ndash; pattern implementation
-* `texture( params )` &ndash; generates a texture with given parameters
-* `options( params )` &ndash; converts parameters into internal options
-* `share( params )` &ndash; generates URL with the given parameters
-* `info` &ndash; general info for the generator, contains its `name`
-* `fix( ... )` &ndash; reexport from core's equimaterial
+* `texture( {params} )` &ndash; generator for a texture with given parameters
+* `defaults` &ndash; object with default parameters
+* `material( ... )` &ndash; material shader patcher
 
 
 ### Online generator

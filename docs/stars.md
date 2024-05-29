@@ -35,61 +35,42 @@ open it online.
 Code template of parameters with their default values.
 
 ```js
-import { texture, fix } from "pet/patterns/stars.js";
+import * as PET from "pet/patterns/stars.js";
 :
-params = {
-	width: 512,
-	height: 256,
-	density: 30,
-	brightness: 50,
-	variation: 0,
-	color: 0xfff5f0,
-	backgroundColor: 0x000000
-};
-
-model.material.map = texture( params );
-model.material = fix( material );
+model.material.map = PET.texture( );
+PET.material( model.material );
 ```
 
-### URL example
-
-Code template of default parameters for the [online generator](../online/stars.html).
-
-```php
-?w=1024&h=512&d=20&b=20&v=0&c=16774640&k=96
-```
 
 ### Parameters
 
-Description of parameters and their URL names.
+The parameters of the texture generator are:
 
-* `width` (`w`) &ndash; texture width in pixels (integer)
-* `height` (`h`) &ndash; texture height in pixels (integer)
-* `density` (`d`) &ndash; density of stars (number &#x2208; [0,100])
-* `brightness` (`b`) &ndash; brightness of stars (number &#x2208; [0,100])
-* `variation` (`v`) &ndash; hue variation when the color is not pure white (number &#x2208; [0,100])
-* `color` (`c`) &ndash; color of stars (integer)
-* `backgroundColor` (`k`) &ndash; color of sky (integer)
+* `width` &ndash; texture width in pixels, default 1024
+* `height` &ndash; texture height in pixels, default 512
+* `density` &ndash; density of stars [0,100], default 20
+* `brightness` &ndash; brightness of stars [0,100], default 20
+* `variation` &ndash; hue variation [0,100], default 0
+* `color` &ndash; color of stars, default 0xFFF5F0 (light blue)
+* `background` &ndash; color of sky, default 0x000060 (dark blue)
+
+Hue *variation* is noticeable when the color of stars is not pure white.
 
 
 ### API
 
-All texture modules share the same API. Note that *parameters*
-are the user-friendly set pattern characteristics, while
-*options* are the calculation-friendly version of the same
-characteristics, used internally by `pattern`.
+All texture modules share the same API.
 
 * `pattern( x, y, z, color, options )` &ndash; pattern implementation
-* `texture( params )` &ndash; generates a texture with given parameters
-* `options( params )` &ndash; converts parameters into internal options
-* `share( params )` &ndash; generates URL with the given parameters
-* `info` &ndash; general info for the generator, contains its `name`, and 'lightIntensity' (used only by the online editor)
-* `fix( ... )` &ndash; reexport from core's equimaterial
+* `texture( {params} )` &ndash; generator for a texture with given parameters
+* `defaults` &ndash; object with default parameters
+* `material( ... )` &ndash; material shader patcher
 
 
 ### Online generator
 
 [online/stars.html](../online/stars.html)
+
 
 ### Source
 

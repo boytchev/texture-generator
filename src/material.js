@@ -1,7 +1,8 @@
 ﻿
 //	Equirectangular Texture Generator - Material Patcher
 //
-//	fix( material )	- patches material's shaders
+//	material( mesh )		- patches mesh's material's shaders
+//	material( material )	- patches material's shaders
 
 
 import { EquirectangularReflectionMapping, MathUtils } from "three";
@@ -103,16 +104,27 @@ function batchReplace( string, from, to, name )
 
 	
 // patches material's shaders
-function equimaterial( material )
+function material( object )
 {	
-	var map = material.map?.mapping == EquirectangularReflectionMapping;
-	var bumpMap = material.bumpMap?.mapping == EquirectangularReflectionMapping;
-	var aoMap = material.aoMap?.mapping == EquirectangularReflectionMapping;
+	var _material = object.isMesh ? object.material : object;
+		
+	var map = _material.map?.mapping == EquirectangularReflectionMapping;
+	var bumpMap = _material.bumpMap?.mapping == EquirectangularReflectionMapping;
+	var aoMap = _material.aoMap?.mapping == EquirectangularReflectionMapping;
 	
+	let originalOnBeforeCompile = _material.onBeforeCompile;
+		
 	if( map || bumpMap || aoMap )
 	{
-		material.onBeforeCompile = function( shader )
+		
+		_material.onBeforeCompile = function( shader )
 		{
+			// first call the original onBeforeCompile
+			if( originalOnBeforeCompile )
+			{
+				originalOnBeforeCompile( shader );
+			}
+			
 			// general patches for any kind of map -- add a varying variable
 			// containing position used for equrectangular textures
 			shader.vertexShader = batchReplace( shader.vertexShader, [VERTEX_FROM], [VERTEX_TO], 'vertex' );
@@ -135,10 +147,10 @@ function equimaterial( material )
 		} // onBeforeCompile
 	} // if any map	
 
-	return material;
+	return _material;
 	
-} // equimaterial
+} // material
 
 
 
-export { equimaterial };
+export { material };

@@ -2,20 +2,34 @@
 //	Procedural Equirectangular Textures
 //	Stars Pattern
 //
-//	pattern( ... )		- implements the pattern
-//	texture( params )	- generate a texture with options
-//	options( params )	- converts options into internal format
-//	share( opt )		- converts options into URL
-//	info				- general info for the generator
-//	fix( ... )			- reexport from core
+//	defaults = {...}	- default parameters
+//	pattern( ... )		- calculate color of pixel
+//	texture( params )	- generate a texture
+//	material( ... )		- material shader fix
 
 
 
 import { Vector3, Color, MathUtils } from "three";
-import { noise, fix } from "pet/texture-generator.js";
+import { noise, texture as coreTexture } from "pet/texture-generator.js";
 
 
 
+var defaults = {
+		$name: 'Stars',
+
+		width: 1024,
+		height: 512,
+		
+		density: 20,
+		brightness: 20,
+		variation: 0,
+
+		color: 0xfff5f0,
+		background: 0x000060,
+	};	
+	
+
+	
 var pts = [];
 var n = 6000;
 for( var i=0; i<n; i++)
@@ -49,7 +63,7 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ )
 		s = options.brightness*(0.6+0.3*noise( y/4, z/4, x/4 )+0.3*noise( z/2, x/2, y/2 ))**options.density;
 	}
 
-	color.lerpColors( options.backgroundColor, options.color, s );
+	color.lerpColors( options.background, options.color, s );
 	
 	if( s > 0.1 ) color.offsetHSL( s*options.variation/*k*/, 0, 0 );
 }
@@ -60,50 +74,38 @@ function options( params )
 {
 	var options = { };
 	
-	options.brightness = 0.3 + (params.brightness ?? 20)/20;
-	options.density = 100/(0+(params.density ?? 20));
-	options.variation = (params.variation ?? 0)/100;
+	options.brightness = 0.3 + (params.brightness ?? defaults.brightness)/20;
+	options.density = 100/(0+(params.density ?? defaults.density));
+	options.variation = (params.variation ?? defaults.variation)/100;
 	
-	options.color = new Color( params.color ?? 0xfff5f0 );
-	options.backgroundColor = new Color( params.backgroundColor ?? 0x000060 );
+	options.color = new Color( params.color ?? defaults.color );
+	options.background = new Color( params.background ?? defaults.background );
 	
-	options.width = params.width ?? 512;
-	options.height = params.height ?? 256;
+	options.width = params.width ?? defaults.width;
+	options.height = params.height ?? defaults.height;
 	
 	return options;
 }
 	
 
 
-function share( params )
+function texture( ...opt )
 {
-	var url = [];
+	if( opt.length==0 ) opt = [defaults];
 	
-	url.push( `w=${params.width}` );
-	url.push( `h=${params.height}` );
+	// if there is {...}, assume it is user options, compile them
+	var params = opt.map( (e) => (e!=-null) && (typeof e =='object') && !(e instanceof HTMLCanvasElement) ? options(e) : e );
 
-	url.push( `d=${params.density}` );
-	url.push( `b=${params.brightness}` );
-	url.push( `v=${params.variation}` );
-
-	url.push( `c=${params.color}` );
-	url.push( `k=${params.backgroundColor}` );
-	
-	return url.join( '&' );
+	// if pattern is missing, add pattern
+	if( params.findIndex((e)=>e instanceof Function) == -1 )
+	{
+		params.push( pattern );
+	}
+		
+	return coreTexture( ... params );
 }
 
 
 
-function texture( opt )
-{
-	return fix( pattern, options(opt) )
-}
-
-
-
-var info = {name: 'Stars', lightIntensity: 3};
-
-
-
-export { pattern, options, share, info, texture };
-export * from "pet/texture-generator.js";
+export { pattern, defaults, texture };
+export { material } from "pet/texture-generator.js";

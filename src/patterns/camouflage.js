@@ -2,20 +2,38 @@
 //	Procedural Equirectangular Textures
 //	Camouflage Pattern
 //
-//	pattern( ... )		- implements the pattern
-//	texture( params )	- generate a texture with options
-//	options( params )	- converts options into internal format
-//	share( opt )		- converts options into URL
-//	info				- general info for the generator
-//	fix( ... )			- reexport from core
+//	defaults = {...}	- default parameters
+//	pattern( ... )		- calculate color of pixel
+//	texture( params )	- generate a texture
+//	material( ... )		- material shader fix
 
 
 
 import { Color } from "three";
-import { noise, fix } from "pet/texture-generator.js";
+import { noise, texture as coreTexture } from "pet/texture-generator.js";
 
 
 
+var defaults = {
+		$name: 'Camouflage',
+		
+		width: 512,
+		height: 256,
+		
+		scale: 50,
+		
+		colorA: 0xc2bea8,
+		colorB: 0x9c895e,
+		colorC: 0x92a375,
+		colorD: 0x717561,
+		
+		hue: 0,
+		saturation: 0,
+		brightness: 0,
+	};
+			
+			
+			
 function pattern( x, y, z, color, options, /*u, v, px, py*/ )
 {
 	x *= options.scale;
@@ -42,58 +60,43 @@ function options( params )
 {
 	var options = { };
 		
-	options.colorA = new Color( params.colorA ?? 0xc2bea8 );
-	options.colorB = new Color( params.colorB ?? 0x9c895e );
-	options.colorC = new Color( params.colorC ?? 0x92a375 );
-	options.colorD = new Color( params.colorD ?? 0x717561 );
+	options.colorA = new Color( params.colorA ?? defaults.colorA );
+	options.colorB = new Color( params.colorB ?? defaults.colorB );
+	options.colorC = new Color( params.colorC ?? defaults.colorC );
+	options.colorD = new Color( params.colorD ?? defaults.colorD );
 
-	options.scale = 2**(-((params.scale??50)-100)/50 * 3 - 1);
+	options.scale = 2**(-((params.scale??defaults.scale)-100)/50 * 3 - 1);
 	
-	options.hue = (params.hue??0)/360;
-	options.saturation = (params.saturation??0)/100;
-	options.brightness = (params.brightness??0)/100;
+	options.hue = (params.hue??defaults.hue)/360;
+	options.saturation = (params.saturation??defaults.saturation)/100;
+	options.brightness = (params.brightness??defaults.brightness)/100;
 
-	options.width = params.width ?? 512;
-	options.height = params.height ?? 256;
+	options.width = params.width ?? defaults.width;
+	options.height = params.height ?? defaults.height;
 	
 	return options;
 }
-	
 
 
-function share( params )
+
+
+function texture( ...opt )
 {
-	var url = [];
+	if( opt.length==0 ) opt = [defaults];
 	
-	url.push( `w=${params.width}` );
-	url.push( `h=${params.height}` );
+	// if there is {...}, assume it is user options, compile them
+	var params = opt.map( (e) => (e!=-null) && (typeof e =='object') && !(e instanceof HTMLCanvasElement) ? options(e) : e );
 
-	url.push( `s=${params.scale}` );
-
-	url.push( `a=${params.colorA}` );
-	url.push( `b=${params.colorB}` );
-	url.push( `c=${params.colorC}` );
-	url.push( `d=${params.colorD}` );
-	
-	url.push( `u=${params.hue}` );
-	url.push( `t=${params.saturation}` );
-	url.push( `g=${params.brightness}` );
-
-	return url.join( '&' );
+	// if pattern is missing, add pattern
+	if( params.findIndex((e)=>e instanceof Function) == -1 )
+	{
+		params.push( pattern );
+	}
+		
+	return coreTexture( ... params );
 }
 
 
 
-function texture( opt )
-{
-	return fix( pattern, options(opt) )
-}
-
-
-
-var info = { name: 'Camouflage' };
-
-
-
-export { pattern, options, share, info, texture };
-export * from "pet/texture-generator.js";
+export { pattern, defaults, texture };
+export { material } from "pet/texture-generator.js";

@@ -68,17 +68,17 @@ function animationLoop( t )
 	controls.update( );
 	light.position.copy( camera.position );
 
-	var map = 'map';
-	if( model.material.bumpMap ) map = 'bumpMap';
+	var mapName = 'map';
+	if( model.material.bumpMap ) mapName = 'bumpMap';
 
-	var percent = model.material[map].update( );
+	var percent = model.material[mapName].update( );
 
 	var now = performance.now();
 	
 	if( percent < 1 && now-startTime > 1000 )
 	{
-		model.material[map].border( canvas.width>>7 );
-		model.material[map].needsUpdate = true;
+		model.material[mapName].border( canvas.width>>7 );
+		model.material[mapName].needsUpdate = true;
 		startTime = now;
 	}
 	
@@ -90,17 +90,30 @@ function animationLoop( t )
 
 
 var filename,
-	share,
-	mainGui;
+	mainGui,
+	params = {};
+	
 
-function install( PET, params )
+function install( PET )
 {
-	filename = PET.info.name.split(' ').join('-').toLowerCase();
-	share = ()=>PET.share(params);
+	// process URL options
+	var urlAddress = window.location.search.split('#')[0], // skip all after #
+		urlParameters = new URLSearchParams( urlAddress ),
+		url = {};
+		
+	for( var [key, value] of urlParameters.entries() )
+	{
+		url[key] = parseFloat(value);
+	}
+
+	for( const [key, value] of Object.entries(PET.defaults) )
+		if( key[0]!='$' )
+			params[key] = url[key] ?? value;
+
+
+	filename = PET.defaults.$name.split(' ').join('-').toLowerCase();
 	
-	light.intensity = PET.info.lightIntensity ?? 6;
-	
-	var title = `<big><em>${PET.info.name}</em> generator</big>
+	var title = `<big><em>${PET.defaults.$name}</em> generator</big>
 			<small class="fullline">
 				<a class="link" href="#" onclick="window.history.back(); return false;"><span>&#x2B9C</span>Back</a> &middot;
 				<span id="share" class="link">Share<!-- &#x1F517;--></span> &middot;
@@ -119,11 +132,11 @@ function install( PET, params )
 		var map = 'map';
 		if( model.material.bumpMap ) map = 'bumpMap';
 	
-		model.material[map] = PET.fix(
+		model.material[map] = PET.texture(
 					PET.pattern,
 					canvas,
 					true,
-					PET.options( params )
+					/*PET.options*/( params )
 			);
 			
 //		onChange( );
@@ -168,11 +181,19 @@ function downloadTexture( event )
 
 }
 
+
 function shareURL( event )
 {
 	event.stopPropagation();
 	
-	var url = window.location.href.split('?')[0].split('#')[0] + '?' + share();
+	var url = [];
+
+	for( const [key, value] of Object.entries(params) )
+		url.push( `${key}=${value}` );
+	
+	url = url.join( '&' );
+
+	url = window.location.href.split('?')[0].split('#')[0] + '?' + url;
 	
 	navigator.clipboard.writeText( url );
 	
@@ -180,18 +201,10 @@ function shareURL( event )
 }
 
 
-// process URL options
-var urlAddress = window.location.search.split('#')[0], // skip all after #
-	urlParameters = new URLSearchParams( urlAddress ),
-	url = {};
-	
-for( var [key, value] of urlParameters.entries() )
-{
-	url[key] = parseFloat(value);
-}
-
-
+		
+		
 onResize( );
 
 
-export { model, canvas, install, url };
+
+export { model, canvas, install, params, light };

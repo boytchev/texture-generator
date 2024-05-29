@@ -27,26 +27,12 @@
 	<script type="module">
 
 		import * as THREE from "three";
-		import { model, canvas, install, url } from "./online.js";
+		import { model, canvas, install, params, light } from "./online.js";
 		import * as PET from "pet/patterns/stars.js";
 
+		light.intensity = 3;
 
-
-		var params = {
-				width: url.w ?? 1024,
-				height: url.h ?? 512,
-				
-				density: url.d ?? 20,
-				brightness: url.b ?? 20,
-				variation: url.v ?? 0,
-
-				color: url.c ?? 0xfff5f0,
-				backgroundColor: url.k ?? 0x000060,
-			};
-			
-			
-			
-		var gui = install( PET, params );
+		var gui = install( PET );
 				
 		gui.add( params, 'density' )
 			.min(0).max(100).step(1)
@@ -66,20 +52,20 @@
 			.name( 'Color <right>stars</right>' )
 			.$text.classList.add( 'top' );
 			
-		gui.addColor( params, 'backgroundColor' )
+		gui.addColor( params, 'background' )
 			.name( '<right>background</right>' )
 			.$text.classList.add( 'bottom' );
 		
 		
 		
-		model.material.map = PET.fix(
+		model.material.map = PET.texture(
 				PET.pattern,
 				canvas,
 				true,
-				PET.options( params )
+				params
 		);
 
-		model.material = PET.fix( model.material );
+		PET.material( model );
 		
 	</script>
 </body>

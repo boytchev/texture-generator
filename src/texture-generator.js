@@ -1,22 +1,12 @@
 ﻿
-//
+// //	Equirectangular Texture Generator - All Core Modules
 //
 
 
+import { texture } from "./generator.js";
+import { material } from "./material.js";
 import { noise, noiseSeed } from "./noise.js";
-import { equicanvas, equitexture } from "./generator.js";
-import { equimaterial } from "./material.js";
 
 
 
-function fix( ...args )
-{
-	if( args.length==1 && args[0].isMaterial )
-		return equimaterial( ...args );
-	else
-		return equitexture( ...args );
-}
-
-
-
-export { equimaterial, equicanvas, equitexture, noise, noiseSeed, fix };
+export { texture, material, noise, noiseSeed };

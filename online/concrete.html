@@ -27,23 +27,12 @@
 	<script type="module">
 
 		import * as THREE from "three";
-		import { model, canvas, install, url } from "./online.js";
+		import { model, canvas, install, params, light } from "./online.js";
 		import * as PET from "pet/patterns/concrete.js";
 
+		light.intensity = 3;
 
-
-		var params = {
-				width: url.w ?? 512,
-				height: url.h ?? 256,
-				
-				scale: url.s ?? 50,
-				density: url.d ?? 100,
-				bump: url.b ?? 100,
-			};
-			
-			
-
-		var gui = install( PET, params );
+		var gui = install( PET );
 		
 		gui.add( params, 'scale' )
 			.name( 'Bumps<right>scale</right>' ).min(0).max(100).step(1)
@@ -58,14 +47,14 @@
 
 			
 		
-		model.material.bumpMap = PET.fix(
+		model.material.bumpMap = PET.texture(
 				PET.pattern,
 				canvas,
 				true,
-				PET.options( params )
+				params
 		);
 		
-		model.material = PET.fix( model.material );
+		PET.material( model );
 
 	</script>
 </body>

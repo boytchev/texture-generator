@@ -2,18 +2,16 @@
 //	Procedural Equirectangular Textures
 //	Polka Dots Pattern
 //
-//	pattern( ... )		- implements the pattern
-//	texture( params )	- generate a texture with options
-//	options( params )	- converts options into internal format
-//	share( opt )		- converts options into URL
-//	info				- general info for the generator
-//	fix( ... )			- reexport from core
+//	defaults = {...}	- default parameters
+//	pattern( ... )		- calculate color of pixel
+//	texture( params )	- generate a texture
+//	material( ... )		- material shader fix
 
 
 
 import { Vector3, Color, PolyhedronGeometry, TetrahedronGeometry, OctahedronGeometry, DodecahedronGeometry, IcosahedronGeometry, MathUtils } from "three";
 import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
-import { noise, fix } from "pet/texture-generator.js";
+import { noise, texture as coreTexture } from "pet/texture-generator.js";
 
 
 
@@ -117,6 +115,23 @@ layouts.sort( (a,b)=>a.points.length-b.points.length );
 
 
 
+var defaults = {
+		$name: 'Polka dots',
+		$layouts: layouts.length,
+		
+		width: 512,
+		height: 256,
+
+		layout: 9,
+		scale: 50,
+		blur: 20,
+		
+		color: 0x000000,
+		background: 0xFFFFFF,
+	};
+
+
+
 var vec = new Vector3();
 
 function pattern( x, y, z, color, options, /*u, v, px, py*/ )
@@ -129,7 +144,7 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ )
 		
 	var k = MathUtils.smoothstep( dist, options.minSmooth, options.maxSmooth );
 	
-	color.lerpColors( options.color, options.backgroundColor, k );
+	color.lerpColors( options.color, options.background, k );
 }
 
 
@@ -138,59 +153,48 @@ function options( params )
 {
 	var options = { };
 
-	options.color = new Color( params.color ?? 0x000000 );
-	options.backgroundColor = new Color( params.backgroundColor ?? 0xffffff );
+	options.color = new Color( params.color ?? defaults.color );
+	options.background = new Color( params.background ?? defaults.background );
 
-	var data = layouts[(params.layout ?? 8)-1];
+	var data = layouts[(params.layout ?? defaults.layout)-1];
 	
 	options.points = data.points;
 	
-	var blur = ((params.blur??20) / 100)**2.5 / 3;
+	var blur = ((params.blur??defaults.blur) / 100)**2.5 / 3;
 	
-	var scale = (params.scale??50);
+	var scale = (params.scale??defaults.scale);
 		scale = MathUtils.mapLinear(scale,0,100,0,data.maxScale);
 		scale = (scale / 100)**2;
 
 	options.minSmooth = scale - blur;
 	options.maxSmooth = scale + blur;
 
-	options.width = params.width ?? 512;
-	options.height = params.height ?? 256;
+	options.width = params.width ?? defaults.width;
+	options.height = params.height ?? defaults.height;
 	
 	return options;
 }
 
 
 
-function share( params )
+
+function texture( ...opt )
 {
-	var url = [];
+	if( opt.length==0 ) opt = [defaults];
 	
-	url.push( `w=${params.width}` );
-	url.push( `h=${params.height}` );
+	// if there is {...}, assume it is user options, compile them
+	var params = opt.map( (e) => (e!=-null) && (typeof e =='object') && !(e instanceof HTMLCanvasElement) ? options(e) : e );
 
-	url.push( `l=${params.layout}` );
-	url.push( `s=${params.scale}` );
-	url.push( `b=${params.blur}` );
-
-	url.push( `c=${params.color}` );
-	url.push( `k=${params.backgroundColor}` );
-
-	return url.join( '&' );
+	// if pattern is missing, add pattern
+	if( params.findIndex((e)=>e instanceof Function) == -1 )
+	{
+		params.push( pattern );
+	}
+		
+	return coreTexture( ... params );
 }
 
 
 
-function texture( opt )
-{
-	return fix( pattern, options(opt) )
-}
-
-
-
-var info = { name: 'Polka dots', layouts: layouts.length };
-
-
-
-export { pattern, options, share, info, texture };
-export * from "pet/texture-generator.js";
+export { pattern, defaults, texture };
+export { material } from "pet/texture-generator.js";

@@ -2,20 +2,35 @@
 //	Procedural Equirectangular Textures
 //	Isolines Pattern
 //
-//	pattern( ... )		- implements the pattern
-//	texture( params )	- generate a texture with options
-//	options( params )	- converts options into internal format
-//	share( opt )		- converts options into URL
-//	info				- general info for the generator
-//	fix( ... )			- reexport from core
+//	defaults = {...}	- default parameters
+//	pattern( ... )		- calculate color of pixel
+//	texture( params )	- generate a texture
+//	material( ... )		- material shader fix
 
 
 
 import { Color, MathUtils } from "three";
-import { noise, fix } from "pet/texture-generator.js";
+import { noise, texture as coreTexture } from "pet/texture-generator.js";
 
 
 
+var defaults = {
+		$name: 'Isolines',
+		
+		width: 1024,
+		height: 512,
+		
+		scale: 50,
+		density: 20,
+		blur: 10,
+		balance: 50,
+
+		color: 0xFFFFFF,
+		background: 0x000000,				
+	};
+	
+	
+	
 function pattern( x, y, z, color, options, /*u, v, px, py*/ )
 {
 	var k = noise( options.scale*x, options.scale*y, options.scale*z );
@@ -24,7 +39,7 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ )
 	
 	k = MathUtils.smoothstep( k, options.minSmooth, options.maxSmooth );
 	
-	color.lerpColors( options.color, options.backgroundColor, k );
+	color.lerpColors( options.color, options.background, k );
 }
 
 
@@ -33,56 +48,43 @@ function options( params )
 {
 	var options = { };
 	
-	var blur = (params.blur??10)/100,
-		balance = (params.balance??50)/100;
+	var blur = (params.blur??defaults.blur)/100,
+		balance = (params.balance??defaults.balance)/100;
 
-	options.scale = 2**(-((params.scale??50)-100)/50 * 3 - 1);
-	options.density = 10 + 50 * (params.density??20)/100;
+	options.scale = 2**(-((params.scale??defaults.scale)-100)/50 * 3 - 1);
+	options.density = 10 + 50 * (params.density??defaults.density)/100;
 		
 	options.minSmooth = balance - blur - 0.01;
 	options.maxSmooth = balance + blur + 0.01;
 	
-	options.color = new Color( params.color ?? 0xffffff );
-	options.backgroundColor = new Color( params.backgroundColor ?? 0x000000 );
+	options.color = new Color( params.color ??defaults.color );
+	options.background = new Color( params.background ??defaults.background );
 
-	options.width = params.width ?? 1024;
-	options.height = params.height ?? 512;
+	options.width = params.width ??defaults.width;
+	options.height = params.height ??defaults.height;
 	
 	return options;
 }
 	
 
 
-function share( params )
+function texture( ...opt )
 {
-	var url = [];
+	if( opt.length==0 ) opt = [defaults];
 	
-	url.push( `w=${params.width}` );
-	url.push( `h=${params.height}` );
+	// if there is {...}, assume it is user options, compile them
+	var params = opt.map( (e) => (e!=-null) && (typeof e =='object') && !(e instanceof HTMLCanvasElement) ? options(e) : e );
 
-	url.push( `s=${params.scale}` );
-	url.push( `b=${params.blur}` );
-	url.push( `d=${params.density}` );
-	url.push( `a=${params.balance}` );
-
-	url.push( `c=${params.color}` );
-	url.push( `k=${params.backgroundColor}` );
-	
-	return url.join( '&' );
+	// if pattern is missing, add pattern
+	if( params.findIndex((e)=>e instanceof Function) == -1 )
+	{
+		params.push( pattern );
+	}
+		
+	return coreTexture( ... params );
 }
 
 
 
-function texture( opt )
-{
-	return fix( pattern, options(opt) )
-}
-
-
-
-var info = { name: 'Isolines', lightIntensity: 4 };
-
-
-
-export { pattern, options, share, info, texture };
-export * from "pet/texture-generator.js";
+export { pattern, defaults, texture };
+export { material } from "pet/texture-generator.js";

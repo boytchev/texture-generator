@@ -60,16 +60,16 @@
 			// texture pattern, but with different parameters
 			
 			var mapA = TEMP.texture( {scale:5, width:512, height:256} );
-			var mapB = CAMO.texture( {scale:50, width:2048, height:1024} );
+			var mapB = CAMO.texture( CAMO.defaults );
 			
 			var modelA = new THREE.Mesh(
 					new THREE.SphereGeometry( 1 ),
-					TEMP.fix( new THREE.MeshBasicMaterial( {map:mapA} ) )
+					TEMP.material( new THREE.MeshBasicMaterial( {map:mapA} ) )
 				);
 
 			var modelB = new THREE.Mesh(
 					new THREE.SphereGeometry( 1 ),
-					CAMO.fix( new THREE.MeshBasicMaterial( {map:mapB} ) )
+					CAMO.material( new THREE.MeshBasicMaterial( {map:mapB} ) )
 				);
 
 			modelA.position.x = -1.1;
