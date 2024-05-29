@@ -15,15 +15,15 @@ Click on a snapshot to open it online.
 
 <p class="gallery">
 
-	<a class="style-block nocaption" href="../online/zebra-lines.html?w=1024&h=512&s=80&a=0">
+	<a class="style-block nocaption" href="../online/zebra-lines.html?width=1024&height=512&scale=80&angle=0">
 		<img src="images/zebra-lines-1.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/zebra-lines.html?w=1024&h=512&s=30&a=45">
+	<a class="style-block nocaption" href="../online/zebra-lines.html?width=1024&height=512&scale=30&angle=45">
 		<img src="images/zebra-lines-2.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/zebra-lines.html?w=1024&h=512&s=94&a=-45">
+	<a class="style-block nocaption" href="../online/zebra-lines.html?width=1024&height=512&scale=94&angle=-45">
 		<img src="images/zebra-lines-3.png">
 	</a>
 

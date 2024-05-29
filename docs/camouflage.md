@@ -14,15 +14,15 @@ a snapshot to open it online.
 
 <p class="gallery">
 
-	<a class="style-block nocaption" href="../online/camouflage.html?w=512&h=256&s=50&a=12762792&b=10258782&c=9610101&d=7435617&u=0&t=0&g=0">
+	<a class="style-block nocaption" href="../online/camouflage.html?width=512&height=256&scale=50&colorA=12762792&colorB=10258782&color=9610101&colorD=7435617&hue=0&saturation=0&brightness=0">
 		<img src="images/camouflage-1.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/camouflage.html?w=1024&h=512&s=73&a=12762792&b=10258782&c=9610101&d=7435617&u=194&t=4&g=22">
+	<a class="style-block nocaption" href="../online/camouflage.html?width=1024&height=512&scale=73&colorA=12762792&colorB=10258782&color=9610101&colorD=7435617&hue=194&saturation=4&brightness=22">
 		<img src="images/camouflage-2.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/camouflage.html?w=1024&h=512&s=11&a=16776960&b=0&c=16187392&d=5234974&u=0&t=-2&g=-18">
+	<a class="style-block nocaption" href="../online/camouflage.html?width=1024&height=512&scale=11&colorA=16776960&colorB=0&color=16187392&colorD=5234974&hue=0&saturation=-2&brightness=-18">
 		<img src="images/camouflage-3.png">
 	</a>
 

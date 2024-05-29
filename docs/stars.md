@@ -15,15 +15,15 @@ open it online.
 
 <p class="gallery">
 
-	<a class="style-block nocaption" href="../online/stars.html?w=1024&h=512&d=19&b=24&v=0&c=16774640&k=96">
+	<a class="style-block nocaption" href="../online/stars.html?width=1024&height=512&density=19&brightness=24&variation=0&color=16774640&background=96">
 		<img src="images/stars-1.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/stars.html?w=1024&h=512&d=100&b=30&v=0&c=16774640&k=25343">
+	<a class="style-block nocaption" href="../online/stars.html?width=1024&height=512&density=100&brightness=30&variation=0&color=16774640&background=25343">
 		<img src="images/stars-2.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/stars.html?w=1024&h=512&d=50&b=50&v=100&c=16733440&k=16777205">
+	<a class="style-block nocaption" href="../online/stars.html?width=1024&height=512&density=50&brightness=50&variation=100&color=16733440&background=16777205">
 		<img src="images/stars-3.png">
 	</a>
 

@@ -13,11 +13,11 @@ snapshot to open it online.
 
 <p class="gallery">
 
-	<a class="style-block nocaption" href="../online/concrete.html?w=1024&h=512&s=40&d=100&b=100">
+	<a class="style-block nocaption" href="../online/concrete.html?width=1024&height=512&scale=40&density=100&bump=100">
 		<img src="images/concrete-1.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/concrete.html?w=1024&h=512&s=89&d=55&b=100">
+	<a class="style-block nocaption" href="../online/concrete.html?width=1024&height=512&scale=89&density=55&bump=100">
 		<img src="images/concrete-2.png">
 	</a>
 

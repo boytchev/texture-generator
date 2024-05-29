@@ -15,15 +15,15 @@ lattice) with up to 5000 dots. Click on a snapshot to open it online.
 
 <p class="gallery">
 
-	<a class="style-block nocaption" href="../online/polka-dots.html?w=1024&h=512&l=11&s=65&b=20&c=0&k=16777215">
+	<a class="style-block nocaption" href="../online/polka-dots.html?width=1024&height=512&layout=11&scale=65&blur=20&color=0&background=16777215">
 		<img src="images/polka-dots-1.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/polka-dots.html?w=1024&h=512&l=5&s=80&b=20&c=16777215&k=54798">
+	<a class="style-block nocaption" href="../online/polka-dots.html?width=1024&height=512&layout=5&scale=80&blur=20&color=16777215&background=54798">
 		<img src="images/polka-dots-2.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/polka-dots.html?w=1024&h=512&l=10&s=80&b=80&c=15263976&k=5187937">
+	<a class="style-block nocaption" href="../online/polka-dots.html?width=1024&height=512&layout=10&scale=80&blur=80&color=15263976&background=5187937">
 		<img src="images/polka-dots-3.png">
 	</a>
 

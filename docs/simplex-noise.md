@@ -12,15 +12,15 @@ pattern. Click on a snapshot to open it online.
 
 <p class="gallery">
 
-	<a class="style-block nocaption" href="../online/simplex-noise.html?w=512&h=256&s=50&b=50&c=16777215&k=0">
+	<a class="style-block nocaption" href="../online/simplex-noise.html?width=512&height=256&scale=50&balance=50&color=16777215&background=0">
 		<img src="images/simplex-noise-1.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/simplex-noise.html?w=512&h=256&s=60&b=75&c=16766208&k=0">
+	<a class="style-block nocaption" href="../online/simplex-noise.html?width=512&height=256&scale=60&balance=75&color=16766208&background=0">
 		<img src="images/simplex-noise-2.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/simplex-noise.html?w=512&h=256&s=86&b=44&c=13893887&k=11592439">
+	<a class="style-block nocaption" href="../online/simplex-noise.html?width=512&height=256&scale=86&balance=44&color=13893887&background=11592439">
 		<img src="images/simplex-noise-3.png">
 	</a>
 

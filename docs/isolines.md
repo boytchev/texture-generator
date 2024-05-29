@@ -15,15 +15,15 @@ open it online.
 
 <p class="gallery">
 
-	<a class="style-block nocaption" href="../online/isolines.html?w=1024&h=512&s=60&b=10&d=20&a=50&c=16777215&k=0">
+	<a class="style-block nocaption" href="../online/isolines.html?width=1024&height=512&scale=60&blur=10&density=20&balance=50&color=16777215&background=0">
 		<img src="images/isolines-1.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/isolines.html?w=1024&h=512&s=80&b=45&d=14&a=16&c=16777215&k=3148976">
+	<a class="style-block nocaption" href="../online/isolines.html?width=1024&height=512&scale=80&blur=45&density=14&balance=16&color=16777215&background=3148976">
 		<img src="images/isolines-2.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/isolines.html?w=1024&h=512&s=100&b=3&d=6&a=28&c=13041664&k=16777215">
+	<a class="style-block nocaption" href="../online/isolines.html?width=1024&height=512&scale=100&blur=3&density=6&balance=28&color=13041664&background=16777215">
 		<img src="images/isolines-3.png">
 	</a>
 
