@@ -50,7 +50,7 @@ The parameters of the texture generator are:
 * `height` &ndash; texture height in pixels, default 512
 * `scale` &ndash; relative paiting size [0,100], default 50
 * `thickness` &ndash; thickness of shapes [0,100], default 20
-* `noise` &ndash; additional noise to the background [0,100], default 230
+* `noise` &ndash; additional noise to the background [0,100], default 30
 * `color` &ndash; color of paintings, default 0xD34545 (reddish)
 * `background` &ndash; color of background, default 0xFFF8F0 (pale rock)
 
