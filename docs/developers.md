@@ -17,6 +17,7 @@ parameters.
 * [concrete.js](concrete.md)
 * [entangled.js](entangled.md)
 * [isolines.js](isolines.md)
+* [marble.js](marble.md)
 * [polka-dots.js](polka-dots.md)
 * [simplex-noise.js](simplex-noise.md)
 * [stars.js](stars.md)

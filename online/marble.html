@@ -28,7 +28,7 @@
 
 		import * as THREE from "three";
 		import { model, canvas, install, params, light } from "./online.js";
-		import * as PET from "pet/patterns/entangled.js";
+		import * as PET from "pet/patterns/marble.js";
 
 		light.intensity = 4;
 
@@ -36,12 +36,16 @@
 				
 		gui.add( params, 'scale' )
 			.min(0).max(100).step(1)
-			.name( 'Lines <right>scale</right>' )
+			.name( 'Threads <right>scale</right>' )
 			.$input.classList.add( 'top' );
+			
+		gui.add( params, 'thickness' )
+			.min(0).max(100).step(1)
+			.name( '<right>thickness</right>' );
 
-		gui.add( params, 'density' )
-			.min(0).max(20).step(1)
-			.name( '<right>density</right>' )
+		gui.add( params, 'noise' )
+			.min(0).max(100).step(1)
+			.name( '<right>noise</right>' )
 			.$input.classList.add( 'bottom' );
 
 		gui.addColor( params, 'color' )
@@ -60,9 +64,9 @@
 				true,
 				params
 		);
-		
-		PET.material( model );
 
+		PET.material( model );
+		
 	</script>
 </body>
 </html>

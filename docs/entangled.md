@@ -7,7 +7,7 @@
 ## Entangled
 <img src="images/entangled.jpg">
 
-This texture rendered a ball of entangled lines or the
+This texture renderes a ball of entangled lines or the
 [lineae of Europa](https://en.wikipedia.org/wiki/Europa_(moon)#Lineae),
 one of the Galilean moons of Jupiter. The generated
 texture is intended for color maps. Click on a snapshot to
