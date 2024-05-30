@@ -15,6 +15,7 @@ parameters.
 * [camouflage.js](camouflage.md)
 * [cave-art.js](cave-art.md)
 * [concrete.js](concrete.md)
+* [entangled.js](entangled.md)
 * [isolines.js](isolines.md)
 * [polka-dots.js](polka-dots.md)
 * [simplex-noise.js](simplex-noise.md)
