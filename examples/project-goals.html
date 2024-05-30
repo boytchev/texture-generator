@@ -27,7 +27,7 @@
 		import * as THREE from "three";
 		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 		import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
-		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
+		import * as PET from "../src/texture-generator.js";
 
 
 		
@@ -150,7 +150,7 @@
 		for( var i=0; i<dotPositions.count; i++ )
 			dotPoints.push( new THREE.Vector3().fromBufferAttribute( dotPositions, i ) );
 			
-		function pattern( x, y, z, color, {}, u, v, px, py )
+		function pattern( x, y, z, color, options, u, v, px, py )
 		{
 			vec.set( z, y, x );
 			
@@ -177,7 +177,7 @@
 		var midBall = new THREE.Mesh(
 				new THREE.SphereGeometry( 1, 16, 8 ),
 //				new THREE.DodecahedronGeometry( 1 ),
-				new THREE.MeshLambertMaterial( {map: equitexture(pattern,1024)} )
+				new THREE.MeshLambertMaterial( {map: PET.texture(pattern,{width:1024})} )
 		);
 
 		var midBall2 = new THREE.Mesh(
@@ -207,7 +207,7 @@
 		var rightBall = new THREE.Mesh(
 				new THREE.SphereGeometry( 1, 16, 8 ),
 //				new THREE.DodecahedronGeometry( 1 ),
-				equimaterial( new THREE.MeshLambertMaterial( {map: midBall.material.map} ) )
+				PET.material( new THREE.MeshLambertMaterial( {map: midBall.material.map} ) )
 		);
 
 		var rightBall2 = new THREE.Mesh(

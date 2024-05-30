@@ -26,7 +26,7 @@
 
 		import * as THREE from "three";
 		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
+		import * as PET from "../src/texture-generator.js";
 
 
 		
@@ -66,31 +66,33 @@
 			scene.add( new THREE.HemisphereLight( 'white','blue',1 ) );
 	
 				
+		function pattern( x, y, z, color )
+		{
+			var xx = Math.round(10*x)/10,
+				yy = Math.round(10*y)/10,
+				zz = Math.round(10*z)/10;
+				
+			var k = 1-15*Math.sqrt( (x-xx)**2 + (y-yy)**2 + (z-zz)**2 );
+			
+			if( k > 0.4 )
+				k = 1;
+			else
+				k = THREE.MathUtils.mapLinear( k, 0, 0.4, -3, 0.4 );
+
+			color.setHSL( 0, 0, k );
+			
+		} // defaultPattern
+		
+		
+
 		var torus = new THREE.Mesh(
 				new THREE.SphereGeometry( 2 ),
-				equimaterial(new THREE.MeshLambertMaterial( {
-									map: equitexture(2048),
+				PET.material(new THREE.MeshLambertMaterial( {
+									map: PET.texture(pattern,{width:2048}),
+									map: PET.texture(pattern,{width:2048}),
 								} ))
 		);
-		
-		//torus.material.map.maxFilter = THREE.LinearFilter;
-	//	torus.material.map.wrapS = THREE.RepeatWrapping;
-	//	torus.material.map.wrapT = THREE.ClampToEdgeWrapping;
-	//	torus.material.map.repeat.set(2,1);
-		/*
-torus.material.map.mipmap = [
-torus.material.map,torus.material.map,torus.material.map,torus.material.map,
-torus.material.map,torus.material.map,torus.material.map,torus.material.map,
-]
-var uv = torus.geometry.getAttribute('uv');
-var nor = torus.geometry.getAttribute('normal');
-for(var i=0; i<uv.count; i++)
-{
-if( uv.getX(i)>0.9 ) uv.setX(i,0);
-if( uv.getX(i)<0.1 ) uv.setX(i,0);
-}
-uv.needsUpdate = true;
-*/
+
 		scene.add( torus );
 
 

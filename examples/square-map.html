@@ -26,7 +26,7 @@
 
 		import * as THREE from "three";
 		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
+		import * as PET from "../src/texture-generator.js";
 
 
 		
@@ -66,11 +66,11 @@
 	
 
 
-		function pattern( x, y, z, color, u, v, px, py )
+		function pattern( x, y, z, color )
 		{
-			var r = noise( 10*x, y, z );
-			var g = noise( x, 10*y, z );
-			var b = noise( x, y, 10*z );
+			var r = PET.noise( 10*x, y, z );
+			var g = PET.noise( x, 10*y, z );
+			var b = PET.noise( x, y, 10*z );
 			color.set( r, g, b );
 		}
 
@@ -81,11 +81,11 @@
 		//
 		// =================================
 		
-		var leftTexture = equitexture( pattern, 512, 1024);
+		var leftTexture = PET.texture( pattern, {width:512, height:1024});
 		
 		var leftBall = new THREE.Mesh(
 				new THREE.SphereGeometry( 1 ),
-				equimaterial( new THREE.MeshLambertMaterial( {
+				PET.material( new THREE.MeshLambertMaterial( {
 						map: leftTexture
 					} ) )
 		);
@@ -109,11 +109,11 @@
 		//
 		// =================================
 
-		var midTexture = equitexture( pattern, 3*1024, 1024);
+		var midTexture = PET.texture( pattern, {width:3*1024, height:1024});
 		
 		var midBall = new THREE.Mesh(
 				new THREE.SphereGeometry( 1 ),
-				equimaterial( new THREE.MeshLambertMaterial( {
+				PET.material( new THREE.MeshLambertMaterial( {
 						map: midTexture
 					} ) )
 		);
@@ -139,11 +139,11 @@
 		//
 		// =================================
 		
-		var rightTexture = equitexture( pattern, 1048, 1024);
+		var rightTexture = PET.texture( pattern, {width:1048, height:1024});
 		
 		var rightBall = new THREE.Mesh(
 				new THREE.SphereGeometry( 1 ),
-				equimaterial( new THREE.MeshLambertMaterial( {
+				PET.material( new THREE.MeshLambertMaterial( {
 						map: rightTexture
 					} ) )
 		);

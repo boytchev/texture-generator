@@ -40,7 +40,7 @@
 
 		import * as THREE from "three";
 		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
+		import * as PET from "../src/texture-generator.js";
 
 		
 		// setting up the scene
@@ -87,13 +87,13 @@
 		// =================================
 		function marblePattern( x, y, z, color )
 		{
-			var k = noise( x/1, y/1, z/1 )
-				  + 0.5*noise( 2*z, 2*x, 2*y )
-				  + 0.2*noise( 6*x, 6*y, 6*z );
+			var k = PET.noise( x/1, y/1, z/1 )
+				  + 0.5*PET.noise( 2*z, 2*x, 2*y )
+				  + 0.2*PET.noise( 6*x, 6*y, 6*z );
 				
 			k = k**2.5;
 			
-			var m = noise( 30*x, 30*y, 30*z );
+			var m = PET.noise( 30*x, 30*y, 30*z );
 			
 			if( k<0.005 )
 				color.setHSL( 0.66, 1, 0.3+k*200 );
@@ -103,10 +103,10 @@
 
 		var marbleBall = new THREE.Mesh(
 				new THREE.SphereGeometry( 1 ),
-				equimaterial(new THREE.MeshStandardMaterial( {
+				PET.material(new THREE.MeshStandardMaterial( {
 									metalness: 0.7,
 									roughness: 0.7,
-									map: equitexture(marblePattern,1024),
+									map: PET.texture(marblePattern,{width:1024}),
 								} ))
 		);
 			
@@ -125,7 +125,7 @@
 
 		function lavaPattern( x, y, z, color )
 		{
-			var k = noise( 4*x, 4*y, 4*z );
+			var k = PET.noise( 4*x, 4*y, 4*z );
 			var n = k;
 
 			k = 0.5+0.5*k;
@@ -138,10 +138,10 @@
 
 		var lavaBall = new THREE.Mesh(
 				new THREE.SphereGeometry( 1, 64, 32 ),
-				equimaterial( new THREE.MeshStandardMaterial( {
+				PET.material( new THREE.MeshStandardMaterial( {
 								metalness: 1,
 								roughness: 0.5,
-								map: equitexture(lavaPattern,512),
+								map: PET.texture(lavaPattern,{width:512}),
 							} ) )
 			);
 			
@@ -160,7 +160,7 @@
 
 		function coralShape( x, y, z )
 		{
-			var k = noise( 2*x, 2*y, 2*z );
+			var k = PET.noise( 2*x, 2*y, 2*z );
 				k = (0.5+k)**3 - 0.5;
 			
 			return k;
@@ -194,8 +194,8 @@
 		
 		var coralBall = new THREE.Mesh(
 				coralGeometry,
-				equimaterial( new THREE.MeshStandardMaterial( {
-								map: equitexture( coralPattern, 256 ),
+				PET.material( new THREE.MeshStandardMaterial( {
+								map: PET.texture( coralPattern, {width:256} ),
 							} ) )
 			);
 		
@@ -225,9 +225,9 @@
 			
 		function planetPattern(x,y,z,color,{},u,v)
 		{
-			var k = 1.7*noise( x/2, y/2, z/2 );
-				k += 0.35*noise( 2*y, 2*x, 2*z );
-				k += 0.15*noise( 4*z, 4*y, 4*x );
+			var k = 1.7*PET.noise( x/2, y/2, z/2 );
+				k += 0.35*PET.noise( 2*y, 2*x, 2*z );
+				k += 0.15*PET.noise( 4*z, 4*y, 4*x );
 			
 			k = k**2;
 
@@ -254,8 +254,8 @@
 
 		var planet = new THREE.Mesh(
 				new THREE.IcosahedronGeometry( 1, 10 ),
-				equimaterial( new THREE.MeshStandardMaterial( {
-								map: equitexture(planetPattern),
+				PET.material( new THREE.MeshStandardMaterial( {
+								map: PET.texture(planetPattern),
 							} ) )
 			);
 			
@@ -274,14 +274,14 @@
 
 		function atmospherePattern( x, y, z ,color )
 		{
-			var k = 0.4*(noise( y, z, x )+noise( 2*z, 2*x, 2*y ));
+			var k = 0.4*(PET.noise( y, z, x )+PET.noise( 2*z, 2*x, 2*y ));
 			color.set(k,k,k);
 		}
 
 		var atmosphere = new THREE.Mesh(
 				new THREE.IcosahedronGeometry( 1, 10 ),
 				new THREE.MeshBasicMaterial( {
-								alphaMap: equitexture(atmospherePattern),
+								alphaMap: PET.texture(atmospherePattern),
 								transparent: true,
 								side: THREE.DoubleSide,
 						} )
@@ -301,14 +301,14 @@
 
 		function exospherePattern(x,y,z,color,{},u,v)
 		{
-			var k = 0.4*(noise( y+1, z+1, x+1 )+noise( z-1, x-1, y-1 ));
+			var k = 0.4*(PET.noise( y+1, z+1, x+1 )+PET.noise( z-1, x-1, y-1 ));
 			color.set(k,k,k);
 		}
 
 		var exosphere = new THREE.Mesh(
 				new THREE.IcosahedronGeometry( 1, 10 ),
 				new THREE.MeshBasicMaterial( {
-								alphaMap: equitexture(exospherePattern),
+								alphaMap: PET.texture(exospherePattern),
 								transparent: true,
 								side: THREE.DoubleSide,
 						} )

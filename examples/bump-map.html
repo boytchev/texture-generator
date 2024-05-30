@@ -26,7 +26,7 @@
 
 		import * as THREE from "three";
 		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
+		import * as PET from "../src/texture-generator.js";
 
 
 		
@@ -75,7 +75,7 @@
 		
 		function dropsPattern( x, y, z, color )
 		{
-			var k = noise(15*x,15*y,15*z);
+			var k = PET.noise(15*x,15*y,15*z);
 				k = Math.max( 0, k-0.2 );
 				
 			color.setHSL( 0, 0, k );
@@ -83,13 +83,13 @@
 
 		var leftLamp = new THREE.Mesh(
 				new THREE.DodecahedronGeometry( 2 ),
-				equimaterial(new THREE.MeshPhysicalMaterial( {
+				PET.material(new THREE.MeshPhysicalMaterial( {
 									transmission: 1,
 									ior: 2,
 									thickness: 0.5,
 									metalness: 0.1,
 									roughness: 0.52,
-									bumpMap: equitexture(dropsPattern),
+									bumpMap: PET.texture(dropsPattern),
 									bumpScale: 5,
 								} ))
 		);
@@ -100,7 +100,7 @@
 
 		var leftCore = new THREE.Mesh(
 				new THREE.DodecahedronGeometry( 1.2 ),
-				equimaterial(new THREE.MeshPhysicalMaterial())
+				PET.material(new THREE.MeshPhysicalMaterial())
 		);
 		
 		leftLamp.add( leftCore );
@@ -115,20 +115,20 @@
 		
 		function concretePattern( x, y, z, color, u, v )
 		{
-			var k = noise(50*x,50*y,50*z);
+			var k = PET.noise(50*x,50*y,50*z);
 			
 			color.setHSL( 0, 0, 0.5+0.5*k );
 		}
 
 		var rightBlock = new THREE.Mesh(
 				new THREE.DodecahedronGeometry( 2 ),
-				equimaterial(new THREE.MeshPhysicalMaterial( {
+				PET.material(new THREE.MeshPhysicalMaterial( {
 									transmission: 1,
 									ior: 3,
 									thickness: 2.5,
 									metalness: 0,
 									roughness: 0.66,
-									bumpMap: equitexture(concretePattern),
+									bumpMap: PET.texture(concretePattern),
 									bumpScale: 0.3,
 									emissive: new THREE.Color('moccasin'),
 									emissiveIntensity: 0.15,
@@ -141,7 +141,7 @@
 
 		var rightCore = new THREE.Mesh(
 				new THREE.DodecahedronGeometry( 1.1 ),
-				equimaterial(new THREE.MeshPhysicalMaterial())
+				PET.material(new THREE.MeshPhysicalMaterial())
 		);
 		
 		rightBlock.add( rightCore );

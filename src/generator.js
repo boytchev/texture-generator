@@ -43,7 +43,7 @@ function canvas( ...args ) // pattern, canvas, deferred, options
 		}
 		else
 		{
-			console.warn( `Ignored parameter '${param}'. The parameters coule be a function, a canvas, an object and a boolean.` );
+			console.warn( `Ignored parameter '${param}'. The parameters could be a function, a canvas, an object and a boolean.` );
 		}
 	}
 

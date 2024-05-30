@@ -27,7 +27,7 @@
 		import * as THREE from "three";
 		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 		import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
-		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
+		import * as PET from "../src/texture-generator.js";
 
 
 		
@@ -130,11 +130,11 @@
 
 		var leftBall = new THREE.Mesh(
 				new THREE.SphereGeometry( 2, 64, 32 ),
-				equimaterial(new THREE.MeshPhysicalMaterial( {
+				PET.material(new THREE.MeshPhysicalMaterial( {
 									color: 'LightSteelBlue',
 									metalness: 0.5,
 									roughness: 1,
-									aoMap: equitexture(leftPattern),
+									aoMap: PET.texture(leftPattern),
 									aoMapIntensity: 1,
 								} ))
 		);
@@ -168,11 +168,11 @@
 
 		var rightBall = new THREE.Mesh(
 				new THREE.SphereGeometry( 2, 64, 32 ),
-				equimaterial(new THREE.MeshPhysicalMaterial( {
+				PET.material(new THREE.MeshPhysicalMaterial( {
 									color: 'LightSteelBlue',
 									metalness: 0.5,
 									roughness: 1,
-									aoMap: equitexture(rightPattern),
+									aoMap: PET.texture(rightPattern),
 									aoMapIntensity: 1.5,
 								} ))
 		);

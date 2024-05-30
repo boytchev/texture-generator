@@ -27,7 +27,7 @@
 		import * as THREE from "three";
 		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 		import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
-		import { equimaterial, equitexture, noise } from "../src/texture-generator.js";
+		import * as PET from "../src/texture-generator.js";
 
 
 		
@@ -161,7 +161,7 @@
 		
 		var midPanel = new THREE.Mesh(
 				new THREE.PlaneGeometry( 3*2.8, 3*1.4 ),
-				new THREE.MeshLambertMaterial( {map: equitexture(pattern,1024)} )
+				new THREE.MeshLambertMaterial( {map: PET.texture(pattern,{width:1024,height:512})} )
 		);
 		
 		midPanel.position.set( 4, 0, 0 );

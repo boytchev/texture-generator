@@ -28,7 +28,7 @@
 
 		import * as THREE from "three";
 		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-		import { canvas, equimaterial, texture, noise } from "../src/texture-generator.js";
+		import * as PET from "../src/texture-generator.js";
 
 
 		
@@ -61,7 +61,8 @@
 			controls.autoRotate = true;
 			controls.autoRotateSpeed = 0.5;
 
-		var light = new THREE.DirectionalLight( 'white', 3 );
+		var light = new THREE.DirectionalLight( 'white', 6 );
+			light.decay = 0;
 			light.position.set( 0, 0, 10 );
 			scene.add( light );
 
@@ -75,10 +76,10 @@
 		{
 			const K = 6;
 			
-			var a = Math.round(noise(K*x, K*y, K*z)+0.2),
-				b = Math.round(noise(K*y, K*z, K*x)+0.3),
-				c = Math.round(noise(K*z, K*x, K*y)+0.4),
-				d = Math.round(noise(K*x, K*z, K*y)+0.5);
+			var a = Math.round(PET.noise(K*x, K*y, K*z)+0.2),
+				b = Math.round(PET.noise(K*y, K*z, K*x)+0.3),
+				c = Math.round(PET.noise(K*z, K*x, K*y)+0.4),
+				d = Math.round(PET.noise(K*x, K*z, K*y)+0.5);
 
 			if( a>0.5 )
 				color.copy( camoColorA );
@@ -100,8 +101,8 @@
 		var ball = new THREE.Mesh(
 				new THREE.SphereGeometry( 3 ),
 				//new THREE.DodecahedronGeometry( 3 ),
-				equimaterial(new THREE.MeshLambertMaterial( {
-									map: equitexture( pattern, true, 4096 ),
+				PET.material(new THREE.MeshLambertMaterial( {
+									map: PET.texture( pattern, true, {width:4096} ),
 									side: THREE.DoubleSide,
 									transparent: true,
 								} ))
@@ -116,7 +117,7 @@
 		{			
 			progressBar.value = 100*ball.material.map.update( );
 			
-			if( Math.floor(progressBar.value)%5 == 0 ) ball.material.map.needsUpdate = true;
+			if( Math.floor(progressBar.value)%5 == 0 && progressBar.value < 100 ) ball.material.map.needsUpdate = true;
 			
 			controls.update( );
 

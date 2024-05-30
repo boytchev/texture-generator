@@ -1,0 +1,40 @@
+{
+  "name": "pet-gen",
+  "version": "1.0.0",
+  "description": "Procedural Equirectangular Texture Generators",
+  "keywords": [
+    "texture",
+    "generator",
+    "procedural",
+    "equirectangular",
+    "three.js"
+  ],
+  "homepage": "https://boytchev.github.io/texture-generator/",
+  "bugs": {
+    "url": "https://github.com/boytchev/texture-generator/issues"
+  },
+  "license": "MIT",
+  "author": "Pavel Boytchev (https://github.com/boytchev)",
+  "files": [
+    "LICENSE",
+    "package.json",
+    "README.md",
+    "src"
+  ],  
+  "main": "src/texture-generator.js",
+  "directories": {
+    "doc": "docs",
+    "example": "examples",
+    "online": "online"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boytchev/texture-generator.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "semver": "^7.6.2"
+  }
+}
