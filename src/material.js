@@ -135,11 +135,13 @@ function material( object )
 			if( map )
 			{
 				shader.fragmentShader = batchReplace( shader.fragmentShader, [FRAGMENT_MAP_FROM], [FRAGMENT_MAP_TO], 'map' );
-			} else
+			}
+			
 			if( bumpMap )
 			{
 				shader.fragmentShader = batchReplace( shader.fragmentShader, [FRAGMENT_BUMPMAP_FROM, FRAGMENT_BUMPMAP_FROM2], [FRAGMENT_BUMPMAP_TO, FRAGMENT_BUMPMAP_TO2], 'bumpMap' );
-			} else
+			}
+			
 			if( aoMap )
 			{
 				shader.fragmentShader = batchReplace( shader.fragmentShader, [FRAGMENT_AOMAP_FROM, FRAGMENT_AOMAP_FROM2], [FRAGMENT_AOMAP_TO, FRAGMENT_AOMAP_TO2], 'aoMap' );

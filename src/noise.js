@@ -38,6 +38,8 @@ function noiseSeed(seed)
 	PRNG.random(seed);
 
 	simplex = new SimplexNoise(PRNG);
+	
+	return seed;
 }
 
 

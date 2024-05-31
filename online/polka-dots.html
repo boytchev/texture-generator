@@ -35,7 +35,7 @@
 		var gui = install( PET );
 				
 		gui.add( params, 'layout' )
-			.min(1).max(PET.defaults.$layouts).step(1)
+			.min(1).max(PET.defaults.$layouts.length).step(1)
 			.name( 'Dots <right>layout</right>',  )
 			.$input.classList.add( 'top' );
 			

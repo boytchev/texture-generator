@@ -117,7 +117,7 @@ layouts.sort( (a,b)=>a.points.length-b.points.length );
 
 var defaults = {
 		$name: 'Polka dots',
-		$layouts: layouts.length,
+		$layouts: layouts,
 		
 		width: 512,
 		height: 256,

@@ -1,6 +1,6 @@
 ﻿
 //	Procedural Equirectangular Textures
-//	Concrete Pattern
+//	Water Drops Pattern
 //
 //	defaults = {...}	- default parameters
 //	pattern( ... )		- calculate color of pixel
@@ -9,28 +9,35 @@
 
 
 
+import { Color, MathUtils } from "three";
 import { noise, texture as coreTexture } from "pet/texture-generator.js";
 
 
 
 var defaults = {
-		$name: 'Concrete',
+		$name: 'Water Drops',
 		
 		width: 512,
 		height: 256,
 		
 		scale: 50,
-		density: 100,
-		bump: 100,
+		density: 40,
+		
+		color: 0xFFFFFF,
+		background: 0x000000,
 	};
 	
 	
 	
 function pattern( x, y, z, color, options, /*u, v, px, py*/ )
 {
-	var k = noise( options.scale*x, options.scale*y, options.scale*z );
+	var k = noise( options.scale*x, options.scale*y, options.scale*z ) + options.density;
+		k = Math.min(1,k);
+		k = Math.max( 0, k )**0.5;
 		
-	color.setHSL( 0, 0, options.bump*(0.5+0.5*k)**options.density );
+		k = -(Math.cos(Math.PI*k)-1)/2
+
+	color.lerpColors( options.background, options.color, k);	
 }
 
 
@@ -39,10 +46,11 @@ function options( params )
 {
 	var options = { };
 		
-	options.scale = 2**(6.5-4*(params.scale??defaults.scale)/100);
-	
-	options.density = 10-10*((params.density??defaults.density)/100*0.9)**0.5;
-	options.bump = (params.bump??defaults.bump)/100;
+	options.color = new Color( params.color ?? defaults.color );
+	options.background = new Color( params.background ?? defaults.background );
+
+	options.scale = 2**(6.5-6*(params.scale??defaults.scale)/100);
+	options.density = ((params.density??defaults.density)-50)/100+0.1;
 
 	options.width = params.width ?? defaults.width;
 	options.height = params.height ?? defaults.height;

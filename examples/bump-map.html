@@ -11,25 +11,31 @@
 	  {
 		"imports": {
 		  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
-		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/"
+		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/",
+		  "pet/": "../src/"
 		}
 	  }
 	</script>
 </head>
 
 <body>
+	<div class="header white">
+		<h1 class="white">Equirectangular bump map</h1>
+		<h3 class="white">Bump textures are generated at runtime by <a href="https://boytchev.github.io/texture-generator/docs/polka-dots.html">polka-dots.js</a> and <a href="https://boytchev.github.io/texture-generator/docs/concrete.html">concrete.js</a></h3>
+	</div>
 
-	<h1 class="white">Equirectangular bump map</h1>
-	<h3 class="white">Water drops on a color LED lamp and a concrete block</h3>
+	<div class="footnote white">
+		<a href="#" onclick="window.history.back(); return false;">Back</a>
+	</div>
 	
 	<script type="module">
 
 		import * as THREE from "three";
 		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 		import * as PET from "../src/texture-generator.js";
+		import * as CONCRETE from "pet/patterns/concrete.js";
 
 
-		
 		
 		// setting up the scene
 		
@@ -107,28 +113,17 @@
 
 
 
-		// =================================
-		//
-		// THE RIGHT CONCRETE BLOCK
-		//
-		// =================================
-		
-		function concretePattern( x, y, z, color, u, v )
-		{
-			var k = PET.noise(50*x,50*y,50*z);
-			
-			color.setHSL( 0, 0, 0.5+0.5*k );
-		}
+		// right block
 
 		var rightBlock = new THREE.Mesh(
 				new THREE.DodecahedronGeometry( 2 ),
-				PET.material(new THREE.MeshPhysicalMaterial( {
+				CONCRETE.material(new THREE.MeshPhysicalMaterial( {
 									transmission: 1,
 									ior: 3,
 									thickness: 2.5,
 									metalness: 0,
 									roughness: 0.66,
-									bumpMap: PET.texture(concretePattern),
+									bumpMap: CONCRETE.texture({width:1024/2, scale:10}),
 									bumpScale: 0.3,
 									emissive: new THREE.Color('moccasin'),
 									emissiveIntensity: 0.15,
@@ -141,13 +136,15 @@
 
 		var rightCore = new THREE.Mesh(
 				new THREE.DodecahedronGeometry( 1.1 ),
-				PET.material(new THREE.MeshPhysicalMaterial())
+				CONCRETE.material(new THREE.MeshPhysicalMaterial())
 		);
 		
 		rightBlock.add( rightCore );
 
 
 
+		// main animation loop with light switching
+		
 		function animationLoop( t )
 		{
 			leftCore.material.color.setHSL( t/5000, 1, 0.5 );

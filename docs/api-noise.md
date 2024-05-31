@@ -34,11 +34,11 @@ where:
 
 ### noiseSeed(...)
 
-Command. Sets the behavior of the [noise](#noise) function.
+Function. Sets the behavior of the [noise](#noise) function.
 If the optional seed is an integer number, the next generated
 pseudo-random numbers are based on this seed. Otherwise the
 current timestamp is used as a seed to achieve a kind of
-randomization.
+randomization. The result of the function is the seed.
 
 ```js
 noiseSeed( )

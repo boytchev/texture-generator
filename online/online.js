@@ -2,6 +2,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import * as lil from "three/addons/libs/lil-gui.module.min.js";
+import { noiseSeed } from "pet/texture-generator.js";
 
 		
 // setting up the scene
@@ -68,18 +69,24 @@ function animationLoop( t )
 	controls.update( );
 	light.position.copy( camera.position );
 
-	var mapName = 'map';
-	if( model.material.bumpMap ) mapName = 'bumpMap';
-
-	var percent = model.material[mapName].update( );
-
-	var now = performance.now();
-	
-	if( percent < 1 && now-startTime > 1000 )
-	{
-		model.material[mapName].border( canvas.width>>7 );
-		model.material[mapName].needsUpdate = true;
-		startTime = now;
+	// process map
+	for( var map of ['map','bumpMap','roughnessMap'] )
+	{	
+		if( model.material[map]?.update )
+		{
+			var percent = model.material[map].update( );
+			if( percent<1 )
+			{
+				var now = performance.now();
+				
+				if( now-startTime > 1000 )
+				{
+					model.material[map].border( canvas.width>>7 );
+					model.material[map].needsUpdate = true;
+					startTime = now;
+				}
+			}
+		}
 	}
 	
 	renderer.render( scene, camera );
@@ -94,7 +101,7 @@ var filename,
 	params = {};
 	
 
-function install( PET )
+function install( PET, auxOnChange )
 {
 	// process URL options
 	var urlAddress = window.location.search.split('#')[0], // skip all after #
@@ -126,12 +133,12 @@ function install( PET )
 	mainGui.domElement.children[0].appendChild( canvas );
 
 	mainGui.onChange( ()=>{
-
 		params.height = params.width/2;
 
 		var map = 'map';
 		if( model.material.bumpMap ) map = 'bumpMap';
 	
+		noiseSeed( 0 );
 		model.material[map] = PET.texture(
 					PET.pattern,
 					canvas,
@@ -139,6 +146,7 @@ function install( PET )
 					/*PET.options*/( params )
 			);
 			
+		if( auxOnChange ) auxOnChange( );
 //		onChange( );
 	});
 

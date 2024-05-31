@@ -21,7 +21,7 @@ a snapshot to open it online.
 		<img src="images/marble-2.png">
 	</a>
 
-	<a class="style-block nocaption" href="../online/marble.html?">
+	<a class="style-block nocaption" href="../online/marble.html?width=1024&height=512&scale=50&thickness=60&noise=76&color=16108544&background=425748">
 		<img src="images/marble-3.png">
 	</a>
 

@@ -21,6 +21,7 @@ parameters.
 * [polka-dots.js](polka-dots.md)
 * [simplex-noise.js](simplex-noise.md)
 * [stars.js](stars.md)
+* [water-drops.js](water-drops.md)
 * [zebra-lines.js](zebra-lines.md)
 
 
@@ -40,6 +41,16 @@ equirectangular textures.
 
 * [Using generators](#) - to do
 * [Using low-level API](#) - to do
+
+	
+## Help needed
+
+If you are experinced or willing to help, here is a list of
+several major to-do items:
+
+* Using TSL to modify the material shaders
+* Using WASM (or other technology) to speed up texture generation
+* Coverting texture designs to shaders
 
 
 <div class="footnote">

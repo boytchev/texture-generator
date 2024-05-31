@@ -11,26 +11,30 @@
 	  {
 		"imports": {
 		  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
-		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/"
+		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/",
+		  "pet/": "../src/"
 		}
 	  }
 	</script>
 </head>
 
 <body>
-
-	<h1 class="white">Equirectangular AO map</h1>
-	<h3 class="white">Ambient occlusion with positive and negative scales</h3>
+	<div class="header white">
+		<h1 class="white">Equirectangular AO map</h1>
+		<h3 class="white">Ambient occlusion texture is generated at runtime by <a href="https://boytchev.github.io/texture-generator/docs/polka-dots.html">polka-dots.js</a></h3>
+	</div>
+	
+	<div class="footnote white">
+		<a href="#" onclick="window.history.back(); return false;">Back</a>
+	</div>
 	
 	<script type="module">
 
 		import * as THREE from "three";
 		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-		import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
-		import * as PET from "../src/texture-generator.js";
+		import * as PET from "pet/patterns/polka-dots.js";
 
 
-		
 		
 		// setting up the scene
 		
@@ -67,137 +71,95 @@
 			scene.add( new THREE.AmbientLight( 'white',2 ) );
 	
 
-		var vec = new THREE.Vector3();
 
-
-
-		var dotGeometry = new THREE.SphereGeometry( 0.2 ).translate(0,0.1-0.05,0).rotateX(-Math.PI/2);
+		// generator of bumps
 		
-		function buildDots( positionGeometry, dotMaterial )
+		function buildBumps( positions, material )
 		{
-			var dots = new THREE.Group();
+			var bumps = new THREE.Group(),
+				geometry = new THREE.SphereGeometry( 0.2 ).translate(0,0,-1.05);
 			
-			var positions = mergeVertices( positionGeometry ).getAttribute( 'position' );
-
-			for( var i=0; i<positions.count; i++ )
+			for( var pos of positions.points )
 			{
-				var dot = new THREE.Mesh( dotGeometry, dotMaterial );
-					dot.position.fromBufferAttribute( positions, i );
-					dot.position.setLength( -2 );
-					dot.lookAt( 0, 0, 0 );
+				var bump = new THREE.Mesh( geometry, material );
+					bump.position.copy( pos );
+					bump.lookAt( 0, 0, 0 );
 
-				dots.add( dot );
+				bumps.add( bump );
 			}
 			
-			return dots;
-		} // buildDots
-
-
-		function pattern( x, y, z, color, dots )
-		{
-			vec.set( 2*z, 2*y, 2*x );
-			
-			var dist = 1e10;
-			for( var point of dots.children )
-				dist = Math.min( dist, vec.distanceTo(point.position) );
-				
-			var k = 1-0.01/dist**2.7;
-
-			color.set( k, 0, 0 );
+			return bumps;
 		}
+
 		
 		
-		// =================================
-		//
-		// LEFT BALL
-		//
-		// =================================
+		// left ball
 
 		var leftMaterial = new THREE.MeshPhysicalMaterial( {
-									color: 'white',
-									metalness: 1,
-									roughness: 0,
-									emissive: 'white',
-									emissiveIntensity: 1.5,
-								} );
-								
-		var leftDots = buildDots( new THREE.IcosahedronGeometry(1,1), leftMaterial );
-
-		function leftPattern( x, y, z, color )
-		{
-			pattern( x, y, z, color, leftDots );
-		}
+							color: 'white',
+							metalness: 1,
+							roughness: 0,
+							emissive: 'white',
+							emissiveIntensity: 1.5,
+						} );
 
 		var leftBall = new THREE.Mesh(
-				new THREE.SphereGeometry( 2, 64, 32 ),
+				new THREE.SphereGeometry( 2 ),
 				PET.material(new THREE.MeshPhysicalMaterial( {
-									color: 'LightSteelBlue',
 									metalness: 0.5,
 									roughness: 1,
-									aoMap: PET.texture(leftPattern),
-									aoMapIntensity: 1,
+									aoMap: PET.texture({width:256, layout:9, blur:90, scale:40}),
 								} ))
 		);
 
-		leftBall.add( leftDots );
+		leftBall.add( buildBumps( PET.defaults.$layouts[8], leftMaterial ) );
 		leftBall.position.x = -2.5;
 		scene.add( leftBall );
 
 
 
-		// =================================
-		//
-		// Right BALL
-		//
-		// =================================
+		// right ball
 
-		var rightMaterial = new THREE.MeshPhysicalMaterial( {
-										color: 'white',
-										metalness: 1,
-										roughness: 0,
-										emissive: 'white',
-										emissiveIntensity: 0,
-									} );
-
-		var rightDots = buildDots ( new THREE.IcosahedronGeometry(1,2), rightMaterial );
-
-		function rightPattern( x, y, z, color )
-		{
-			pattern( x, y, z, color, rightDots );
-		}
+		var rightMaterial = leftMaterial.clone();
 
 		var rightBall = new THREE.Mesh(
 				new THREE.SphereGeometry( 2, 64, 32 ),
 				PET.material(new THREE.MeshPhysicalMaterial( {
-									color: 'LightSteelBlue',
 									metalness: 0.5,
 									roughness: 1,
-									aoMap: PET.texture(rightPattern),
-									aoMapIntensity: 1.5,
+									aoMap: PET.texture({width:512, layout:10, blur:80, scale:40}),
 								} ))
 		);
 
-		rightBall.add( rightDots );
+		rightBall.add( buildBumps( PET.defaults.$layouts[9], rightMaterial ) );
 		rightBall.position.x = 2.5;
 		scene.add( rightBall );
 
 
+
+		// main animation loop to turn lights on-off
 		
 		function animationLoop( t )
 		{
 			t = t/1300;
 			
+			// control left ball
+			
 			var onOff = Math.sin(t)**5 - Math.sin(3*t)**5 > 0;
 			
 			leftBall.material.color.setStyle( onOff ? 'SteelBlue' : 'LightSteelBlue' );
-			leftBall.material.aoMapIntensity = onOff ? 1.5 : -4;
-			leftMaterial.emissiveIntensity = onOff ? 0 : 1.5;
+			leftBall.material.aoMapIntensity = onOff ? 2 : -8;
+			leftMaterial.emissiveIntensity = onOff ? 0 : 1;
+			
+			// control right ball
 			
 			onOff = Math.cos(3*t)**5 - Math.sin(t)**5 > 0;
 			
 			rightBall.material.color.setStyle( onOff ? 'SteelBlue' : 'LightSteelBlue' );
-			rightBall.material.aoMapIntensity = onOff ? 1.5 : -6;
+			rightBall.material.aoMapIntensity = onOff ? 2 : -8;
 			rightMaterial.emissiveIntensity = onOff ? 0 : 1.5;
+			
+			// control ball rotation
 			
 			controls.update( );
 
