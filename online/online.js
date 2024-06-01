@@ -94,6 +94,7 @@ function animationLoop( t )
 
 
 
+var seed = noiseSeed();
 
 
 var filename,
@@ -133,12 +134,13 @@ function install( PET, auxOnChange )
 	mainGui.domElement.children[0].appendChild( canvas );
 
 	mainGui.onChange( ()=>{
+		seed = noiseSeed();
 		params.height = params.width/2;
 
 		var map = 'map';
 		if( model.material.bumpMap ) map = 'bumpMap';
 	
-		noiseSeed( 0 );
+		noiseSeed( seed );
 		model.material[map] = PET.texture(
 					PET.pattern,
 					canvas,
@@ -215,4 +217,4 @@ onResize( );
 
 
 
-export { model, canvas, install, params, light };
+export { model, canvas, install, params, light, seed };

@@ -27,7 +27,7 @@
 	<script type="module">
 
 		import * as THREE from "three";
-		import { model, canvas, install, params, light } from "./online.js";
+		import { model, canvas, install, params, light, seed } from "./online.js";
 		import {noiseSeed} from "pet/texture-generator.js";
 		import * as PET from "pet/patterns/water-drops.js";
 
@@ -50,7 +50,7 @@
 			.$input.classList.add( 'bottom' );
 
 
-		noiseSeed( 0 );
+		noiseSeed( seed );
 		var map = PET.texture(
 								PET.pattern,
 								canvas,
@@ -58,7 +58,7 @@
 								params
 						);
 						
-		noiseSeed( 0 );
+		noiseSeed( seed );
 		var rcanvas = document.createElement( 'canvas' );
 						
 		model.material = /*PET.material*/( new THREE.MeshPhysicalMaterial({
@@ -78,6 +78,7 @@
 
 		function auxOnChange( )
 		{
+			noiseSeed( seed );
 			model.material.bumpScale = params.scale/10;
 			
 			model.material.roughnessMap = PET.texture(
