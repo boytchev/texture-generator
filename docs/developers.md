@@ -50,7 +50,7 @@ several major to-do items:
 
 * Using TSL to modify the material shaders
 * Using WASM (or other technology) to speed up texture generation
-* Coverting texture designs to shaders
+* Converting texture designs to shaders
 
 
 <div class="footnote">
