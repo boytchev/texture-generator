@@ -9,8 +9,16 @@ Go to [Project Site](https://boytchev.github.io/texture-generator/)
 
 For the time being, click on a snapshot to run it live.
 
-[<kbd style="margin:10px">Preliminary demo<br><br><img src="examples/snapshots/proof-of-concept.jpg" style="width:300px;"></kbd>](https://boytchev.github.io/texture-generator/examples/proof-of-concept.html) [<kbd style="margin:10px">Equirectangular bump map<br><br><img src="examples/snapshots/bump-map.jpg" style="width:300px;"></kbd>](https://boytchev.github.io/texture-generator/examples/bump-map.html) [<kbd style="margin:10px">Custom map<br><br><img src="examples/snapshots/custom-map.jpg" style="width:300px;"></kbd>](https://boytchev.github.io/texture-generator/examples/custom-map.html) [<kbd style="margin:10px">AO map<br><br><img src="examples/snapshots/ao-map.jpg" style="width:300px;"></kbd>](https://boytchev.github.io/texture-generator/examples/ao-map.html)
+[<img src="examples/snapshots/proof-of-concept.jpg"](https://boytchev.github.io/texture-generator/examples/proof-of-concept.html) 
 
-[<kbd style="margin:5px"><img src="examples/snapshots/project-goals.jpg" style="width:100px;"></kbd>](https://boytchev.github.io/texture-generator/examples/project-goals.html)
-[<kbd style="margin:5px"><img src="examples/snapshots/texture-size.jpg" style="width:100px;"></kbd>](https://boytchev.github.io/texture-generator/examples/texture-size.html)
-[<kbd style="margin:5px"><img src="examples/snapshots/deferred-generation.jpg" style="width:100px;"></kbd>](https://boytchev.github.io/texture-generator/examples/deferred-generation.html)
+[<img src="examples/snapshots/bump-map.jpg">](https://boytchev.github.io/texture-generator/examples/bump-map.html)
+
+[<img src="examples/snapshots/custom-map.jpg"](https://boytchev.github.io/texture-generator/examples/custom-map.html)
+
+[<img src="snapshots/ao-map.jpg">](https://boytchev.github.io/texture-generator/examples/ao-map.html)
+
+[<img src="examples/snapshots/project-goals.jpg"](https://boytchev.github.io/texture-generator/examples/project-goals.html)
+
+[<img src="examples/snapshots/texture-aspects.jpg">](https://boytchev.github.io/texture-generator/examples/texture-aspects.html)
+
+[<img src="examples/snapshots/deferred-generation.jpg">](https://boytchev.github.io/texture-generator/examples/deferred-generation.html)
