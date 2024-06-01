@@ -11,16 +11,17 @@
 	  {
 		"imports": {
 		  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
-		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/"
+		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/",
+		  "pet/": "../src/"
 		}
 	  }
 	</script>
 </head>
 
 <body>
-
-	<h1 class="white">Default pattern</h1>
-	<h3 class="white"></h3>
+	<div class="header white">
+		<h1 class="white">Custom pattern</h1>
+		<h3 class="white">The pattern of the texture is generated at runtimeby <a href="https://boytchev.github.io/texture-generator/docs/api-texture-generator.html">texture-generator.js</a></h3>
 	
 	<script type="module">
 
@@ -29,8 +30,7 @@
 		import * as PET from "../src/texture-generator.js";
 
 
-		
-		
+				
 		// setting up the scene
 		
 		var scene = new THREE.Scene();
@@ -66,7 +66,7 @@
 			scene.add( new THREE.HemisphereLight( 'white','blue',1 ) );
 	
 				
-		function pattern( x, y, z, color )
+		function customPattern( x, y, z, color )
 		{
 			var xx = Math.round(10*x)/10,
 				yy = Math.round(10*y)/10,
@@ -81,15 +81,14 @@
 
 			color.setHSL( 0, 0, k );
 			
-		} // defaultPattern
+		}
 		
 		
 
 		var torus = new THREE.Mesh(
 				new THREE.SphereGeometry( 2 ),
 				PET.material(new THREE.MeshLambertMaterial( {
-									map: PET.texture(pattern,{width:2048}),
-									map: PET.texture(pattern,{width:2048}),
+									map: PET.texture(customPattern,{width:2048}),
 								} ))
 		);
 

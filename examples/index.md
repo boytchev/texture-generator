@@ -14,7 +14,7 @@ file, everything is generated at runtime.
 
 [<img src="examples/snapshots/bump-map.jpg">](https://boytchev.github.io/texture-generator/examples/bump-map.html)
 
-[<kbd style="margin:10px">Default pattern<br><br><img src="examples/snapshots/default-pattern.jpg" style="width:300px;"></kbd>](https://boytchev.github.io/texture-generator/examples/default-pattern.html)
+[<img src="examples/snapshots/custom-pattern.jpg"](https://boytchev.github.io/texture-generator/examples/custom-pattern.html)
 
 [<img src="snapshots/ao-map.jpg">](https://boytchev.github.io/texture-generator/examples/ao-map.html)
 
