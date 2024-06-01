@@ -4,7 +4,7 @@
 ## 1.1.x
 
 * Added water drops texture design via *water-drops.js*
-* Examples now uses official library patterns
+* Examples (except one) now use official library patterns
 * `noiseSeed` from *noise.js* now returns the latest seed
 
 ## 1.1.0

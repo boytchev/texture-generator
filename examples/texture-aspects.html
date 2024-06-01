@@ -11,22 +11,29 @@
 	  {
 		"imports": {
 		  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
-		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/"
+		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/",
+		  "pet/": "../src/"
 		}
 	  }
 	</script>
 </head>
 
 <body>
-
-	<h1 class="white">Square map</h1>
-	<h3 class="white">Creating non-traditional sizes of equirectangular maps</h3>
+	<div class="header white">
+		<h1 class="white">Texture aspects</h1>
+		<h3 class="white">Support for non-traditional equirectangular aspects like 1&times;2, 3&times;1 and 1&times;1</h3>
+	</div>
+	
+	<div class="footnote white">
+		<a href="#" onclick="window.history.back(); return false;">Back</a>
+	</div>
+	
 	
 	<script type="module">
 
 		import * as THREE from "three";
 		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-		import * as PET from "../src/texture-generator.js";
+		import * as PET from "pet/texture-generator.js";
 
 
 		
@@ -75,13 +82,12 @@
 		}
 
 
-		// =================================
-		//
-		// LEFT BALL - ORIGINAL TEXTURE
-		//
-		// =================================
+		const N = 256;
 		
-		var leftTexture = PET.texture( pattern, {width:512, height:1024});
+		
+		// left section
+		
+		var leftTexture = PET.texture( pattern, {width:N, height:2*N});
 		
 		var leftBall = new THREE.Mesh(
 				new THREE.SphereGeometry( 1 ),
@@ -103,13 +109,9 @@
 		scene.add( leftBall, leftPanel );
 
 
-		// =================================
-		//
-		// MIDDLE BALL - EQUIRECTANGULAR TEXTURE
-		//
-		// =================================
+		// middle scene
 
-		var midTexture = PET.texture( pattern, {width:3*1024, height:1024});
+		var midTexture = PET.texture( pattern, {width:3*N, height:N});
 		
 		var midBall = new THREE.Mesh(
 				new THREE.SphereGeometry( 1 ),
@@ -131,15 +133,9 @@
 		scene.add( midBall, midPanel );
 		
 
-
-
-		// =================================
-		//
-		// RIGHT BALL - EQUIRECTANGULAR TEXTURE + SHADER FIX
-		//
-		// =================================
+		// right scene
 		
-		var rightTexture = PET.texture( pattern, {width:1048, height:1024});
+		var rightTexture = PET.texture( pattern, {width:N, height:N});
 		
 		var rightBall = new THREE.Mesh(
 				new THREE.SphereGeometry( 1 ),
