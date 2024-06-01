@@ -1,7 +1,7 @@
 # Texture generator
 
 
-## 1.1.x
+## 1.2.0
 
 * Added water drops texture design via *water-drops.js*
 * Examples (except one) now use official library patterns
