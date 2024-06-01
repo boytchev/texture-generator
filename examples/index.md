@@ -5,9 +5,10 @@
 
 ## Artistic examples
 
-Here are a few artistic examples. They all use procedurally
-generated equirectangular textures. No textures are read from
-file, everything is generated at runtime.
+Here are a few artistic examples with diffucion, ambient
+occlusion, bump and displacement maps. They all use
+procedurally generated equirectangular textures. No textures
+are read from files, everything is generated at runtime.
 
 
 [<img src="snapshots/proof-of-concept.jpg">](https://boytchev.github.io/texture-generator/examples/proof-of-concept.html) 
@@ -19,7 +20,11 @@ file, everything is generated at runtime.
 
 ## Technical examples
 
-These are a few examples demonstrating some technical issues.
+These are a few examples demonstrating some technical features
+of the library &ndash; interlacing texture generatio with the
+render loop, defining custom texture designs, support for
+various texture aspects and a short demonstration of the
+effect of using euirectangular textures and shader fixes.
 
 [<img src="snapshots/deferred-generation.jpg">](https://boytchev.github.io/texture-generator/examples/deferred-generation.html)
 
