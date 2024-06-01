@@ -5,7 +5,7 @@
 
 ## Artistic examples
 
-Here are a few more-artistic examples. They all use procedurally
+Here are a few more artistic examples. They all use procedurally
 generated equirectangular textures. No textures are read from
 file, everything is generated at runtime.
 
