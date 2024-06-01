@@ -21,7 +21,7 @@
 <body>
 	<div class="header white">
 		<h1 class="white">Equirectangular bump map</h1>
-		<h3 class="white">Bump textures are generated at runtime by <a href="https://boytchev.github.io/texture-generator/docs/polka-dots.html">polka-dots.js</a> and <a href="https://boytchev.github.io/texture-generator/docs/concrete.html">concrete.js</a></h3>
+		<h3 class="white">Bump textures are generated at runtime by <a href="https://boytchev.github.io/texture-generator/docs/water-drops.html">water-drops.js</a> and <a href="https://boytchev.github.io/texture-generator/docs/concrete.html">concrete.js</a></h3>
 	</div>
 
 	<div class="footnote white">
@@ -34,6 +34,7 @@
 		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 		import * as PET from "../src/texture-generator.js";
 		import * as CONCRETE from "pet/patterns/concrete.js";
+		import * as WATERDROPS from "pet/patterns/water-drops.js";
 
 
 		
@@ -73,43 +74,31 @@
 	
 		
 
-		// =================================
-		//
-		// THE LEFT LED LAMP
-		//
-		// =================================
-		
-		function dropsPattern( x, y, z, color )
-		{
-			var k = PET.noise(15*x,15*y,15*z);
-				k = Math.max( 0, k-0.2 );
-				
-			color.setHSL( 0, 0, k );
-		}
+		// left bock
 
-		var leftLamp = new THREE.Mesh(
+		var leftBlock = new THREE.Mesh(
 				new THREE.DodecahedronGeometry( 2 ),
-				PET.material(new THREE.MeshPhysicalMaterial( {
+				WATERDROPS.material(new THREE.MeshPhysicalMaterial( {
 									transmission: 1,
 									ior: 2,
 									thickness: 0.5,
 									metalness: 0.1,
 									roughness: 0.52,
-									bumpMap: PET.texture(dropsPattern),
+									bumpMap: WATERDROPS.texture({width:512*2,scale:40,density:20}),
 									bumpScale: 5,
 								} ))
 		);
 
-		leftLamp.position.x = -2.5;
+		leftBlock.position.x = -2.5;
 		
-		scene.add( leftLamp );
+		scene.add( leftBlock );
 
 		var leftCore = new THREE.Mesh(
 				new THREE.DodecahedronGeometry( 1.2 ),
 				PET.material(new THREE.MeshPhysicalMaterial())
 		);
 		
-		leftLamp.add( leftCore );
+		leftBlock.add( leftCore );
 
 
 
@@ -151,7 +140,7 @@
 			
 			controls.update( );
 
-			for( var ball of [leftLamp, rightBlock])
+			for( var ball of [leftBlock, rightBlock])
 			{
 				ball.scale.setScalar( 1/controls.getDistance() );
 				ball.quaternion.copy( hiddenCamera.quaternion ).conjugate();

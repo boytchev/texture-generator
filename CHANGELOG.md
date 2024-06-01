@@ -4,6 +4,7 @@
 ## 1.1.x
 
 * Added water drops texture design via *water-drops.js*
+* Bbmp Map example *bump-map.html* now uses official patterns
 * AO Map example *ao-map.html* now uses official pattern
 * `noiseSeed` from *noise.js* now returns the latest seed
 
