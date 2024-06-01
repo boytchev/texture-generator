@@ -20,14 +20,19 @@
 
 <body>
 	<div class="header white">
-		<h1 class="white">Custom pattern</h1>
-		<h3 class="white">The pattern of the texture is generated at runtimeby <a href="https://boytchev.github.io/texture-generator/docs/api-texture-generator.html">texture-generator.js</a></h3>
+		<h1 class="white">Custom map</h1>
+		<h3 class="white">The design of the texture is generated at runtime by a custom function and <a href="https://boytchev.github.io/texture-generator/docs/api-texture-generator.html">texture-generator.js</a></h3>
+	</div>
+	
+	<div class="footnote white">
+		<a href="#" onclick="window.history.back(); return false;">Back</a>
+	</div>
 	
 	<script type="module">
 
 		import * as THREE from "three";
 		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-		import * as PET from "../src/texture-generator.js";
+		import * as PET from "pet/texture-generator.js";
 
 
 				

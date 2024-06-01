@@ -11,24 +11,31 @@
 	  {
 		"imports": {
 		  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
-		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/"
+		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/",
+		  "pet/": "../src/"
 		}
 	  }
 	</script>
 </head>
 
 <body>
-
-	<h1 class="white">Deferred generation</h1>
-	<h3 class="white">A camouflage patteren generated during the animation loop
-	<br>
-	<progress id="progressBar" value="0" max="100"> 0% </progress></h3>
+	<div class="header white">
+		<h1 class="white">Deferred generation</h1>
+		<h3 class="white">Equirectangular texture generated during rendering by 
+		<a href="https://boytchev.github.io/texture-generator/docs/camouflage.html">camouflage.js</a></h3>
+		<progress id="progressBar" value="0" max="100"> 0% </progress>
+	</div>
+	
+	<div class="footnote white">
+		<a href="#" onclick="window.history.back(); return false;">Back</a>
+	</div>
+	
 	
 	<script type="module">
 
 		import * as THREE from "three";
 		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-		import * as PET from "../src/texture-generator.js";
+		import * as PET from "pet/patterns/camouflage.js";
 
 
 		
@@ -66,43 +73,13 @@
 			light.position.set( 0, 0, 10 );
 			scene.add( light );
 
-					
-		var camoColorA = new THREE.Color( 0.60, 0.57, 0.42 );
-		var camoColorB = new THREE.Color( 0.37, 0.32, 0.22 );
-		var camoColorC = new THREE.Color( 0.37, 0.42, 0.28 );
-		var camoColorD = new THREE.Color( 0.23, 0.24, 0.20 );
-		
-		function pattern( x, y, z, color, u, v )
-		{
-			const K = 6;
-			
-			var a = Math.round(PET.noise(K*x, K*y, K*z)+0.2),
-				b = Math.round(PET.noise(K*y, K*z, K*x)+0.3),
-				c = Math.round(PET.noise(K*z, K*x, K*y)+0.4),
-				d = Math.round(PET.noise(K*x, K*z, K*y)+0.5);
-
-			if( a>0.5 )
-				color.copy( camoColorA );
-			else
-			if( b>0.5 )
-				color.copy( camoColorB );
-			else
-			if( c>0.5 )
-				color.copy( camoColorC );
-			else
-				color.copy( camoColorD );			
 				
-			color.offsetHSL( 0, 0.2, -0.2 );
-			
-		} // pattern
-
-
-	
+		// setiing up the ball with the dererred texture
+		
 		var ball = new THREE.Mesh(
 				new THREE.SphereGeometry( 3 ),
-				//new THREE.DodecahedronGeometry( 3 ),
 				PET.material(new THREE.MeshLambertMaterial( {
-									map: PET.texture( pattern, true, {width:4096} ),
+									map: PET.texture( PET.pattern, true, {width:2048, height:1024} ),
 									side: THREE.DoubleSide,
 									transparent: true,
 								} ))
@@ -115,9 +92,12 @@
 		
 		function animationLoop( t )
 		{			
-			progressBar.value = 100*ball.material.map.update( );
+			progressBar.value = 100*ball.material.map.update( 10 );
 			
-			if( Math.floor(progressBar.value)%5 == 0 && progressBar.value < 100 ) ball.material.map.needsUpdate = true;
+			if( progressBar.value < 100 ) 
+				ball.material.map.needsUpdate = true;
+			else
+				progressBar.style.display = 'none';
 			
 			controls.update( );
 
