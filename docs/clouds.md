@@ -50,7 +50,7 @@ The parameters of the texture generator are:
 * `density` &ndash; density of clouds [0,100], default 50
 * `opacity` &ndash; opacity of clouds [0,100], default 80
 * `color` &ndash; color of dots, default 0xFFFFFF (white)
-* `subcolor` &ndash; secondary color, default 0xA0A0B0 (pale blue)
+* `subcolor` &ndash; secondary color, default 0xA0A0B0 (pale gray)
 
 
 ### API

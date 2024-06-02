@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<meta charset="utf-8"> <!-- 342-315 -->
+	<meta charset="utf-8"> <!-- 342-294 -->
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	
 	<link rel="stylesheet" href="styles.css">
@@ -36,6 +36,8 @@
 		import * as PET from "pet/texture-generator.js";
 		import * as MARBLE from "pet/patterns/marble.js";
 		import * as SIMPLEX from "pet/patterns/simplex-noise.js";
+		import * as CLOUDS from "pet/patterns/clouds.js";
+		import * as PLANET from "pet/patterns/planet.js";
 
 		
 		// setting up the scene
@@ -173,56 +175,14 @@
 
 
 
-		// =================================
-		//
-		// THE PLANET
+		// the planet
 		//
 		// =================================
-
-		var map = THREE.MathUtils.mapLinear; // I'm lazy, and I know it
-		
-		const
-			DEEP_WATER = new THREE.Color('steelblue'),
-			WATER = new THREE.Color('skyblue'),
-			BEACH = new THREE.Color('lemonchiffon'),
-			GRASS = new THREE.Color('mediumseagreen'),
-			FOREST = new THREE.Color('seagreen'),
-			ROCK = new THREE.Color('olive'),
-			SNOW = new THREE.Color('azure')
-			
-		function planetPattern(x,y,z,color,{},u,v)
-		{
-			var k = 1.7*PET.noise( x/2, y/2, z/2 );
-				k += 0.35*PET.noise( 2*y, 2*x, 2*z );
-				k += 0.15*PET.noise( 4*z, 4*y, 4*x );
-			
-			k = k**2;
-
-			if( k<0.4 )
-				color.lerpColors( DEEP_WATER, WATER, map(k-0.1*Math.random(),0,0.4,0,1)**3 );
-			else
-			if( k<0.6 )
-				color.lerpColors( WATER, BEACH, map(k,0.4,0.6,0,1)**2 );
-			else
-			if( k<0.9 )
-				color.lerpColors( BEACH, GRASS, map(k,0.6,0.9,0,1)**0.2 );
-			else
-			if( k<1.5 )
-				color.lerpColors( GRASS, FOREST, map(k,0.9,1.5,0,1) );
-			else
-			if( k<1.8 )
-				color.lerpColors( FOREST, ROCK, map(k,1.5,1.8,0,1) );
-			else
-			if( k<2.5 )
-				color.lerpColors( ROCK, SNOW, map(k,1.8,2.5,0,1) );
-			else
-				color.copy( SNOW );
-		}
 
 		var planet = new THREE.Mesh(
 				new THREE.IcosahedronGeometry( 1, 10 ),
-				PET.material( new THREE.MeshStandardMaterial( {
-								map: PET.texture(planetPattern),
+				PLANET.material( new THREE.MeshStandardMaterial( {
+								map: PLANET.texture(true,{width:512, height:256,scale:75,sizeDeep:5,sizeGrass:60,sizeForest:40}),
 							} ) )
 			);
 			
@@ -232,57 +192,30 @@
 		
 
 
-
-		// =================================
-		//
-		// THE ATMOSPHERE
-		//
-		// =================================
-
-		function atmospherePattern( x, y, z ,color )
-		{
-			var k = 0.4*(PET.noise( y, z, x )+PET.noise( 2*z, 2*x, 2*y ));
-			color.set(k,k,k);
-		}
-
-		var atmosphere = new THREE.Mesh(
+		// atmosphere
+		var atmosphereLow = new THREE.Mesh(
 				new THREE.IcosahedronGeometry( 1, 10 ),
 				new THREE.MeshBasicMaterial( {
-								alphaMap: PET.texture(atmospherePattern),
+								map: CLOUDS.texture({scale:30,opacity:70,density:35}),
 								transparent: true,
 								side: THREE.DoubleSide,
 						} )
 			);
-			atmosphere.scale.setScalar( 1.02 );
+			atmosphereLow.scale.setScalar( 1.02 );
 			
-		planet.add( atmosphere );
-		
-
-
-
-		// =================================
-		//
-		// THE EXOSPHERE
-		//
-		// =================================
-
-		function exospherePattern(x,y,z,color,{},u,v)
-		{
-			var k = 0.4*(PET.noise( y+1, z+1, x+1 )+PET.noise( z-1, x-1, y-1 ));
-			color.set(k,k,k);
-		}
-
-		var exosphere = new THREE.Mesh(
+		var atmosphereHigh = new THREE.Mesh(
 				new THREE.IcosahedronGeometry( 1, 10 ),
 				new THREE.MeshBasicMaterial( {
-								alphaMap: PET.texture(exospherePattern),
+								map: CLOUDS.texture({scale:30,opacity:80,density:50,color:0xffffff,subcolor:0xff}),
 								transparent: true,
 								side: THREE.DoubleSide,
 						} )
 			);
-			exosphere.scale.setScalar( 1.04 );
+
+		atmosphereLow.scale.setScalar( 1.02 );
+		atmosphereHigh.scale.setScalar( 1.04 );
 			
-		planet.add( exosphere );
+		planet.add( atmosphereLow, atmosphereHigh );
 
 
 		var frame = 0;
@@ -302,15 +235,20 @@
 				if( frame%12 == 3 ) lavaBall.material.map.needsUpdate = true;
 			}
 			
+			if( planet.material.map.update(1) < 1 )
+			{
+				if( frame%12 == 6 ) planet.material.map.needsUpdate = true;
+			}
+			
 			for( var ball of [marbleBall, lavaBall, coralBall, planet])
 			{
 				ball.scale.setScalar( 1/controls.getDistance() );
 				ball.quaternion.copy( hiddenCamera.quaternion ).conjugate();
 			}
 
-			atmosphere.rotation.y = t/3000;
-			exosphere.rotation.x = 0.2*Math.sin(t/3500);
-			exosphere.rotation.y = t/4500;
+			atmosphereLow.rotation.y = t/3000;
+			atmosphereHigh.rotation.x = 0.2*Math.sin(t/3500);
+			atmosphereHigh.rotation.y = t/4500;
 
 			renderer.render( scene, camera );
 		}

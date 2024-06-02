@@ -15,7 +15,7 @@ import { noise, texture as coreTexture } from "pet/texture-generator.js";
 
 
 var defaults = {
-		$name: 'Simplex noise',
+		$name: 'Clouds',
 		
 		width: 512,
 		height: 256,
