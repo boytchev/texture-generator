@@ -14,6 +14,7 @@ parameters.
 
 * [camouflage.js](camouflage.md)
 * [cave-art.js](cave-art.md)
+* [clouds.js](clouds.md)
 * [concrete.js](concrete.md)
 * [entangled.js](entangled.md)
 * [isolines.js](isolines.md)
