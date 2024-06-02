@@ -62,9 +62,8 @@ thread*</small>
 <br><small>*&ndash; currently the
 generation is done into a 2D canvas in JavaScript*</small>
 * Using **other textures**, especially ones imitating
-known materials<br><small>*&ndash; currently  
-generators are added based on spare time and inspiration
-of one person*</small>
+known materials<br><small>*&ndash; currently generators are
+added based on spare time and inspiration of one person*</small>
 
 
 <div class="footnote">
