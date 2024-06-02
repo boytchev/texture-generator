@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<meta charset="utf-8">
+	<meta charset="utf-8"> <!-- 342-315 -->
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	
 	<link rel="stylesheet" href="styles.css">
@@ -11,36 +11,31 @@
 	  {
 		"imports": {
 		  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
-		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/"
+		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/",
+		  "pet/": "../src/"
 		}
 	  }
 	</script>
 
-	<style>
-		#hud {
-			position: absolute;
-			width: 4em;
-			left: calc(50% - 2em);
-			top: 30%;
-			font-family: Cordana, Calibri, sans-serif;
-			font-size: 5em;
-			font-weight: 900;
-			text-align: center;
-		}		
-	</style>
 </head>
 
 <body>
-
-	<h1 class="white">Equirectangular Texture Generator</h1>
-	<h3 class="white">Proof of concept example</h3>
-	<div id="hud">Generating...</div>
+	<div class="header white">
+		<h1 class="white">Equirectangular Texture Generator</h1>
+		<h3 class="white">Proof of concept examples</h3>
+	</div>
+	
+	<div class="footnote white">
+		<a href="#" onclick="window.history.back(); return false;">Back</a>
+	</div>	
 	
 	<script type="module">
 
 		import * as THREE from "three";
 		import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-		import * as PET from "../src/texture-generator.js";
+		import * as PET from "pet/texture-generator.js";
+		import * as MARBLE from "pet/patterns/marble.js";
+		import * as SIMPLEX from "pet/patterns/simplex-noise.js";
 
 		
 		// setting up the scene
@@ -80,33 +75,14 @@
 
 
 
-		// =================================
-		//
-		// THE MARBLE BALL
-		//
-		// =================================
-		function marblePattern( x, y, z, color )
-		{
-			var k = PET.noise( x/1, y/1, z/1 )
-				  + 0.5*PET.noise( 2*z, 2*x, 2*y )
-				  + 0.2*PET.noise( 6*x, 6*y, 6*z );
-				
-			k = k**2.5;
-			
-			var m = PET.noise( 30*x, 30*y, 30*z );
-			
-			if( k<0.005 )
-				color.setHSL( 0.66, 1, 0.3+k*200 );
-			else
-				color.setHSL( 0.60, 1, 0.9+m**5 );
-		}
-
+		// the marble ball
+		
 		var marbleBall = new THREE.Mesh(
 				new THREE.SphereGeometry( 1 ),
-				PET.material(new THREE.MeshStandardMaterial( {
+				MARBLE.material(new THREE.MeshStandardMaterial( {
 									metalness: 0.7,
 									roughness: 0.7,
-									map: PET.texture(marblePattern,{width:1024}),
+									map: MARBLE.texture(MARBLE.pattern,true,{width:1024, height:512, noise:100}),
 								} ))
 		);
 			
@@ -117,31 +93,22 @@
 
 
 
-		// =================================
-		//
-		// THE LAVA BALL
-		//
-		// =================================
+		// the lava ball
 
 		function lavaPattern( x, y, z, color )
 		{
 			var k = PET.noise( 4*x, 4*y, 4*z );
-			var n = k;
-
-			k = 0.5+0.5*k;
-			k = k**10+0.4;
-			
-			k += 0.2*Math.sin(10*y)*n;
+				k = (0.5+0.5*k)**10+0.5 + 0.2*Math.sin(10*y)*k;
 
 			color.set( 0.2+1*(k+0.2)**2, 0.05+0.2*k**4, 0 );
 		}
 
 		var lavaBall = new THREE.Mesh(
 				new THREE.SphereGeometry( 1, 64, 32 ),
-				PET.material( new THREE.MeshStandardMaterial( {
+				SIMPLEX.material( new THREE.MeshPhysicalMaterial( {
 								metalness: 1,
-								roughness: 0.5,
-								map: PET.texture(lavaPattern,{width:512}),
+								roughness: 0.7,
+								map: SIMPLEX.texture(lavaPattern,true,{width:512, height:256}),
 							} ) )
 			);
 			
@@ -317,13 +284,24 @@
 			
 		planet.add( exosphere );
 
-		document.getElementById( 'hud' ).style.display = 'none';
 
-
+		var frame = 0;
 		function animationLoop( t )
 		{
+			frame++;
+			
 			controls.update( );
 
+			if( marbleBall.material.map.update(1) < 1 )
+			{
+				if( frame%12 == 0 ) marbleBall.material.map.needsUpdate = true;
+			}
+			
+			if( lavaBall.material.map.update(1) < 1 )
+			{
+				if( frame%12 == 3 ) lavaBall.material.map.needsUpdate = true;
+			}
+			
 			for( var ball of [marbleBall, lavaBall, coralBall, planet])
 			{
 				ball.scale.setScalar( 1/controls.getDistance() );
