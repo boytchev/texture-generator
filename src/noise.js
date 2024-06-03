@@ -23,9 +23,9 @@ var simplex = new SimplexNoise(PRNG);
 
 
 // seeded 3D noise
-function noise(x, y, z)
+function noise(x, y, z, scale=1)
 {
-	return simplex.noise3d(x, y, z);
+	return simplex.noise3d(scale*x, scale*y, scale*z);
 }
 
 

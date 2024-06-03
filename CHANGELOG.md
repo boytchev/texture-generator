@@ -1,6 +1,10 @@
 # Texture generator
 
 
+## 1.4.0
+* Added fordite texture design via *fordite.js*
+* `noiseSeed` from *noise.js* has optionsl scaling parameter
+
 ## 1.3.0
 * Added clouds texture design via *clouds.js*
 * Added planet texture design via *planet.js*

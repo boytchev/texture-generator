@@ -17,10 +17,12 @@ and [THREE.MathUtils.seededRandom](https://threejs.org/docs/#api/en/math/MathUti
 ### noise(...)
 
 Function. A 3D noise function. Returns a pseudo-random number
-&#x2208; [-1,1] for a point in 3D space.
+&#x2208; [-1,1] for a point in 3D space. Coordinates *x*,
+*y* and *z) are multiplied by *scale* before calculating the
+noise.
 
 ```js
-noise( x, y, z )
+noise( x, y, z, scale=1 )
 ```
 
 where:

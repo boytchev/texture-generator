@@ -177,6 +177,19 @@ predefined texture patterns.
 		<img src="../docs/images/zebra-lines-3.png">
 	</a>
 
+	<a class="style-block nocaption" href="../online/fordite.html?width=1024&height=512&scale=90&color=0">
+		<img src="../docs/images/fordite-1.png">
+	</a>
+
+	<a class="style-block nocaption" href="../online/fordite.html?width=1024&height=512&scale=100&color=16722217">
+		<img src="../docs/images/fordite-2.png">
+	</a>
+
+	<a class="style-block nocaption" href="../online/fordite.html?width=2048&height=1024&scale=8&color=12564678">
+		<img src="../docs/images/fordite-3.png">
+	</a>
+	
+	
 </p>
 
 
