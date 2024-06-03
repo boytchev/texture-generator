@@ -9,7 +9,7 @@
 
 
 
-import { Vector3, Color, MathUtils } from "three";
+import { Color, MathUtils } from "three";
 import { noise, texture as coreTexture } from "pet/texture-generator.js";
 
 

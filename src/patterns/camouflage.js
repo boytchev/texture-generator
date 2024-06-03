@@ -40,13 +40,13 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ )
 	y *= options.scale;
 	z *= options.scale;
 
-	if( Math.round( noise(x,y,z)+0.2 ) > 0.5 )
+	if( Math.round( noise(x,y,z)+0.2 ) >= 1 )
 		color.copy( options.colorA );
 	else
-	if( Math.round( noise(y,z,x)+0.3 ) > 0.5 )
+	if( Math.round( noise(y,z,x)+0.3 ) >= 1 )
 		color.copy( options.colorB );
 	else
-	if( Math.round( noise(z,x,y)+0.4 ) > 0.5 )
+	if( Math.round( noise(z,x,y)+0.4 ) >= 1 )
 		color.copy( options.colorC );
 	else
 		color.copy( options.colorD );

@@ -46,8 +46,6 @@ var light = new THREE.PointLight( 'white', 4 );
 	light.decay = 0;
 	scene.add( light );
 	
-var canvas = document.createElement( 'canvas' );
-
 var model = new THREE.Mesh(
 		new THREE.SphereGeometry( 1, 64, 64 ),
 //		new THREE.SphereGeometry( 1, 6, 3 ),

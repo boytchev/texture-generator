@@ -11,7 +11,7 @@
 
 import { Vector3, Color, PolyhedronGeometry, TetrahedronGeometry, OctahedronGeometry, DodecahedronGeometry, IcosahedronGeometry, MathUtils } from "three";
 import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
-import { noise, texture as coreTexture } from "pet/texture-generator.js";
+import { texture as coreTexture } from "pet/texture-generator.js";
 
 
 
@@ -73,7 +73,7 @@ var layouts = [
 
 // generate dot positions
 
-for( var index in layouts )
+for( var index=0; index<layouts.length; index++ )
 {
 	var level = layouts[index].level,
 		geometryClass = layouts[index].geometry;

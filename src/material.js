@@ -5,7 +5,7 @@
 //	material( material )	- patches material's shaders
 
 
-import { EquirectangularReflectionMapping, MathUtils } from "three";
+import { EquirectangularReflectionMapping } from "three";
 
 
 const // general patch for vertex shader
@@ -83,7 +83,7 @@ const // another specific patch for аоMap in fragment shader
 function batchReplace( string, from, to, name )
 {
 	// check weather all patterns exist
-	for( var i in from )
+	for( var i=0; i<from.length; i++ )
 	{
 		if( string.indexOf(from[i]) < 0 )
 		{
@@ -93,7 +93,7 @@ function batchReplace( string, from, to, name )
 	} // for i
 	
 	// replace patterns
-	for( var i in from )
+	for( var i=0; i<from.length; i++ )
 	{
 		string = string.replace( from[i], to[i] );
 	}

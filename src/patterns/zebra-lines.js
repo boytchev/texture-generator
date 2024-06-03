@@ -10,7 +10,7 @@
 
 
 import { Vector3, MathUtils } from "three";
-import { noise, texture as coreTexture } from "pet/texture-generator.js";
+import { texture as coreTexture } from "pet/texture-generator.js";
 
 
 

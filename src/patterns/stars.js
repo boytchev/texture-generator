@@ -9,7 +9,7 @@
 
 
 
-import { Vector3, Color, MathUtils } from "three";
+import { Vector3, Color } from "three";
 import { noise, texture as coreTexture } from "pet/texture-generator.js";
 
 
@@ -30,15 +30,6 @@ var defaults = {
 	
 
 	
-var pts = [];
-var n = 6000;
-for( var i=0; i<n; i++)
-{
-	pts.push( new Vector3().randomDirection() );
-}
-
-var vec = new Vector3();
-
 function pattern( x, y, z, color, options, /*u, v, px, py*/ )
 {
 	var s = 0,

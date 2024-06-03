@@ -9,7 +9,6 @@
 
 
 
-import { Color } from "three";
 import { noise, texture as coreTexture } from "pet/texture-generator.js";
 
 

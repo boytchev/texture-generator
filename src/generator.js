@@ -125,7 +125,7 @@ function canvas( ...args ) // pattern, canvas, deferred, options
 				data[index++] = 255*color.r;
 				data[index++] = 255*color.g;
 				data[index++] = 255*color.b;
-				data[index++] = 255*( color?.a ?? 1 );
+				data[index++] = 255*( color.a ?? 1 );
 			}
 
 			context.putImageData( imageData, 0, y );
