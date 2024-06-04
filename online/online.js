@@ -40,8 +40,7 @@ function onResize( /*event*/ ) {
 
 var controls = new OrbitControls( camera, renderer.domElement );
 controls.enableDamping = true;
-//controls.autoRotate = true;
-//controls.autoRotateSpeed = 0.5;
+
 
 var light = new THREE.PointLight( 'white', 4 );
 light.decay = 0;
@@ -49,9 +48,6 @@ scene.add( light );
 
 var model = new THREE.Mesh(
 	new THREE.SphereGeometry( 1, 64, 64 ),
-	//		new THREE.SphereGeometry( 1, 6, 3 ),
-	//		new THREE.DodecahedronGeometry( 1, 1 ),
-	//		new THREE.IcosahedronGeometry( 1, 10 ),
 	new THREE.MeshLambertMaterial( )
 );
 
@@ -115,13 +111,13 @@ function install( PET, auxOnChange ) {
 
 	for ( var [ key, value ] of urlParameters.entries() ) {
 
-		if( value == 'true' )
-			url[key] = true;
+		if ( value == 'true' )
+			url[ key ] = true;
 		else
-		if( value == 'false' )
-			url[key] = false;
-		else
-		url[ key ] = parseFloat( value );
+			if ( value == 'false' )
+				url[ key ] = false;
+			else
+				url[ key ] = parseFloat( value );
 
 	}
 
@@ -132,12 +128,14 @@ function install( PET, auxOnChange ) {
 
 	filename = PET.defaults.$name.split( ' ' ).join( '-' ).toLowerCase();
 
+	var url=PET.defaults.$url ?? `https://boytchev.github.io/texture-generator/docs/${filename}.html`;
+
 	var title = `<big><em>${PET.defaults.$name}</em> generator</big>
 			<small class="fullline">
-				<a class="link" href="#" onclick="window.history.back(); return false;"><span>&#x2B9C</span>Back</a> &middot;
+				<a class="link" href="#" onclick="window.history.back(); return false;">Back</a> &middot;
 				<span id="share" class="link">Share<!-- &#x1F517;--></span> &middot;
 				<span id="download" class="link">Download<!-- &#x2B73;--></span> &middot;
-				<span id="light" class="link">Light<!-- &#x263C--></span>
+				<a href="${url}" class="link">Docs<!-- &#x263C--></span>
 			</small>`;
 
 	mainGui = new lil.GUI( { title: title } );
@@ -165,7 +163,6 @@ function install( PET, auxOnChange ) {
 
 	} );
 
-	document.getElementById( 'light' ).addEventListener( 'click', toggleBackground );
 	document.getElementById( 'download' ).addEventListener( 'click', downloadTexture );
 	document.getElementById( 'share' ).addEventListener( 'click', shareURL );
 
@@ -181,6 +178,7 @@ function install( PET, auxOnChange ) {
 }
 
 
+/*
 var lightBackground = true;
 
 function toggleBackground( event ) {
@@ -192,6 +190,7 @@ function toggleBackground( event ) {
 	scene.background.setStyle( lightBackground ? 'white' : 'black' );
 
 }
+*/
 
 
 var downloadLink = document.createElement( 'a' );

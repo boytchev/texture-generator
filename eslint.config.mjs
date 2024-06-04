@@ -11,7 +11,7 @@ export default [
 			}
 		},
 		
-		files: ["**/*.html"],
+		files: ["**/*.html", "**/*.js"],
 		plugins: {html},
 
 		"rules": {
