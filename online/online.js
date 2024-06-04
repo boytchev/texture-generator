@@ -132,10 +132,10 @@ function install( PET, auxOnChange ) {
 
 	var title = `<big><em>${PET.defaults.$name}</em> generator</big>
 			<small class="fullline">
-				<a class="link" href="#" onclick="window.history.back(); return false;">Back</a> &middot;
+				<span class="link" onclick="event.stopPropagation(); window.history.back();">Back</span> &middot;
 				<span id="share" class="link">Share<!-- &#x1F517;--></span> &middot;
 				<span id="download" class="link">Download<!-- &#x2B73;--></span> &middot;
-				<a href="${onlineUrl}" class="link">Docs<!-- &#x263C--></span>
+				<span class="link" onclick="event.stopPropagation(); window.location.assign('${onlineUrl}');">Docs<!-- &#x263C--></span>
 			</small>`;
 
 	mainGui = new lil.GUI( { title: title } );
