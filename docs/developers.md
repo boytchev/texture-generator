@@ -22,6 +22,7 @@ parameters.
 * [isolines.js](isolines.md)
 * [marble.js](marble.md)
 * [planet.js](planet.md)
+* [photosphere.js](photosphere.md)
 * [polka-dots.js](polka-dots.md)
 * [simplex-noise.js](simplex-noise.md)
 * [stars.js](stars.md)

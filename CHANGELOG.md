@@ -2,6 +2,7 @@
 
 
 ## 1.5.0
+* Added photosphere texture design via *photosphere.js*
 * Added grid texture design via *grid.js*
 * SUpport for boolean options in URL para,eters
 

@@ -97,13 +97,6 @@ function options( params ) {
 
 	options.caps = params.caps??defaults.caps;
 
-	//	var scale = ( params.scale??defaults.scale );
-	//	scale = MathUtils.mapLinear( scale, 0, 100, 0, data.maxScale );
-	//	scale = ( scale / 100 )**2;
-
-	//	options.minSmooth = scale - blur;
-	//	options.maxSmooth = scale + blur;
-
 	options.width = params.width ?? defaults.width;
 	options.height = params.height ?? defaults.height;
 

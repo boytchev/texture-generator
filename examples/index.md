@@ -189,6 +189,25 @@ predefined texture patterns.
 		<img src="../docs/images/fordite-3.png">
 	</a>
 	
+	<a class="style-block nocaption" href="../online/grid.html?countH=32&countV=16&thickness=32&caps=true&width=1024&height=512&color=0&background=16777215">
+		<img src="../docs/images/grid-1.png">
+	</a>
+
+	<a class="style-block nocaption" href="../online/grid.html?countH=98&countV=55&thickness=55&caps=true&width=1024&height=512&color=8716288&background=16773565">
+		<img src="../docs/images/grid-2.png">
+	</a>
+
+	<a class="style-block nocaption" href="../online/grid.html?countH=60&countV=3&thickness=70&caps=false&width=1024&height=512&color=15790320&background=6073865">
+		<img src="../docs/images/grid-3.png">
+	</a>
+	
+	<a class="style-block nocaption" href="../online/photosphere.html?width=1024&height=512&scale=30&turbulence=10&color=16776960&background=16711680">
+		<img src="../docs/images/photosphere-1.png">
+	</a>
+
+	<a class="style-block nocaption" href="../online/photosphere.html?width=1024&height=512&scale=67&turbulence=10&color=16777215&background=7911410">
+		<img src="../docs/images/photosphere-2.png">
+	</a>
 	
 </p>
 
