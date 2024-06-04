@@ -128,14 +128,14 @@ function install( PET, auxOnChange ) {
 
 	filename = PET.defaults.$name.split( ' ' ).join( '-' ).toLowerCase();
 
-	var url=PET.defaults.$url ?? `https://boytchev.github.io/texture-generator/docs/${filename}.html`;
+	var onlineUrl=PET.defaults.$url ?? `https://boytchev.github.io/texture-generator/docs/${filename}.html`;
 
 	var title = `<big><em>${PET.defaults.$name}</em> generator</big>
 			<small class="fullline">
 				<a class="link" href="#" onclick="window.history.back(); return false;">Back</a> &middot;
 				<span id="share" class="link">Share<!-- &#x1F517;--></span> &middot;
 				<span id="download" class="link">Download<!-- &#x2B73;--></span> &middot;
-				<a href="${url}" class="link">Docs<!-- &#x263C--></span>
+				<a href="${onlineUrl}" class="link">Docs<!-- &#x263C--></span>
 			</small>`;
 
 	mainGui = new lil.GUI( { title: title } );
