@@ -35,84 +35,88 @@
 		import * as PET from "pet/patterns/polka-dots.js";
 
 
-		
-		// setting up the scene
-		
-		var scene = new THREE.Scene();
-			scene.background = new THREE.Color( 0x202020 );
-				
-		var camera = new THREE.PerspectiveCamera( 40, innerWidth/innerHeight );
-			camera.position.set( 0, 0, 10 );
-			camera.lookAt( scene.position );
 
-		var renderer = new THREE.WebGLRenderer( {antialias: true} );
-			renderer.setSize( innerWidth, innerHeight );
-			renderer.setAnimationLoop( animationLoop );
-			document.body.appendChild( renderer.domElement );
-					
-		window.addEventListener( "resize", (event) => {
+		// setting up the scene
+
+		var scene = new THREE.Scene();
+		scene.background = new THREE.Color( 0x202020 );
+
+		var camera = new THREE.PerspectiveCamera( 40, innerWidth/innerHeight );
+		camera.position.set( 0, 0, 10 );
+		camera.lookAt( scene.position );
+
+		var renderer = new THREE.WebGLRenderer( { antialias: true } );
+		renderer.setSize( innerWidth, innerHeight );
+		renderer.setAnimationLoop( animationLoop );
+		document.body.appendChild( renderer.domElement );
+
+		window.addEventListener( "resize", ( /*event*/ ) => {
+
 			camera.aspect = innerWidth/innerHeight;
 			camera.updateProjectionMatrix( );
 			renderer.setSize( innerWidth, innerHeight );
-		});
+
+		} );
 
 		var hiddenCamera = camera.clone();
-			hiddenCamera.position.set(0,0,1);
-		
+		hiddenCamera.position.set( 0, 0, 1 );
+
 		var controls = new OrbitControls( hiddenCamera, renderer.domElement );
-			controls.enableDamping = true;
-			controls.autoRotate = !true;
-			controls.autoRotateSpeed = 0.5;
+		controls.enableDamping = true;
+		controls.autoRotate = !true;
+		controls.autoRotateSpeed = 0.5;
 
 		var light = new THREE.PointLight( 'white', 30 );
-			light.position.set( 0, 0, 10 );
-			scene.add( light );
+		light.position.set( 0, 0, 10 );
+		scene.add( light );
 
-			scene.add( new THREE.AmbientLight( 'white',2 ) );
-	
+		scene.add( new THREE.AmbientLight( 'white', 2 ) );
+
 
 
 		// generator of bumps
-		
-		function buildBumps( positions, material )
-		{
+
+		function buildBumps( positions, material ) {
+
 			var bumps = new THREE.Group(),
-				geometry = new THREE.SphereGeometry( 0.2 ).translate(0,0,-1.05);
-			
-			for( var pos of positions.points )
-			{
+				geometry = new THREE.SphereGeometry( 0.2 ).translate( 0, 0, -1.05 );
+
+			for ( var pos of positions.points ) {
+
 				var bump = new THREE.Mesh( geometry, material );
-					bump.position.copy( pos );
-					bump.lookAt( 0, 0, 0 );
+				bump.position.copy( pos );
+				bump.lookAt( 0, 0, 0 );
 
 				bumps.add( bump );
+
 			}
-			
+
 			return bumps;
+
 		}
 
-		
-		
+
+
 		// left ball
 
 		var leftMaterial = new THREE.MeshPhysicalMaterial( {
-							color: 'white',
-							metalness: 1,
-							roughness: 0,
-							emissive: 'white',
-							emissiveIntensity: 1.5,
-						} );
+			color: 'white',
+			metalness: 1,
+			roughness: 0,
+			emissive: 'white',
+			emissiveIntensity: 1.5,
+		} );
 
 		var leftBall = new THREE.Mesh(
-				new THREE.SphereGeometry( 2 ),
-				PET.material(new THREE.MeshPhysicalMaterial( {
-									metalness: 0.5,
-									roughness: 1,
-									aoMap: PET.texture({width:256, layout:9, blur:90, scale:40}),
-								} ))
+			new THREE.SphereGeometry( 2 ),
+			PET.material( new THREE.MeshPhysicalMaterial( {
+				metalness: 0.5,
+				roughness: 1,
+				aoMap: PET.texture( { width: 256, layout: 9, blur: 90, scale: 40 } ),
+			} ) )
 		);
 
-		leftBall.add( buildBumps( PET.defaults.$layouts[8], leftMaterial ) );
+		leftBall.add( buildBumps( PET.defaults.$layouts[ 8 ], leftMaterial ) );
 		leftBall.position.x = -2.5;
 		scene.add( leftBall );
 
@@ -123,55 +127,57 @@
 		var rightMaterial = leftMaterial.clone();
 
 		var rightBall = new THREE.Mesh(
-				new THREE.SphereGeometry( 2, 64, 32 ),
-				PET.material(new THREE.MeshPhysicalMaterial( {
-									metalness: 0.5,
-									roughness: 1,
-									aoMap: PET.texture({width:512, layout:10, blur:80, scale:40}),
-								} ))
+			new THREE.SphereGeometry( 2, 64, 32 ),
+			PET.material( new THREE.MeshPhysicalMaterial( {
+				metalness: 0.5,
+				roughness: 1,
+				aoMap: PET.texture( { width: 512, layout: 10, blur: 80, scale: 40 } ),
+			} ) )
 		);
 
-		rightBall.add( buildBumps( PET.defaults.$layouts[9], rightMaterial ) );
+		rightBall.add( buildBumps( PET.defaults.$layouts[ 9 ], rightMaterial ) );
 		rightBall.position.x = 2.5;
 		scene.add( rightBall );
 
 
 
 		// main animation loop to turn lights on-off
-		
-		function animationLoop( t )
-		{
+
+		function animationLoop( t ) 		{
+
 			t = t/1300;
-			
+
 			// control left ball
-			
-			var onOff = Math.sin(t)**5 - Math.sin(3*t)**5 > 0;
-			
+
+			var onOff = Math.sin( t )**5 - Math.sin( 3*t )**5 > 0;
+
 			leftBall.material.color.setStyle( onOff ? 'SteelBlue' : 'LightSteelBlue' );
 			leftBall.material.aoMapIntensity = onOff ? 2 : -8;
 			leftMaterial.emissiveIntensity = onOff ? 0 : 1;
-			
+
 			// control right ball
-			
-			onOff = Math.cos(3*t)**5 - Math.sin(t)**5 > 0;
-			
+
+			onOff = Math.cos( 3*t )**5 - Math.sin( t )**5 > 0;
+
 			rightBall.material.color.setStyle( onOff ? 'SteelBlue' : 'LightSteelBlue' );
 			rightBall.material.aoMapIntensity = onOff ? 2 : -8;
 			rightMaterial.emissiveIntensity = onOff ? 0 : 1.5;
-			
+
 			// control ball rotation
-			
+
 			controls.update( );
 
-			for( var ball of [leftBall, rightBall])
-			{
+			for ( var ball of [ leftBall, rightBall ]) {
+
 				ball.scale.setScalar( 1/controls.getDistance() );
 				ball.quaternion.copy( hiddenCamera.quaternion ).conjugate();
+
 			}
 
 			renderer.render( scene, camera );
+
 		}
-				
+
 	</script>
 </body>
 </html>

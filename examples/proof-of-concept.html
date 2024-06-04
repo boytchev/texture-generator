@@ -39,85 +39,88 @@
 		import * as CLOUDS from "pet/patterns/clouds.js";
 		import * as PLANET from "pet/patterns/planet.js";
 
-		
-		// setting up the scene
-		
-		var scene = new THREE.Scene();
-			scene.background = new THREE.Color( 'black' );
-				
-		var camera = new THREE.PerspectiveCamera( 40, innerWidth/innerHeight );
-			camera.position.set( 0, 0, 10 );
-			camera.lookAt( scene.position );
 
-		var renderer = new THREE.WebGLRenderer( {antialias: true} );
-			renderer.setSize( innerWidth, innerHeight );
-			renderer.setAnimationLoop( animationLoop );
-			document.body.appendChild( renderer.domElement );
-					
-		window.addEventListener( "resize", (event) => {
+		// setting up the scene
+
+		var scene = new THREE.Scene();
+		scene.background = new THREE.Color( 'black' );
+
+		var camera = new THREE.PerspectiveCamera( 40, innerWidth/innerHeight );
+		camera.position.set( 0, 0, 10 );
+		camera.lookAt( scene.position );
+
+		var renderer = new THREE.WebGLRenderer( { antialias: true } );
+		renderer.setSize( innerWidth, innerHeight );
+		renderer.setAnimationLoop( animationLoop );
+		document.body.appendChild( renderer.domElement );
+
+		window.addEventListener( "resize", ( /*event*/ ) => {
+
 			camera.aspect = innerWidth/innerHeight;
 			camera.updateProjectionMatrix( );
 			renderer.setSize( innerWidth, innerHeight );
-		});
+
+		} );
 
 		var hiddenCamera = camera.clone();
-			hiddenCamera.position.set(0,0,1);
-		
+		hiddenCamera.position.set( 0, 0, 1 );
+
 		var controls = new OrbitControls( hiddenCamera, renderer.domElement );
-			controls.enableDamping = true;
-			controls.autoRotate = true;
-			controls.autoRotateSpeed = 0.5;
+		controls.enableDamping = true;
+		controls.autoRotate = true;
+		controls.autoRotateSpeed = 0.5;
 
 		var light = new THREE.DirectionalLight( 'white', 3 );
-			light.position.set( 0, 0, 10 );
-			scene.add( light );
+		light.position.set( 0, 0, 10 );
+		scene.add( light );
 
-			scene.add( new THREE.HemisphereLight( 'white','blue',1 ) );
+		scene.add( new THREE.HemisphereLight( 'white', 'blue', 1 ) );
 
 
 
 
 		// the marble ball
-		
+
 		var marbleBall = new THREE.Mesh(
-				new THREE.SphereGeometry( 1 ),
-				MARBLE.material(new THREE.MeshStandardMaterial( {
-									metalness: 0.7,
-									roughness: 0.7,
-									map: MARBLE.texture(MARBLE.pattern,true,{width:1024, height:512, noise:100}),
-								} ))
+			new THREE.SphereGeometry( 1 ),
+			MARBLE.material( new THREE.MeshStandardMaterial( {
+				metalness: 0.7,
+				roughness: 0.7,
+				map: MARBLE.texture( MARBLE.pattern, true, { width: 1024, height: 512, noise: 100 } ),
+			} ) )
 		);
-			
+
 		marbleBall.position.set( -3.5, 0, 0 );
-			
+
 		scene.add( marbleBall );
-		
+
 
 
 
 		// the lava ball
 
-		function lavaPattern( x, y, z, color )
-		{
-			var k = PET.noise( 4*x, 4*y, 4*z );
-				k = (0.5+0.5*k)**10+0.5 + 0.2*Math.sin(10*y)*k;
+		function lavaPattern( x, y, z, color ) 		{
 
-			color.set( 0.2+1*(k+0.2)**2, 0.05+0.2*k**4, 0 );
+			var k = PET.noise( 4*x, 4*y, 4*z );
+			k = ( 0.5+0.5*k )**10+0.5 + 0.2*Math.sin( 10*y )*k;
+
+			color.set( 0.2+1*( k+0.2 )**2, 0.05+0.2*k**4, 0 );
+
 		}
 
 		var lavaBall = new THREE.Mesh(
-				new THREE.SphereGeometry( 1, 64, 32 ),
-				SIMPLEX.material( new THREE.MeshPhysicalMaterial( {
-								metalness: 1,
-								roughness: 0.7,
-								map: SIMPLEX.texture(lavaPattern,true,{width:512, height:256}),
-							} ) )
-			);
-			
+			new THREE.SphereGeometry( 1, 64, 32 ),
+			SIMPLEX.material( new THREE.MeshPhysicalMaterial( {
+				metalness: 1,
+				roughness: 0.7,
+				map: SIMPLEX.texture( lavaPattern, true, { width: 512, height: 256 } ),
+			} ) )
+		);
+
 		lavaBall.position.set( 0, 1.5, 0 );
 
 		scene.add( lavaBall );
-		
+
 
 
 
@@ -127,51 +130,55 @@
 		//
 		// =================================
 
-		function coralShape( x, y, z )
-		{
+		function coralShape( x, y, z ) 		{
+
 			var k = PET.noise( 2*x, 2*y, 2*z );
-				k = (0.5+k)**3 - 0.5;
-			
+			k = ( 0.5+k )**3 - 0.5;
+
 			return k;
+
 		}
 
-		function coralPattern( x, y, z, color )
-		{
+		function coralPattern( x, y, z, color ) 		{
+
 			var k = coralShape( x, y, z );
 
 			color.setHSL( 0.6-0.5*k, 1, 0.5+0.5*k );
+
 		}
 
 		var coralGeometry = new THREE.IcosahedronGeometry( 1, 50 ),
 			positions = coralGeometry.getAttribute( 'position' ),
 			v = new THREE.Vector3();
-		
-		for( var i=0; i<positions.count; i++ )
-		{
+
+		for ( var i=0; i<positions.count; i++ ) 		{
+
 			v.fromBufferAttribute( positions, i );
-			
+
 			var k = coralShape( v.x, v.y, v.z );
-			
+
 			v.setLength( 1+0.2*k );
-			v.x += 0.075*coralShape(v.y,v.z,v.x);
-			v.y += 0.075*coralShape(v.z,v.x,v.y);
-			v.z += 0.075*coralShape(v.x,v.y,v.z);
-			
+			v.x += 0.075*coralShape( v.y, v.z, v.x );
+			v.y += 0.075*coralShape( v.z, v.x, v.y );
+			v.z += 0.075*coralShape( v.x, v.y, v.z );
+
 			positions.setXYZ( i, v.x, v.y, v.z );
+
 		}
+
 		coralGeometry.computeVertexNormals();
-		
+
 		var coralBall = new THREE.Mesh(
-				coralGeometry,
-				PET.material( new THREE.MeshStandardMaterial( {
-								map: PET.texture( coralPattern, {width:256} ),
-							} ) )
-			);
-		
+			coralGeometry,
+			PET.material( new THREE.MeshStandardMaterial( {
+				map: PET.texture( coralPattern, { width: 256 } ),
+			} ) )
+		);
+
 		coralBall.position.set( 3.5, 0, 0 );
-			
+
 		scene.add( coralBall );
-		
+
 
 
 
@@ -180,79 +187,84 @@
 		// =================================
 
 		var planet = new THREE.Mesh(
-				new THREE.IcosahedronGeometry( 1, 10 ),
-				PLANET.material( new THREE.MeshStandardMaterial( {
-								map: PLANET.texture(true,{width:512, height:256,scale:75,sizeDeep:5,sizeGrass:60,sizeForest:40}),
-							} ) )
-			);
-			
+			new THREE.IcosahedronGeometry( 1, 10 ),
+			PLANET.material( new THREE.MeshStandardMaterial( {
+				map: PLANET.texture( true, { width: 512, height: 256, scale: 75, sizeDeep: 5, sizeGrass: 60, sizeForest: 40 } ),
+			} ) )
+		);
+
 		planet.position.set( 0, -1.5, 0 );
-		
+
 		scene.add( planet );
-		
+
 
 
 		// atmosphere
 		var atmosphereLow = new THREE.Mesh(
-				new THREE.IcosahedronGeometry( 1, 10 ),
-				new THREE.MeshBasicMaterial( {
-								map: CLOUDS.texture({scale:30,opacity:70,density:35}),
-								transparent: true,
-								side: THREE.DoubleSide,
-						} )
-			);
-			atmosphereLow.scale.setScalar( 1.02 );
-			
+			new THREE.IcosahedronGeometry( 1, 10 ),
+			new THREE.MeshBasicMaterial( {
+				map: CLOUDS.texture( { scale: 30, opacity: 70, density: 35 } ),
+				transparent: true,
+				side: THREE.DoubleSide,
+			} )
+		);
+		atmosphereLow.scale.setScalar( 1.02 );
+
 		var atmosphereHigh = new THREE.Mesh(
-				new THREE.IcosahedronGeometry( 1, 10 ),
-				new THREE.MeshBasicMaterial( {
-								map: CLOUDS.texture({scale:30,opacity:80,density:50,color:0xffffff,subcolor:0xff}),
-								transparent: true,
-								side: THREE.DoubleSide,
-						} )
-			);
+			new THREE.IcosahedronGeometry( 1, 10 ),
+			new THREE.MeshBasicMaterial( {
+				map: CLOUDS.texture( { scale: 30, opacity: 80, density: 50, color: 0xffffff, subcolor: 0xff } ),
+				transparent: true,
+				side: THREE.DoubleSide,
+			} )
+		);
 
 		atmosphereLow.scale.setScalar( 1.02 );
 		atmosphereHigh.scale.setScalar( 1.04 );
-			
+
 		planet.add( atmosphereLow, atmosphereHigh );
 
 
 		var frame = 0;
-		function animationLoop( t )
-		{
+		function animationLoop( t ) {
+
 			frame++;
-			
+
 			controls.update( );
 
-			if( marbleBall.material.map.update(1) < 1 )
-			{
-				if( frame%12 == 0 ) marbleBall.material.map.needsUpdate = true;
+			if ( marbleBall.material.map.update( 1 ) < 1 ) {
+
+				if ( frame%12 == 0 ) marbleBall.material.map.needsUpdate = true;
+
 			}
-			
-			if( lavaBall.material.map.update(1) < 1 )
-			{
-				if( frame%12 == 3 ) lavaBall.material.map.needsUpdate = true;
+
+			if ( lavaBall.material.map.update( 1 ) < 1 ) {
+
+				if ( frame%12 == 3 ) lavaBall.material.map.needsUpdate = true;
+
 			}
-			
-			if( planet.material.map.update(1) < 1 )
-			{
-				if( frame%12 == 6 ) planet.material.map.needsUpdate = true;
+
+			if ( planet.material.map.update( 1 ) < 1 ) {
+
+				if ( frame%12 == 6 ) planet.material.map.needsUpdate = true;
+
 			}
-			
-			for( var ball of [marbleBall, lavaBall, coralBall, planet])
-			{
+
+			for ( var ball of [ marbleBall, lavaBall, coralBall, planet ]) {
+
 				ball.scale.setScalar( 1/controls.getDistance() );
 				ball.quaternion.copy( hiddenCamera.quaternion ).conjugate();
+
 			}
 
 			atmosphereLow.rotation.y = t/3000;
-			atmosphereHigh.rotation.x = 0.2*Math.sin(t/3500);
+			atmosphereHigh.rotation.x = 0.2*Math.sin( t/3500 );
 			atmosphereHigh.rotation.y = t/4500;
 
 			renderer.render( scene, camera );
+
 		}
-				
+
 	</script>
 </body>
 </html>

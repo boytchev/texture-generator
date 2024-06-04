@@ -26,7 +26,6 @@
 	
 	<script type="module">
 
-		import * as THREE from "three";
 		import { model, canvas, install, params, light } from "./online.js";
 		import * as PET from "pet/patterns/zebra-lines.js";
 
@@ -35,20 +34,20 @@
 		var gui = install( PET );
 
 		gui.add( params, 'scale' )
-			.name( 'Scale' ).min(0).max(100).step(1)
+			.name( 'Scale' ).min( 0 ).max( 100 ).step( 1 )
 			.$input.classList.add( 'top' );
-			
+		
 		gui.add( params, 'angle' )
-			.name( 'Angle' ).min(-180).max(180).step(1)
+			.name( 'Angle' ).min( -180 ).max( 180 ).step( 1 )
 			.$input.classList.add( 'bottom' );
-			
+		
 
 
 		model.material.map = PET.texture(
-				PET.pattern,
-				canvas,
-				true,
-				params
+			PET.pattern,
+			canvas,
+			true,
+			params
 		);
 
 		PET.material( model );

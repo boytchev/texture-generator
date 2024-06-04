@@ -26,48 +26,47 @@
 	
 	<script type="module">
 
-		import * as THREE from "three";
 		import { model, canvas, install, params } from "./online.js";
 		import * as PET from "pet/patterns/camouflage.js";
 
 
 		var gui = install( PET );
-			
+		
 		gui.add( params, 'scale' )
-			.name( 'Scale' ).min(0).max(100).step(1);
-			
+			.name( 'Scale' ).min( 0 ).max( 100 ).step( 1 );
+		
 		gui.addColor( params, 'colorA' )
 			.name( 'Colors' )
 			.$text.classList.add( 'top' );
-			
+		
 		gui.addColor( params, 'colorB' )
 			.name( '' );
-			
+		
 		gui.addColor( params, 'colorC' )
 			.name( '' );
-			
+		
 		gui.addColor( params, 'colorD' )
 			.name( '' )
 			.$text.classList.add( 'bottom' );
-			
+		
 		gui.add( params, 'hue' )
-			.name( 'Toning <right>hue</right>' ).min(-360).max(360).step(1)
+			.name( 'Toning <right>hue</right>' ).min( -360 ).max( 360 ).step( 1 )
 			.$input.classList.add( 'top' );
-			
+		
 		gui.add( params, 'saturation' )
-			.name( '<right>saturation</right>' ).min(-100).max(100).step(1);
-			
+			.name( '<right>saturation</right>' ).min( -100 ).max( 100 ).step( 1 );
+		
 		gui.add( params, 'brightness' )
-			.name( '<right>brightness</right>' ).min(-100).max(100).step(1)
+			.name( '<right>brightness</right>' ).min( -100 ).max( 100 ).step( 1 )
 			.$input.classList.add( 'bottom' );
-			
+		
 
-			
+		
 		model.material.map = PET.texture(
-				PET.pattern,
-				canvas,
-				true,
-				params
+			PET.pattern,
+			canvas,
+			true,
+			params
 		);
 		
 		PET.material( model );

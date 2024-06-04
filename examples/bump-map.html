@@ -37,67 +37,69 @@
 		import * as WATERDROPS from "pet/patterns/water-drops.js";
 
 
-		
-		// setting up the scene
-		
-		var scene = new THREE.Scene();
-			scene.background = new THREE.Color( 'black' );
-				
-		var camera = new THREE.PerspectiveCamera( 40, innerWidth/innerHeight );
-			camera.position.set( 0, 0, 10 );
-			camera.lookAt( scene.position );
 
-		var renderer = new THREE.WebGLRenderer( {antialias: true} );
-			renderer.setSize( innerWidth, innerHeight );
-			renderer.setAnimationLoop( animationLoop );
-			document.body.appendChild( renderer.domElement );
-					
-		window.addEventListener( "resize", (event) => {
+		// setting up the scene
+
+		var scene = new THREE.Scene();
+		scene.background = new THREE.Color( 'black' );
+
+		var camera = new THREE.PerspectiveCamera( 40, innerWidth/innerHeight );
+		camera.position.set( 0, 0, 10 );
+		camera.lookAt( scene.position );
+
+		var renderer = new THREE.WebGLRenderer( { antialias: true } );
+		renderer.setSize( innerWidth, innerHeight );
+		renderer.setAnimationLoop( animationLoop );
+		document.body.appendChild( renderer.domElement );
+
+		window.addEventListener( "resize", ( /*event*/ ) => {
+
 			camera.aspect = innerWidth/innerHeight;
 			camera.updateProjectionMatrix( );
 			renderer.setSize( innerWidth, innerHeight );
-		});
+
+		} );
 
 		var hiddenCamera = camera.clone();
-			hiddenCamera.position.set(0,0,1);
-		
+		hiddenCamera.position.set( 0, 0, 1 );
+
 		var controls = new OrbitControls( hiddenCamera, renderer.domElement );
-			controls.enableDamping = true;
-			controls.autoRotate = !true;
-			controls.autoRotateSpeed = 0.5;
+		controls.enableDamping = true;
+		controls.autoRotate = !true;
+		controls.autoRotateSpeed = 0.5;
 
 		var light = new THREE.DirectionalLight( 'white', 3 );
-			light.position.set( 0, 0, 10 );
-			scene.add( light );
+		light.position.set( 0, 0, 10 );
+		scene.add( light );
 
-			scene.add( new THREE.HemisphereLight( 'white','blue',1 ) );
-	
-		
+		scene.add( new THREE.HemisphereLight( 'white', 'blue', 1 ) );
+
+
 
 		// left bock
 
 		var leftBlock = new THREE.Mesh(
-				new THREE.DodecahedronGeometry( 2 ),
-				WATERDROPS.material(new THREE.MeshPhysicalMaterial( {
-									transmission: 1,
-									ior: 2,
-									thickness: 0.5,
-									metalness: 0.1,
-									roughness: 0.52,
-									bumpMap: WATERDROPS.texture({width:512*2,scale:40,density:20}),
-									bumpScale: 5,
-								} ))
+			new THREE.DodecahedronGeometry( 2 ),
+			WATERDROPS.material( new THREE.MeshPhysicalMaterial( {
+				transmission: 1,
+				ior: 2,
+				thickness: 0.5,
+				metalness: 0.1,
+				roughness: 0.52,
+				bumpMap: WATERDROPS.texture( { width: 512*2, scale: 40, density: 20 } ),
+				bumpScale: 5,
+			} ) )
 		);
 
 		leftBlock.position.x = -2.5;
-		
+
 		scene.add( leftBlock );
 
 		var leftCore = new THREE.Mesh(
-				new THREE.DodecahedronGeometry( 1.2 ),
-				PET.material(new THREE.MeshPhysicalMaterial())
+			new THREE.DodecahedronGeometry( 1.2 ),
+			PET.material( new THREE.MeshPhysicalMaterial() )
 		);
-		
+
 		leftBlock.add( leftCore );
 
 
@@ -105,50 +107,52 @@
 		// right block
 
 		var rightBlock = new THREE.Mesh(
-				new THREE.DodecahedronGeometry( 2 ),
-				CONCRETE.material(new THREE.MeshPhysicalMaterial( {
-									transmission: 1,
-									ior: 3,
-									thickness: 2.5,
-									metalness: 0,
-									roughness: 0.66,
-									bumpMap: CONCRETE.texture({width:1024/2, scale:10}),
-									bumpScale: 0.3,
-									emissive: new THREE.Color('moccasin'),
-									emissiveIntensity: 0.15,
-								} ))
+			new THREE.DodecahedronGeometry( 2 ),
+			CONCRETE.material( new THREE.MeshPhysicalMaterial( {
+				transmission: 1,
+				ior: 3,
+				thickness: 2.5,
+				metalness: 0,
+				roughness: 0.66,
+				bumpMap: CONCRETE.texture( { width: 1024/2, scale: 10 } ),
+				bumpScale: 0.3,
+				emissive: new THREE.Color( 'moccasin' ),
+				emissiveIntensity: 0.15,
+			} ) )
 		);
 
 		rightBlock.position.x = 2.5;
-		
+
 		scene.add( rightBlock );
 
 		var rightCore = new THREE.Mesh(
-				new THREE.DodecahedronGeometry( 1.1 ),
-				CONCRETE.material(new THREE.MeshPhysicalMaterial())
+			new THREE.DodecahedronGeometry( 1.1 ),
+			CONCRETE.material( new THREE.MeshPhysicalMaterial() )
 		);
-		
+
 		rightBlock.add( rightCore );
 
 
 
 		// main animation loop with light switching
-		
-		function animationLoop( t )
-		{
+
+		function animationLoop( t ) 		{
+
 			leftCore.material.color.setHSL( t/5000, 1, 0.5 );
-			
+
 			controls.update( );
 
-			for( var ball of [leftBlock, rightBlock])
-			{
+			for ( var ball of [ leftBlock, rightBlock ]) {
+
 				ball.scale.setScalar( 1/controls.getDistance() );
 				ball.quaternion.copy( hiddenCamera.quaternion ).conjugate();
+
 			}
 
 			renderer.render( scene, camera );
+
 		}
-				
+
 	</script>
 </body>
 </html>

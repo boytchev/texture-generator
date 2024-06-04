@@ -26,74 +26,73 @@
 	
 	<script type="module">
 
-		import * as THREE from "three";
 		import { model, canvas, install, params } from "./online.js";
 		import * as PET from "pet/patterns/planet.js";
 
 
 		var gui = install( PET );
-			
+		
 		gui.add( params, 'scale' )
-			.name( 'Scale' ).min(0).max(100).step(1);
-			
+			.name( 'Scale' ).min( 0 ).max( 100 ).step( 1 );
+		
 		var guiW = gui.addFolder( '<big>Water</big>' ).close();
 
 		// deep waters
 		guiW.addColor( params, 'colorDeep' )
 			.name( 'Ocean <right>color</right>' )
 			.$text.classList.add( 'top' );
-			
+		
 		guiW.add( params, 'sizeDeep' )
-			.name( '<right>size</right>' ).min(0).max(100).step(1)
+			.name( '<right>size</right>' ).min( 0 ).max( 100 ).step( 1 )
 			.$input.classList.add( 'bottom' );
 
 		// shallow waters
 		guiW.addColor( params, 'colorShallow' )
 			.name( 'Coast <right>color</right>' )
 			.$text.classList.add( 'top' );
-			
+		
 		guiW.add( params, 'sizeShallow' )
-			.name( '<right>size</right>' ).min(0).max(100).step(1)
+			.name( '<right>size</right>' ).min( 0 ).max( 100 ).step( 1 )
 			.$input.classList.add( 'bottom' );
-			
+		
 		var guiL = gui.addFolder( '<big>Land</big>' ).close();
 
 		// beach
 		guiL.addColor( params, 'colorBeach' )
 			.name( 'Beach <right>color</right>' )
 			.$text.classList.add( 'top' );
-						
+		
 		guiL.add( params, 'sizeBeach' )
-			.name( '<right>size</right>' ).min(0).max(100).step(1)
+			.name( '<right>size</right>' ).min( 0 ).max( 100 ).step( 1 )
 			.$input.classList.add( 'bottom' );
 
 		// grass
 		guiL.addColor( params, 'colorGrass' )
 			.name( 'Grass <right>color</right>' )
 			.$text.classList.add( 'top' );
-			
+		
 		guiL.add( params, 'sizeGrass' )
-			.name( '<right>size</right>' ).min(0).max(100).step(1)
+			.name( '<right>size</right>' ).min( 0 ).max( 100 ).step( 1 )
 			.$input.classList.add( 'bottom' );
-			
+		
 		// forest
 		guiL.addColor( params, 'colorForest' )
 			.name( 'Forest <right>color</right>' )
 			.$text.classList.add( 'top' );
-			
+		
 		guiL.add( params, 'sizeForest' )
-			.name( '<right>size</right>' ).min(0).max(100).step(1)
+			.name( '<right>size</right>' ).min( 0 ).max( 100 ).step( 1 )
 			.$input.classList.add( 'bottom' );
-			
+		
 		var guiM = gui.addFolder( '<big>Mountain</big>' ).close();
 
 		// rock
 		guiM.addColor( params, 'colorRock' )
 			.name( 'Rock <right>color</right>' )
 			.$text.classList.add( 'top' );
-			
+		
 		guiM.add( params, 'sizeRock' )
-			.name( '<right>size</right>' ).min(0).max(100).step(1)
+			.name( '<right>size</right>' ).min( 0 ).max( 100 ).step( 1 )
 			.$input.classList.add( 'bottom' );
 
 		// snow
@@ -101,14 +100,14 @@
 			.name( 'Snow <right>color</right>' )
 			.$text.classList.add( 'bottom' );
 
-			
+		
 
-			
+		
 		model.material.map = PET.texture(
-				PET.pattern,
-				canvas,
-				true,
-				params
+			PET.pattern,
+			canvas,
+			true,
+			params
 		);
 		
 		PET.material( model );

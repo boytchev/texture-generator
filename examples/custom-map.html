@@ -35,82 +35,85 @@
 		import * as PET from "pet/texture-generator.js";
 
 
-				
-		// setting up the scene
-		
-		var scene = new THREE.Scene();
-			scene.background = new THREE.Color( 'black' );
-				
-		var camera = new THREE.PerspectiveCamera( 40, innerWidth/innerHeight );
-			camera.position.set( 2, 5, 10 );
-			camera.lookAt( scene.position );
 
-		var renderer = new THREE.WebGLRenderer( {antialias: true} );
-			renderer.setSize( innerWidth, innerHeight );
-			renderer.setAnimationLoop( animationLoop );
-			document.body.appendChild( renderer.domElement );
-					
-		window.addEventListener( "resize", (event) => {
+		// setting up the scene
+
+		var scene = new THREE.Scene();
+		scene.background = new THREE.Color( 'black' );
+
+		var camera = new THREE.PerspectiveCamera( 40, innerWidth/innerHeight );
+		camera.position.set( 2, 5, 10 );
+		camera.lookAt( scene.position );
+
+		var renderer = new THREE.WebGLRenderer( { antialias: true } );
+		renderer.setSize( innerWidth, innerHeight );
+		renderer.setAnimationLoop( animationLoop );
+		document.body.appendChild( renderer.domElement );
+
+		window.addEventListener( "resize", ( /*event*/ ) => {
+
 			camera.aspect = innerWidth/innerHeight;
 			camera.updateProjectionMatrix( );
 			renderer.setSize( innerWidth, innerHeight );
-		});
+
+		} );
 
 		var hiddenCamera = camera.clone();
-			hiddenCamera.position.set(0,0,1);
-		
+		hiddenCamera.position.set( 0, 0, 1 );
+
 		var controls = new OrbitControls( hiddenCamera, renderer.domElement );
-			controls.enableDamping = true;
-			controls.autoRotate = !true;
-			controls.autoRotateSpeed = 0.5;
+		controls.enableDamping = true;
+		controls.autoRotate = !true;
+		controls.autoRotateSpeed = 0.5;
 
 		var light = new THREE.DirectionalLight( 'white', 3 );
-			light.position.set( 0, 0, 10 );
-			scene.add( light );
+		light.position.set( 0, 0, 10 );
+		scene.add( light );
 
-			scene.add( new THREE.HemisphereLight( 'white','blue',1 ) );
-	
-				
-		function customPattern( x, y, z, color )
-		{
-			var xx = Math.round(10*x)/10,
-				yy = Math.round(10*y)/10,
-				zz = Math.round(10*z)/10;
-				
-			var k = 1-15*Math.sqrt( (x-xx)**2 + (y-yy)**2 + (z-zz)**2 );
-			
-			if( k > 0.4 )
+		scene.add( new THREE.HemisphereLight( 'white', 'blue', 1 ) );
+
+
+		function customPattern( x, y, z, color ) 		{
+
+			var xx = Math.round( 10*x )/10,
+				yy = Math.round( 10*y )/10,
+				zz = Math.round( 10*z )/10;
+
+			var k = 1-15*Math.sqrt( ( x-xx )**2 + ( y-yy )**2 + ( z-zz )**2 );
+
+			if ( k > 0.4 )
 				k = 1;
 			else
 				k = THREE.MathUtils.mapLinear( k, 0, 0.4, -3, 0.4 );
 
 			color.setHSL( 0, 0, k );
-			
+
 		}
-		
-		
+
+
 
 		var torus = new THREE.Mesh(
-				new THREE.SphereGeometry( 2 ),
-				PET.material(new THREE.MeshLambertMaterial( {
-									map: PET.texture(customPattern,{width:2048}),
-								} ))
+			new THREE.SphereGeometry( 2 ),
+			PET.material( new THREE.MeshLambertMaterial( {
+				map: PET.texture( customPattern, { width: 2048 } ),
+			} ) )
 		);
 
 		scene.add( torus );
 
 
 
-		function animationLoop( t )
-		{			
+		function animationLoop( /*t*/ ) {
+
 			controls.update( );
 
 			torus.scale.setScalar( 1/controls.getDistance() );
 			torus.quaternion.copy( hiddenCamera.quaternion ).conjugate();
 
 			renderer.render( scene, camera );
+
 		}
-				
+
 	</script>
 </body>
 </html>

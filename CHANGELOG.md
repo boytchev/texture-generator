@@ -4,6 +4,8 @@
 ## 1.4.0
 * Added fordite texture design via *fordite.js*
 * `noiseSeed` from *noise.js* has optionsl scaling parameter
+* Using DeepScan to fix code
+* Using eslint to format code
 
 ## 1.3.0
 * Added clouds texture design via *clouds.js*

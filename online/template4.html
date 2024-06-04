@@ -48,65 +48,67 @@
 
 			import * as THREE from "three";
 			import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-			
+
 			import * as PET from "pet/patterns/template.js";
 
 
 			// setting up the scene
 
 			var scene = new THREE.Scene();
-			
-			var camera = new THREE.PerspectiveCamera( 50, innerWidth/innerHeight );
-				camera.position.set( 0, 0, 4 );
 
-			var renderer = new THREE.WebGLRenderer( {antialias: true} );
-				renderer.setSize( innerWidth, innerHeight );
-				renderer.setAnimationLoop( animationLoop );
-				document.body.appendChild( renderer.domElement );
-				
+			var camera = new THREE.PerspectiveCamera( 50, innerWidth/innerHeight );
+			camera.position.set( 0, 0, 4 );
+
+			var renderer = new THREE.WebGLRenderer( { antialias: true } );
+			renderer.setSize( innerWidth, innerHeight );
+			renderer.setAnimationLoop( animationLoop );
+			document.body.appendChild( renderer.domElement );
+
 			var controls = new OrbitControls( camera, renderer.domElement );
-				controls.autoRotate = true;
+			controls.autoRotate = true;
 
 
 			// defining a model with deferred texture
-			
-			var map = PET.texture( PET.pattern, true, {scale:50, width:1024, height:512} );
-			
+
+			var map = PET.texture( PET.pattern, true, { scale: 50, width: 1024, height: 512 } );
+
 			var model = new THREE.Mesh(
-					new THREE.SphereGeometry( 1 ),
-					PET.material( new THREE.MeshBasicMaterial( {map:map} ) )
-				);
-			
+				new THREE.SphereGeometry( 1 ),
+				PET.material( new THREE.MeshBasicMaterial( { map: map } ) )
+			);
+
 			var box = new THREE.Mesh(
-					new THREE.BoxGeometry( 2, 2, 2 ),
-					new THREE.MeshNormalMaterial( {transparent: true, opacity: 0.3, side: THREE.DoubleSide} )
-				);
-			
+				new THREE.BoxGeometry( 2, 2, 2 ),
+				new THREE.MeshNormalMaterial( { transparent: true, opacity: 0.3, side: THREE.DoubleSide } )
+			);
+
 			scene.add( model, box );
 
 
 			var frame = 0,
 				counter = document.getElementById( 'counter' );
-				
-			function animationLoop( t )
-			{
+
+			function animationLoop( /*t*/ ) {
+
 				frame++;
-				
-				if( frame%20==0 )
-				{
+
+				if ( frame%20==0 ) {
+
 					var percent = 100*model.material.map.update( );
-					if( percent < 100 )
-					{
-						counter.innerHTML = Math.floor(percent) + '%';
+					if ( percent < 100 ) {
+
+						counter.innerHTML = Math.floor( percent ) + '%';
 						model.material.map.needsUpdate = true;
-					}
-					else
+
+					} else
 						counter.style.display = 'none';
+
 				}
-				
+
 				controls.update( );
-				
+
 				renderer.render( scene, camera );
+
 			}
 
 		</script>

@@ -27,74 +27,77 @@
 	<script type="module">
 
 		import * as THREE from "three";
-		import { model, canvas, install, params, light, seed } from "./online.js";
-		import {noiseSeed} from "pet/texture-generator.js";
+		import { model, canvas, install, params, seed } from "./online.js";
+		import { noiseSeed } from "pet/texture-generator.js";
 		import * as PET from "pet/patterns/water-drops.js";
 
 
 		var core = new THREE.Mesh(
 			new THREE.SphereGeometry( 1 ),
 			new THREE.MeshNormalMaterial( )
-			//new THREE.MeshLambertMaterial( {color:'white'} )
+		//new THREE.MeshLambertMaterial( {color:'white'} )
 		);
 		model.add( core );
-		
+
 		var gui = install( PET, auxOnChange );
-		
+
 		gui.add( params, 'scale' )
-			.name( 'Drops<right>scale</right>' ).min(0).max(100).step(1)
+			.name( 'Drops<right>scale</right>' ).min( 0 ).max( 100 ).step( 1 )
 			.$input.classList.add( 'top' );
 
 		gui.add( params, 'density' )
-			.name( '<right>density</right>' ).min(0).max(100).step(1)
+			.name( '<right>density</right>' ).min( 0 ).max( 100 ).step( 1 )
 			.$input.classList.add( 'bottom' );
 
 
 		noiseSeed( seed );
 		var map = PET.texture(
-								PET.pattern,
-								canvas,
-								true,
-								params
-						);
-						
+			PET.pattern,
+			canvas,
+			true,
+			params
+		);
+
 		noiseSeed( seed );
 		var rcanvas = document.createElement( 'canvas' );
-						
-		model.material = /*PET.material*/( new THREE.MeshPhysicalMaterial({
-								color: 'white',
-								metalness: 0.1,
-								transmission: 1,
-								ior: 1.5,
-								thickness: 1,
 
-								roughness: 1,
-								
-								//roughnessMap: // created later
+		model.material = /*PET.material*/( new THREE.MeshPhysicalMaterial( {
+			color: 'white',
+			metalness: 0.1,
+			transmission: 1,
+			ior: 1.5,
+			thickness: 1,
 
-								bumpMap: map,
-								bumpScale: 11,	
-			}));
+			roughness: 1,
 
-		function auxOnChange( )
-		{
+			//roughnessMap: // created later
+
+			bumpMap: map,
+			bumpScale: 11,
+		} ) );
+
+		function auxOnChange( ) {
+
 			noiseSeed( seed );
 			model.material.bumpScale = params.scale/10;
-			
+
 			model.material.roughnessMap = PET.texture(
-								PET.pattern,
-								rcanvas,
-								true,
-								{scale: params.scale,
-								density: params.density,
-								//color: 0x808080,
-								color: 0x909090,
-								background: 0xe0e0e0,
-								}
-						);
+				PET.pattern,
+				rcanvas,
+				true,
+				{ scale: params.scale,
+					density: params.density,
+					//color: 0x808080,
+					color: 0x909090,
+					background: 0xe0e0e0,
+				}
+			);
 			model.material.specularIntensityMap = model.material.roughnessMap;
+
 		}
+
 		auxOnChange( );
+		
 	</script>
 </body>
 </html>

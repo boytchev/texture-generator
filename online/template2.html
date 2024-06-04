@@ -32,50 +32,51 @@
 
 			import * as THREE from "three";
 			import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-			
+
 			import * as PET from "pet/patterns/template.js";
 
 
 			// setting up the scene
 
 			var scene = new THREE.Scene();
-			
+
 			var camera = new THREE.PerspectiveCamera( 5, innerWidth/innerHeight );
-				camera.position.set( 0, 0, 30 );
+			camera.position.set( 0, 0, 30 );
 
-			var renderer = new THREE.WebGLRenderer( {antialias: true} );
-				renderer.setSize( innerWidth, innerHeight );
-				renderer.setAnimationLoop( animationLoop );
-				document.body.appendChild( renderer.domElement );
-				
-			var controls = new OrbitControls( camera, renderer.domElement );
+			var renderer = new THREE.WebGLRenderer( { antialias: true } );
+			renderer.setSize( innerWidth, innerHeight );
+			renderer.setAnimationLoop( animationLoop );
+			document.body.appendChild( renderer.domElement );
 
-			function animationLoop( t )
-			{
+			new OrbitControls( camera, renderer.domElement );
+
+			function animationLoop( /*t*/ ) {
+
 				renderer.render( scene, camera );
+
 			}
 
 
 			// defining models with the same equirectangular
 			// texture pattern, but with different parameters
-			
-			var mapA = PET.texture( {scale:5, width:512, height:256} );
-			var mapB = PET.texture( {scale:15, width:512, height:256} );
-			
+
+			var mapA = PET.texture( { scale: 5, width: 512, height: 256 } );
+			var mapB = PET.texture( { scale: 15, width: 512, height: 256 } );
+
 			var modelA = new THREE.Mesh(
-					new THREE.SphereGeometry( 1 ),
-					PET.material( new THREE.MeshBasicMaterial( {map:mapA} ) )
-				);
-				
+				new THREE.SphereGeometry( 1 ),
+				PET.material( new THREE.MeshBasicMaterial( { map: mapA } ) )
+			);
+
 
 			var modelB = new THREE.Mesh(
-					new THREE.SphereGeometry( 1 ),
-					PET.material( new THREE.MeshBasicMaterial( {map:mapB} ) )
-				);
+				new THREE.SphereGeometry( 1 ),
+				PET.material( new THREE.MeshBasicMaterial( { map: mapB } ) )
+			);
 
 			modelA.position.x = -1.1;
 			modelB.position.x = 1.1;
-			
+
 			scene.add( modelA, modelB );
 
 		</script>

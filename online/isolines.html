@@ -26,36 +26,35 @@
 
 	<script type="module">
 
-		import * as THREE from "three";
 		import { model, canvas, install, params, light } from "./online.js";
 		import * as PET from "pet/patterns/isolines.js";
 
 		light.intensity = 4;
 
 		var gui = install( PET );
-				
+		
 		gui.add( params, 'scale' )
-			.min(0).max(100).step(1)
+			.min( 0 ).max( 100 ).step( 1 )
 			.name( 'Lines <right>scale</right>' )
 			.$input.classList.add( 'top' );
-			
+		
 		gui.add( params, 'density' )
-			.min(0).max(100).step(1)
+			.min( 0 ).max( 100 ).step( 1 )
 			.name( '<right>density</right>' );
-			
+		
 		gui.add( params, 'blur' )
-			.min(0).max(100).step(1)
+			.min( 0 ).max( 100 ).step( 1 )
 			.name( '<right>blur</right>' );
-			
+		
 		gui.add( params, 'balance' )
-			.min(0).max(100).step(1)
+			.min( 0 ).max( 100 ).step( 1 )
 			.name( '<right>balance</right>' )
 			.$input.classList.add( 'bottom' );
-			
+		
 		gui.addColor( params, 'color' )
 			.name( 'Color <right>main</right>' )
 			.$text.classList.add( 'top' );
-			
+		
 		gui.addColor( params, 'background' )
 			.name( '<right>background</right>' )
 			.$text.classList.add( 'bottom' );
@@ -63,10 +62,10 @@
 		
 		
 		model.material.map = PET.texture(
-				PET.pattern,
-				canvas,
-				true,
-				params
+			PET.pattern,
+			canvas,
+			true,
+			params
 		);
 		
 		PET.material( model );

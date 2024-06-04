@@ -31,41 +31,42 @@
 
 			import * as THREE from "three";
 			import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-			
+
 			import * as PET from "pet/patterns/template.js";
 
 
 			// setting up the scene
 
 			var scene = new THREE.Scene();
-			
+
 			var camera = new THREE.PerspectiveCamera( 5, innerWidth/innerHeight );
-				camera.position.set( 0, 0, 30 );
+			camera.position.set( 0, 0, 30 );
 
-			var renderer = new THREE.WebGLRenderer( {antialias: true} );
-				renderer.setSize( innerWidth, innerHeight );
-				renderer.setAnimationLoop( animationLoop );
-				document.body.appendChild( renderer.domElement );
-				
-			var controls = new OrbitControls( camera, renderer.domElement );
+			var renderer = new THREE.WebGLRenderer( { antialias: true } );
+			renderer.setSize( innerWidth, innerHeight );
+			renderer.setAnimationLoop( animationLoop );
+			document.body.appendChild( renderer.domElement );
 
-			function animationLoop( t )
-			{
+			new OrbitControls( camera, renderer.domElement );
+
+			function animationLoop( /*t*/ ) {
+
 				renderer.render( scene, camera );
+
 			}
 
 
 			// defining a model with equirectangular texture
-			
+
 			var map = PET.texture( );
-			
+
 			var model = new THREE.Mesh(
-					new THREE.SphereGeometry( 1 ),
-					new THREE.MeshBasicMaterial( {map:map} )
-				);
+				new THREE.SphereGeometry( 1 ),
+				new THREE.MeshBasicMaterial( { map: map } )
+			);
 
 			PET.material( model );
-			
+
 			scene.add( model );
 
 		</script>

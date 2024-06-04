@@ -12,34 +12,37 @@ import { SimplexNoise } from "three/addons/math/SimplexNoise.js";
 
 var PRNG =
 {
-	random: function (x)
-	{
-		return MathUtils.seededRandom(x);
+	random: function ( x ) {
+
+		return MathUtils.seededRandom( x );
+
 	}
 };
 
 
-var simplex = new SimplexNoise(PRNG);
+var simplex = new SimplexNoise( PRNG );
 
 
 // seeded 3D noise
-function noise(x, y, z, scale=1)
-{
-	return simplex.noise3d(scale*x, scale*y, scale*z);
+function noise( x, y, z, scale=1 ) {
+
+	return simplex.noise3d( scale*x, scale*y, scale*z );
+
 }
 
 
 // reseeding the noise generator
-function noiseSeed(seed)
-{
-	if (!Number.isInteger(seed))
+function noiseSeed( seed ) {
+
+	if ( !Number.isInteger( seed ) )
 		seed = new Date().getTime();
 
-	PRNG.random(seed);
+	PRNG.random( seed );
 
-	simplex = new SimplexNoise(PRNG);
-	
+	simplex = new SimplexNoise( PRNG );
+
 	return seed;
+
 }
 
 

@@ -15,14 +15,14 @@ const // general patch for vertex shader
 		void main() {
 			vEquiNoise_Position = vec3(position);
 	`;
-		
+
 const // general patch for fragment shader
 	FRAGMENT_FROM = `uniform vec3 diffuse;`,
 	FRAGMENT_TO = `
 		varying vec3 vEquiNoise_Position;
 		uniform vec3 diffuse;
 	`;
-		
+
 const // specific patch for map in fragment shader
 	FRAGMENT_MAP_FROM = `#include <map_fragment>`,
 	FRAGMENT_MAP_TO = `
@@ -31,7 +31,7 @@ const // specific patch for map in fragment shader
 			diffuseColor *= texture2D(map,EquiNoise_uv);
 		#endif
 	`;
-		
+
 const // specific patch for bumpMap in fragment shader
 	FRAGMENT_BUMPMAP_FROM = `#include <uv_pars_fragment>`,
 	FRAGMENT_BUMPMAP_TO = `
@@ -54,7 +54,7 @@ const // another specific patch for bumpMap in fragment shader
 			vBumpMapUv = equirectUv(normalize(vEquiNoise_Position.xyz));
 		#endif
 	`;
-		
+
 const // specific patch for aoMap in fragment shader
 	FRAGMENT_AOMAP_FROM = `#include <uv_pars_fragment>`,
 	FRAGMENT_AOMAP_TO = `
@@ -78,79 +78,88 @@ const // another specific patch for аоMap in fragment shader
 		#endif
 	`;
 
-	
+
 // replace a group of strings as a transaction, i.e. either all replacements are done, or none is done
-function batchReplace( string, from, to, name )
-{
+function batchReplace( string, from, to, name ) {
+
 	// check weather all patterns exist
-	for( var i=0; i<from.length; i++ )
-	{
-		if( string.indexOf(from[i]) < 0 )
-		{
+	for ( var i=0; i<from.length; i++ ) {
+
+		if ( string.indexOf( from[ i ]) < 0 ) {
+
 			console.warn( `Patch №${i} of ${name} cannot be applied, so all patches of ${name} will be ignored.` );
 			return string;
+
 		}
+
 	} // for i
-	
+
 	// replace patterns
-	for( var i=0; i<from.length; i++ )
-	{
-		string = string.replace( from[i], to[i] );
+	for ( var i=0; i<from.length; i++ ) {
+
+		string = string.replace( from[ i ], to[ i ]);
+
 	}
-	
+
 	return string;
+
 }
 
 
-	
+
 // patches material's shaders
-function material( object )
-{	
+function material( object ) {
+
 	var _material = object.isMesh ? object.material : object;
-		
+
 	var map = _material.map?.mapping == EquirectangularReflectionMapping;
 	var bumpMap = _material.bumpMap?.mapping == EquirectangularReflectionMapping;
 	var aoMap = _material.aoMap?.mapping == EquirectangularReflectionMapping;
-	
+
 	let originalOnBeforeCompile = _material.onBeforeCompile;
-		
-	if( map || bumpMap || aoMap )
-	{
-		
-		_material.onBeforeCompile = function( shader )
-		{
+
+	if ( map || bumpMap || aoMap ) {
+
+		_material.onBeforeCompile = function ( shader ) {
+
 			// first call the original onBeforeCompile
-			if( originalOnBeforeCompile )
-			{
+			if ( originalOnBeforeCompile ) {
+
 				originalOnBeforeCompile( shader );
+
 			}
-			
+
 			// general patches for any kind of map -- add a varying variable
 			// containing position used for equrectangular textures
-			shader.vertexShader = batchReplace( shader.vertexShader, [VERTEX_FROM], [VERTEX_TO], 'vertex' );
-			shader.fragmentShader = batchReplace( shader.fragmentShader, [FRAGMENT_FROM], [FRAGMENT_TO], 'fragment' );
-			
+			shader.vertexShader = batchReplace( shader.vertexShader, [ VERTEX_FROM ], [ VERTEX_TO ], 'vertex' );
+			shader.fragmentShader = batchReplace( shader.fragmentShader, [ FRAGMENT_FROM ], [ FRAGMENT_TO ], 'fragment' );
+
 			// patch various maps in fragment shader
-			
-			if( map )
-			{
-				shader.fragmentShader = batchReplace( shader.fragmentShader, [FRAGMENT_MAP_FROM], [FRAGMENT_MAP_TO], 'map' );
+
+			if ( map ) {
+
+				shader.fragmentShader = batchReplace( shader.fragmentShader, [ FRAGMENT_MAP_FROM ], [ FRAGMENT_MAP_TO ], 'map' );
+
 			}
-			
-			if( bumpMap )
-			{
-				shader.fragmentShader = batchReplace( shader.fragmentShader, [FRAGMENT_BUMPMAP_FROM, FRAGMENT_BUMPMAP_FROM2], [FRAGMENT_BUMPMAP_TO, FRAGMENT_BUMPMAP_TO2], 'bumpMap' );
+
+			if ( bumpMap ) {
+
+				shader.fragmentShader = batchReplace( shader.fragmentShader, [ FRAGMENT_BUMPMAP_FROM, FRAGMENT_BUMPMAP_FROM2 ], [ FRAGMENT_BUMPMAP_TO, FRAGMENT_BUMPMAP_TO2 ], 'bumpMap' );
+
 			}
-			
-			if( aoMap )
-			{
-				shader.fragmentShader = batchReplace( shader.fragmentShader, [FRAGMENT_AOMAP_FROM, FRAGMENT_AOMAP_FROM2], [FRAGMENT_AOMAP_TO, FRAGMENT_AOMAP_TO2], 'aoMap' );
+
+			if ( aoMap ) {
+
+				shader.fragmentShader = batchReplace( shader.fragmentShader, [ FRAGMENT_AOMAP_FROM, FRAGMENT_AOMAP_FROM2 ], [ FRAGMENT_AOMAP_TO, FRAGMENT_AOMAP_TO2 ], 'aoMap' );
+
 			}
-		} // onBeforeCompile
-	} // if any map	
+
+		}; // onBeforeCompile
+
+	} // if any map
 
 	return _material;
-	
+
 } // material
 
 

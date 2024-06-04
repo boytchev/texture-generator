@@ -14,55 +14,59 @@ import { noise, texture as coreTexture } from "pet/texture-generator.js";
 
 
 var defaults = {
-		$name: 'Template',
-		
-		width: 512,
-		height: 256,
+	$name: 'Template',
 
-		scale: 5,
-	};
-	
-	
-	
-function pattern( x, y, z, color, options, /*u, v, px, py*/ )
-{
-	color.set( 
-		Math.sin( options.scale*noise(x,y,z) ),
-		Math.sin( options.scale*noise(y,z,x) ),
-		Math.sin( options.scale*noise(z,x,y) ),
+	width: 512,
+	height: 256,
+
+	scale: 5,
+};
+
+
+
+function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
+
+	color.set(
+		Math.sin( options.scale*noise( x, y, z ) ),
+		Math.sin( options.scale*noise( y, z, x ) ),
+		Math.sin( options.scale*noise( z, x, y ) ),
 	);
+
 }
 
 
 
-function options( params )
-{
+function options( params ) {
+
 	var options = { };
-		
+
 	options.scale = params.scale ?? defaults.scale;
-	
+
 	options.width = params.width ?? defaults.width;
 	options.height = params.height ?? defaults.height;
 
 	return options;
+
 }
-	
 
 
-function texture( ...opt )
-{
-	if( opt.length==0 ) opt = [defaults];
-	
+
+function texture( ...opt ) {
+
+	if ( opt.length==0 ) opt = [ defaults ];
+
 	// if there is {...}, assume it is user options, compile them
-	var params = opt.map( (e) => (e!=-null) && (typeof e =='object') && !(e instanceof HTMLCanvasElement) ? options(e) : e );
+	var params = opt.map( ( e ) => ( e!=-null ) && ( typeof e =='object' ) && !( e instanceof HTMLCanvasElement ) ? options( e ) : e );
 
 	// if pattern is missing, add pattern
-	if( params.findIndex((e)=>e instanceof Function) == -1 )
-	{
+	if ( params.findIndex( ( e )=>e instanceof Function ) == -1 ) {
+
 		params.push( pattern );
+
 	}
-		
+
 	return coreTexture( ... params );
+
 }
 
 

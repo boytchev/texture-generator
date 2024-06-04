@@ -26,16 +26,15 @@
 
 	<script type="module">
 
-		import * as THREE from "three";
 		import { model, canvas, install, params, light } from "./online.js";
 		import * as PET from "pet/patterns/fordite.js";
 
 		light.intensity = 3;
 
 		var gui = install( PET );
-				
+		
 		gui.add( params, 'scale' )
-			.min(0).max(100).step(1)
+			.min( 0 ).max( 100 ).step( 1 )
 			.name( 'Layers <right>scale</right>' )
 			.$input.classList.add( 'top' );
 
@@ -47,10 +46,10 @@
 		
 		
 		model.material.map = PET.texture(
-				PET.pattern,
-				canvas,
-				true,
-				params
+			PET.pattern,
+			canvas,
+			true,
+			params
 		);
 		
 		PET.material( model );

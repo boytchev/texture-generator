@@ -38,75 +38,78 @@
 		import * as PET from "pet/patterns/camouflage.js";
 
 
-		
-		
-		// setting up the scene
-		
-		var scene = new THREE.Scene();
-			scene.background = new THREE.Color( 'black' );
-				
-		var camera = new THREE.PerspectiveCamera( 40, innerWidth/innerHeight );
-			camera.position.set( 0, 0, 13 );
-			camera.lookAt( scene.position );
 
-		var renderer = new THREE.WebGLRenderer( {antialias: true} );
-			renderer.setSize( innerWidth, innerHeight );
-			renderer.setAnimationLoop( animationLoop );
-			document.body.appendChild( renderer.domElement );
-					
-		window.addEventListener( "resize", (event) => {
+
+		// setting up the scene
+
+		var scene = new THREE.Scene();
+		scene.background = new THREE.Color( 'black' );
+
+		var camera = new THREE.PerspectiveCamera( 40, innerWidth/innerHeight );
+		camera.position.set( 0, 0, 13 );
+		camera.lookAt( scene.position );
+
+		var renderer = new THREE.WebGLRenderer( { antialias: true } );
+		renderer.setSize( innerWidth, innerHeight );
+		renderer.setAnimationLoop( animationLoop );
+		document.body.appendChild( renderer.domElement );
+
+		window.addEventListener( "resize", ( /*event*/ ) => {
+
 			camera.aspect = innerWidth/innerHeight;
 			camera.updateProjectionMatrix( );
 			renderer.setSize( innerWidth, innerHeight );
-		});
+
+		} );
 
 		var hiddenCamera = camera.clone();
-			hiddenCamera.position.set(0,0,1);
-		
+		hiddenCamera.position.set( 0, 0, 1 );
+
 		var controls = new OrbitControls( hiddenCamera, renderer.domElement );
-			controls.enableDamping = true;
-			controls.autoRotate = true;
-			controls.autoRotateSpeed = 0.5;
+		controls.enableDamping = true;
+		controls.autoRotate = true;
+		controls.autoRotateSpeed = 0.5;
 
 		var light = new THREE.DirectionalLight( 'white', 6 );
-			light.decay = 0;
-			light.position.set( 0, 0, 10 );
-			scene.add( light );
+		light.decay = 0;
+		light.position.set( 0, 0, 10 );
+		scene.add( light );
 
-				
+
 		// setiing up the ball with the dererred texture
-		
+
 		var ball = new THREE.Mesh(
-				new THREE.SphereGeometry( 3 ),
-				PET.material(new THREE.MeshLambertMaterial( {
-									map: PET.texture( PET.pattern, true, {width:2048, height:1024} ),
-									side: THREE.DoubleSide,
-									transparent: true,
-								} ))
+			new THREE.SphereGeometry( 3 ),
+			PET.material( new THREE.MeshLambertMaterial( {
+				map: PET.texture( PET.pattern, true, { width: 2048, height: 1024 } ),
+				side: THREE.DoubleSide,
+				transparent: true,
+			} ) )
 		);
-		
+
 		scene.add( ball );
 
 
 		var progressBar = document.getElementById( 'progressBar' );
-		
-		function animationLoop( t )
-		{			
+
+		function animationLoop( /*t*/ ) {
+
 			progressBar.value = 100*ball.material.map.update( 10 );
-			
-			if( progressBar.value < 100 ) 
+
+			if ( progressBar.value < 100 )
 				ball.material.map.needsUpdate = true;
 			else
 				progressBar.style.display = 'none';
-			
+
 			controls.update( );
 
 			ball.scale.setScalar( 1/controls.getDistance() );
 			ball.quaternion.copy( hiddenCamera.quaternion ).conjugate();
 
 			renderer.render( scene, camera );
+
 		}
-				
+
 	</script>
 </body>
 </html>

@@ -26,32 +26,31 @@
 
 	<script type="module">
 
-		import * as THREE from "three";
 		import { model, canvas, install, params } from "./online.js";
 		import * as PET from "pet/patterns/cave-art.js";
 
 
 
 		var gui = install( PET );
-				
+		
 		gui.add( params, 'scale' )
-			.min(0).max(100).step(1)
+			.min( 0 ).max( 100 ).step( 1 )
 			.name( '<right>scale</right>' )
 			.$input.classList.add( 'top' );
-			
+		
 		gui.add( params, 'thickness' )
-			.min(0).max(100).step(1)
+			.min( 0 ).max( 100 ).step( 1 )
 			.name( '<right>thickness</right>' );
 
 		gui.add( params, 'noise' )
-			.min(0).max(100).step(1)
+			.min( 0 ).max( 100 ).step( 1 )
 			.name( '<right>noise</right>' )
 			.$input.classList.add( 'bottom' );
 
 		gui.addColor( params, 'color' )
 			.name( 'Color <right>main</right>' )
 			.$text.classList.add( 'top' );
-			
+		
 		gui.addColor( params, 'background' )
 			.name( '<right>background</right>' )
 			.$text.classList.add( 'bottom' );
@@ -59,10 +58,10 @@
 		
 		
 		model.material.map = PET.texture(
-				PET.pattern,
-				canvas,
-				true,
-				params
+			PET.pattern,
+			canvas,
+			true,
+			params
 		);
 
 		PET.material( model );
