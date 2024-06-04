@@ -18,6 +18,7 @@ parameters.
 * [concrete.js](concrete.md)
 * [entangled.js](entangled.md)
 * [fordite.js](fordite.md)
+* [grid.js](grid.md)
 * [isolines.js](isolines.md)
 * [marble.js](marble.md)
 * [planet.js](planet.md)

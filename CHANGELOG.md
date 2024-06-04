@@ -1,7 +1,9 @@
 # Texture generator
 
 
-## 1.x.x
+## 1.5.0
+* Added grid texture design via *grid.js*
+* SUpport for boolean options in URL para,eters
 
 ## 1.4.0
 * Added fordite texture design via *fordite.js*

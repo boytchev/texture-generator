@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+
+
+<html>
+
+
+<head>
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+	<link rel="shortcut icon" type="image/png" href="../assets/logo/logo.png"/>
+	<link rel="stylesheet" href="styles.css">
+
+	<script type="importmap">
+	  {
+		"imports": {
+		  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
+		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/",
+		  "pet/": "../src/"
+		}
+	  }
+	</script>
+</head>
+
+
+<body>
+
+	<script type="module">
+
+		import { model, canvas, install, params, light } from "./online.js";
+		import * as PET from "pet/patterns/grid.js";
+
+		light.intensity = 3;
+
+		var gui = install( PET );
+		
+		gui.add( params, 'countH' )
+			.min( 2 ).max( 100 ).step( 1 )
+			.name( 'Grid <right>hor</right>' )
+			.$input.classList.add( 'top' );
+
+		gui.add( params, 'countV' )
+			.min( 2 ).max( 100 ).step( 1 )
+			.name( '<right>ver</right>' )
+			.$input.classList.add( 'bottom' );
+
+		gui.add( params, 'thickness' )
+			.min( 1 ).max( 100 ).step( 1 )
+			.name( '<right>thickness</right>' )
+			.$input.classList.add( 'bottom' );
+
+		gui.add( params, 'caps' )
+			.min( 1 ).max( 100 ).step( 1 )
+			.name( '<right>caps</right>' );
+
+		gui.addColor( params, 'color' )
+			.name( 'Color <right>main</right>' )
+			.$text.classList.add( 'top' );
+		
+		gui.addColor( params, 'background' )
+			.name( '<right>background</right>' )
+			.$text.classList.add( 'bottom' );
+		
+		
+		
+		model.material.map = PET.texture(
+			PET.pattern,
+			canvas,
+			true,
+			params
+		);
+
+		PET.material( model );
+		
+	</script>
+</body>
+</html>

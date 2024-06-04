@@ -115,6 +115,12 @@ function install( PET, auxOnChange ) {
 
 	for ( var [ key, value ] of urlParameters.entries() ) {
 
+		if( value == 'true' )
+			url[key] = true;
+		else
+		if( value == 'false' )
+			url[key] = false;
+		else
 		url[ key ] = parseFloat( value );
 
 	}
