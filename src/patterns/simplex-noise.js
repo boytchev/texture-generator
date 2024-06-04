@@ -32,7 +32,7 @@ var defaults = {
 
 function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 
-	var k = 0.5 - 0.5*noise( options.scale*x, options.scale*y, options.scale*z );
+	var k = 0.5 - 0.5*noise( x, y, z, options.scale );
 
 	color.lerpColors( options.color, options.background, k**options.balance );
 

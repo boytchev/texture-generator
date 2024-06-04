@@ -32,10 +32,8 @@ var defaults = {
 
 function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 
-	var scale2 = 1.5*options.scale;
-
-	var k1 = noise( options.scale*x, options.scale*y, options.scale*z ),
-		k2 = noise( scale2*x, scale2*y, scale2*z );
+	var k1 = noise( x, y, z, options.scale ),
+		k2 = noise( x, y, z, 1.5*options.scale );
 
 	k1 = Math.sin( 3*k1 );
 	k2 = Math.cos( 3*k2 );

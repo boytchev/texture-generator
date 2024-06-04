@@ -1,7 +1,7 @@
 ﻿
 //	Equirectangular Texture Generator - Noise Functions
 //
-//	noise(x,y,z)		- seeded 3D noise
+//	noise(x,y,z,scale)	- seeded 3D noise
 //	noiseSeed( ) 		- reseeds the noise generator with timestamp
 //	noiseSeed( seed )	- reseeds the noise generator with specific seed
 

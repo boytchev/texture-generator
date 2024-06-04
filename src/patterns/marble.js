@@ -37,12 +37,12 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 	z *= options.scale;
 
 	var k = noise( x, y, z )
-		  + 0.5*noise( 2*x, 2*y, 2*z )
-		  + 0.1*noise( 6*x, 6*y, 6*z );
+		  + 0.5*noise( x, y, z, 2 )
+		  + 0.1*noise( x, y, z, 6 );
 
 	k = 1-Math.abs( k )**2.5;
 
-	var min = options.minSmooth*( 0.95+0.05*noise( 2*x, 2*y, 2*z ) );
+	var min = options.minSmooth*( 0.95+0.05*noise( x, y, z, 2 ) );
 
 	if ( k>options.maxSmooth ) {
 
@@ -52,7 +52,7 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 		if ( k>min ) {
 
 			k = 0.5*( ( k-min )/( options.maxSmooth-min ) )**20;
-			k *= ( 0.5+0.5*noise( z/2, -x/2, y/2 ) );
+			k *= ( 0.5+0.5*noise( z, -x, y, 1/2 ) );
 
 		} else
 			k = 0;

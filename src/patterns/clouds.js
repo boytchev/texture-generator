@@ -33,15 +33,15 @@ var defaults = {
 function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 
 	var k = -0.7 + options.density
-		+ 0.4*noise( options.scale*x, options.scale*y, options.scale*z )
-		+ 0.2*noise( 2*options.scale*x, 2*options.scale*y, 2*options.scale*z )*options.opacity
-		+ 0.05*noise( 6*options.scale*x, 6*options.scale*y, -6*options.scale*z )*options.opacity*options.opacity
-		+ 0.03*noise( 8*options.scale*x, -8*options.scale*y, 8*options.scale*z )*options.opacity*options.opacity;
+		+ 0.4*noise( x, y, z, options.scale )
+		+ 0.2*noise( x, y, z, 2*options.scale )*options.opacity
+		+ 0.05*noise( x, y, -z, 6*options.scale )*options.opacity*options.opacity
+		+ 0.03*noise( x, -y, z, 8*options.scale )*options.opacity*options.opacity;
 
 	k = 0.5*k + 0.3*k**2 + 0.4*k**3;
 	if ( k<0.3 ) k=( k/0.3 )**4*0.3;
 
-	var n = 0.5 - 0.5*noise( options.scale*( x+0.1 ), options.scale*y, options.scale*z );
+	var n = 0.5 - 0.5*noise( x+0.1, y, z, options.scale );
 	var m = n**0.4;
 
 	color.lerpColors( options.subcolor, options.color, m );

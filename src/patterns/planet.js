@@ -50,7 +50,7 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 
 	for ( var i=0; i<options.iterations; i++ ) {
 
-		k += power*noise( x*scale, y*scale, z*scale );
+		k += power*noise( x, y, z, scale );
 		sum += power;
 		power = 0.8*power;
 		scale = 1.5*scale;

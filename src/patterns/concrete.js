@@ -28,7 +28,7 @@ var defaults = {
 
 function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 
-	var k = noise( options.scale*x, options.scale*y, options.scale*z );
+	var k = noise( x, y, z, options.scale );
 
 	color.setHSL( 0, 0, options.bump*( 0.5+0.5*k )**options.density );
 

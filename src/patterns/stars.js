@@ -51,7 +51,7 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 
 	if ( !n ) {
 
-		s = options.brightness*( 0.6+0.3*noise( y/4, z/4, x/4 )+0.3*noise( z/2, x/2, y/2 ) )**options.density;
+		s = options.brightness*( 0.6+0.3*noise( y, z, x, 1/4 )+0.3*noise( z, x, y, 1/2 ) )**options.density;
 
 	}
 

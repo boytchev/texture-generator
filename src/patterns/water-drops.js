@@ -31,7 +31,7 @@ var defaults = {
 
 function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 
-	var k = noise( options.scale*x, options.scale*y, options.scale*z ) + options.density;
+	var k = noise( x, y, z, options.scale ) + options.density;
 	k = Math.min( 1, k );
 	k = Math.max( 0, k )**0.5;
 

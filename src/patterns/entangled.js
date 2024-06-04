@@ -36,7 +36,7 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 
 	for ( var i=0; i<options.density; i++ ) {
 
-		var k1 = noise( scale*x, scale*y, scale*z );
+		var k1 = noise( x, y, z, scale );
 		k1 = Math.sin( 3*Math.PI*k1 );
 
 		k = Math.max( k, k1 );

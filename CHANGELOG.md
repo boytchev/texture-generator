@@ -1,9 +1,11 @@
 # Texture generator
 
 
+## 1.x.x
+
 ## 1.4.0
 * Added fordite texture design via *fordite.js*
-* `noiseSeed` from *noise.js* has optionsl scaling parameter
+* `noiseSeed` from *noise.js* has optional scaling parameter
 * Using DeepScan to fix code
 * Using eslint to format code
 
