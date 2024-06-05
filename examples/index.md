@@ -209,6 +209,18 @@ predefined texture patterns.
 		<img src="../docs/images/photosphere-2.png">
 	</a>
 	
+	<a class="style-block nocaption" href="../online/scream.html?width=1024&height=512&scale=73&color=10020859&background=397464">
+		<img src="../docs/images/scream-1.png">
+	</a>
+
+	<a class="style-block nocaption" href="../online/scream.html?width=2048&height=1024&scale=100&color=15790176&background=13668496">
+		<img src="../docs/images/scream-2.png">
+	</a>
+
+	<a class="style-block nocaption" href="../online/scream.html?width=2048&height=1024&scale=61&color=11405577&background=16777215">
+		<img src="../docs/images/scream-3.png">
+	</a>
+
 </p>
 
 
