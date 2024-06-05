@@ -24,7 +24,7 @@ parameters.
 * [planet.js](planet.md)
 * [photosphere.js](photosphere.md)
 * [polka-dots.js](polka-dots.md)
-* [scepter-head.js](skepter-head.md)
+* [scepter-head.js](scepter-head.md)
 * [scream.js](scream.md)
 * [simplex-noise.js](simplex-noise.md)
 * [stars.js](stars.md)
