@@ -48,7 +48,7 @@ The parameters of the texture generator are:
 * `height` &ndash; texture height in pixels, default 512
 * `scale` &ndash; pattern size [0,100], default 50
 * `thickness` &ndash; thickness of threads [0,100], default 60
-* `nose` &ndash; noise of background [0,100], default 30
+* `noise` &ndash; noise of background [0,100], default 30
 * `color` &ndash; color of lines, default 0x4545D3 (blue)
 * `background &ndash; color of background, default 0xF0F8FF (light blue)
 

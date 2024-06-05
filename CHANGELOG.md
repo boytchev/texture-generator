@@ -1,10 +1,13 @@
 # Texture generator
 
 
+## 1.6.0
+* Added scream texture design via *scream.js*
+
 ## 1.5.0
 * Added photosphere texture design via *photosphere.js*
 * Added grid texture design via *grid.js*
-* SUpport for boolean options in URL para,eters
+* Support for boolean options in URL parameters
 
 ## 1.4.0
 * Added fordite texture design via *fordite.js*
