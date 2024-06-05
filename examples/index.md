@@ -220,6 +220,19 @@ predefined texture patterns.
 	<a class="style-block nocaption" href="../online/scream.html?width=2048&height=1024&scale=61&color=11405577&background=16777215">
 		<img src="../docs/images/scream-3.png">
 	</a>
+	
+	<a class="style-block nocaption" href="../online/scepter-head.html?width=1024&height=512&xFactor=18&yFactor=36&zFactor=0&colorRim=16777215&colorA=7397631&colorB=3145983">
+		<img src="../docsimages/scepter-head-1.png">
+	</a>
+
+	<a class="style-block nocaption" href="../online/scepter-head.html?width=1024&height=512&xFactor=13&yFactor=36&zFactor=74&colorRim=16766208&colorA=1937712&colorB=327424">
+		<img src="../docsimages/scepter-head-2.png">
+	</a>
+
+	<a class="style-block nocaption" href="../online/scepter-head.html?width=2048&height=1024&xFactor=0&yFactor=35&zFactor=70&colorRim=16777215&colorA=16711680&colorB=16711680">
+		<img src="../docsimages/scepter-head-3.png">
+	</a>
+
 
 </p>
 

@@ -3,6 +3,7 @@
 
 ## 1.6.0
 * Added scream texture design via *scream.js*
+* Added scepter head texture design via *scepter-head.js*
 
 ## 1.5.0
 * Added photosphere texture design via *photosphere.js*

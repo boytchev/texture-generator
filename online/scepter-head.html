@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+
+
+<html>
+
+
+<head>
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+	<link rel="shortcut icon" type="image/png" href="../assets/logo/logo.png"/>
+	<link rel="stylesheet" href="styles.css">
+
+	<script type="importmap">
+	  {
+		"imports": {
+		  "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js",
+		  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/",
+		  "pet/": "../src/"
+		}
+	  }
+	</script>
+</head>
+
+
+<body>
+	
+	<script type="module">
+
+		import { model, canvas, install, params, light } from "./online.js";
+		import * as PET from "pet/patterns/scepter-head.js";
+
+		light.intensity = 5;
+
+		var gui = install( PET );
+
+		gui.add( params, 'xFactor' )
+			.name( 'Framing <right>x</right>' ).min( 0 ).max( 100 ).step( 1 )
+			.$input.classList.add( 'top' );
+		
+		gui.add( params, 'yFactor' )
+			.name( '<right>y</right>' ).min( 0 ).max( 100 ).step( 1 );
+		
+		gui.add( params, 'zFactor' )
+			.name( '<right>z</right>' ).min( 0 ).max( 100 ).step( 1 )
+			.$input.classList.add( 'bottom' );
+		
+		gui.addColor( params, 'colorRim' )
+			.name( 'Color <right>rim</right>' )
+			.$text.classList.add( 'top' );
+		
+		gui.addColor( params, 'colorA' )
+			.name( '<right>stone</right>' );
+		
+		gui.addColor( params, 'colorB' )
+			.name( '<right>ascendant</right>' )
+			.$text.classList.add( 'bottom' );
+
+
+		model.material.map = PET.texture(
+			PET.pattern,
+			canvas,
+			true,
+			params
+		);
+
+		PET.material( model );
+		
+	</script>
+</body>
+</html>
