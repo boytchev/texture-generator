@@ -11,7 +11,7 @@
 
 import { Vector3, Color, PolyhedronGeometry, TetrahedronGeometry, OctahedronGeometry, DodecahedronGeometry, IcosahedronGeometry, MathUtils } from "three";
 import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
-import { retexture, map, mapExp } from "pet/texture-generator.js";
+import { retexture, map } from "pet/texture-generator.js";
 
 
 
@@ -158,13 +158,13 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 function options( params ) {
 
 	var data = layouts[ ( params.layout ?? defaults.layout )-1 ];
-	
+
 	var blur = map( params.blur??defaults.blur )**2.5 / 3;
 
 	var scale = map( params.scale??defaults.scale, 0, data.maxScale );
 	scale = ( scale / 100 )**2;
 
-	return { 
+	return {
 
 		color: new Color( params.color ?? defaults.color ),
 		background: new Color( params.background ?? defaults.background ),

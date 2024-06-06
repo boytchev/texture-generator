@@ -10,7 +10,7 @@
 
 
 import { Color } from "three";
-import { noise, retexture, map, mapExp } from "pet/texture-generator.js";
+import { noise, retexture, mapExp } from "pet/texture-generator.js";
 
 
 
@@ -54,9 +54,9 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 		var indexX = Math.abs( Math.floor( ( fx/Math.PI*2+1 )/2 ) ),
 			indexY = Math.abs( Math.floor( ( fy/Math.PI*2+1 )/2 ) ),
 			indexZ = Math.abs( Math.floor( ( fz/Math.PI*2+1 )/2 ) );
-			
+
 		var index = ( indexX+indexY+indexZ )%2;
-		
+
 		color.lerpColors( options.colorA, options.colorB, index );
 		color.getHSL( hsl );
 		color.setHSL( hsl.h, hsl.s, k*hsl.l );
@@ -89,7 +89,7 @@ function options( params ) {
 		width: params.width ?? defaults.width,
 		height: params.height ?? defaults.height,
 	};
- 
+
 }
 
 
@@ -97,6 +97,7 @@ function options( params ) {
 function texture( ...opt ) {
 
 	return retexture( opt, defaults, options, pattern );
+
 }
 
 

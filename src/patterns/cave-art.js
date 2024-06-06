@@ -62,7 +62,7 @@ function options( params ) {
 		width: params.width ?? defaults.width,
 		height: params.height ?? defaults.height,
 	};
-	
+
 }
 
 

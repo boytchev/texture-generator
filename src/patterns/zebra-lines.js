@@ -9,7 +9,7 @@
 
 
 
-import { Vector3, MathUtils } from "three";
+import { Vector3 } from "three";
 import { retexture, map } from "pet/texture-generator.js";
 
 
@@ -46,8 +46,8 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 function options( params ) {
 
 	var angle = ( params.angle ?? defaults.angle )*Math.PI/180;
-	
-	return { 
+
+	return {
 		scale: map( params.scale ?? defaults.scale, 151, 2 ),
 
 		up: new Vector3( 0,

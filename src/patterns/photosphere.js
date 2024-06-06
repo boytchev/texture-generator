@@ -10,7 +10,7 @@
 
 
 import { Color, Vector3, Euler } from "three";
-import { noise, retexture, map, mapExp } from "pet/texture-generator.js";
+import { noise, retexture, mapExp } from "pet/texture-generator.js";
 
 
 
@@ -56,7 +56,7 @@ function options( params ) {
 
 	return {
 
-		scale: mapExp( params.scale ?? defaults.scale, 80, 3),
+		scale: mapExp( params.scale ?? defaults.scale, 80, 3 ),
 
 		color: new Color( params.color ?? defaults.color ),
 		background: new Color( params.background ?? defaults.background ),

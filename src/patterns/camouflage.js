@@ -59,14 +59,14 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 
 function options( params ) {
 
-	return { 
+	return {
 		colorA: new Color( params.colorA ?? defaults.colorA ),
 		colorB: new Color( params.colorB ?? defaults.colorB ),
 		colorC: new Color( params.colorC ?? defaults.colorC ),
 		colorD: new Color( params.colorD ?? defaults.colorD ),
 
 		scale: mapExp( params.scale ?? defaults.scale, 32, 0.5 ),
-		hue: map( params.hue ?? defaults.hue, -1, 1, -360, 360),
+		hue: map( params.hue ?? defaults.hue, -1, 1, -360, 360 ),
 		saturation: map( params.saturation ?? defaults.saturation ),
 		brightness: map( params.brightness ?? defaults.brightness ),
 

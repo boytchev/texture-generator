@@ -10,7 +10,7 @@
 
 
 import { Vector3, Color, MathUtils } from "three";
-import { retexture, map, mapExp } from "pet/texture-generator.js";
+import { retexture, mapExp } from "pet/texture-generator.js";
 
 
 
@@ -83,7 +83,7 @@ function pattern( x, y, z, color, options, u, v, /*px, py*/ ) {
 function options( params ) {
 
 	var thickness = mapExp( params.thickness ?? defaults.thickness, 0.002, 0.1 );
-	
+
 	return {
 
 		color: new Color( params.color ?? defaults.color ),

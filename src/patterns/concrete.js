@@ -41,7 +41,7 @@ function options( params ) {
 	return {
 
 		scale: mapExp( params.scale ?? defaults.scale, 90, 5.5 ),
-		density: mapExp(params.density ?? defaults.density, 10, 0.5),
+		density: mapExp( params.density ?? defaults.density, 10, 0.5 ),
 		bump: map( params.bump??defaults.bump ),
 
 		width: params.width ?? defaults.width,

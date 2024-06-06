@@ -9,7 +9,7 @@
 
 
 
-import { Color, MathUtils } from "three";
+import { Color } from "three";
 import { noise, retexture, map, mapExp } from "pet/texture-generator.js";
 
 
@@ -69,8 +69,8 @@ function options( params ) {
 
 	var thickness = map( params.thickness ?? defaults.thickness )**2;
 	thickness = map( thickness, 13, 5, 0, 1 );
-	
-	return { 
+
+	return {
 
 		color: new Color( params.color ?? defaults.color ),
 		background: new Color( params.background ?? defaults.background ),
@@ -80,7 +80,7 @@ function options( params ) {
 		maxSmooth: 1-( 1/2 )**thickness,
 		minSmooth: 1-( 1/2 )**( 0.8*thickness ),
 
-		noise: map( params.noise ?? defaults.noise, 0, 0.2),
+		noise: map( params.noise ?? defaults.noise, 0, 0.2 ),
 
 		width: params.width ?? defaults.width,
 		height: params.height ?? defaults.height,

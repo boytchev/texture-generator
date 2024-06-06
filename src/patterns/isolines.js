@@ -52,8 +52,8 @@ function options( params ) {
 
 	return {
 
-		scale: mapExp( params.scale ?? defaults.scale, 32, 0.5),
-		density: map( params.density ?? defaults.density, 10, 60),
+		scale: mapExp( params.scale ?? defaults.scale, 32, 0.5 ),
+		density: map( params.density ?? defaults.density, 10, 60 ),
 
 		minSmooth: balance - blur - 0.01,
 		maxSmooth: balance + blur + 0.01,

@@ -10,7 +10,7 @@
 
 
 import { Color } from "three";
-import { noise, retexture, map, mapExp } from "pet/texture-generator.js";
+import { noise, retexture, map } from "pet/texture-generator.js";
 
 
 
@@ -65,9 +65,9 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 
 function options( params ) {
 
-	return { 
+	return {
 
-		brightness: map( params.brightness ?? defaults.brightness, 0.3, 5.3),
+		brightness: map( params.brightness ?? defaults.brightness, 0.3, 5.3 ),
 		density: 100/( 0+( params.density ?? defaults.density ) ),
 		variation: map( params.variation ?? defaults.variation ),
 

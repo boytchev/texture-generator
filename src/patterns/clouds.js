@@ -55,9 +55,9 @@ function options( params ) {
 
 	return {
 
-		scale: mapExp( params.scale ?? defaults.scale, 6, 0.5),
+		scale: mapExp( params.scale ?? defaults.scale, 6, 0.5 ),
 
-		density: map( params.density ?? defaults.density, 1, -1),
+		density: map( params.density ?? defaults.density, 1, -1 ),
 		opacity: map( params.opacity ?? defaults.opacity ),
 
 		color: new Color( params.color ?? defaults.color ),

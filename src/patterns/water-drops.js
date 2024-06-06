@@ -57,6 +57,7 @@ function options( params ) {
 		height: params.height ?? defaults.height,
 
 	};
+
 }
 
 
