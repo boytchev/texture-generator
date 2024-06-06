@@ -21,6 +21,7 @@ parameters.
 * [grid.js](grid.md)
 * [isolines.js](isolines.md)
 * [marble.js](marble.md)
+* [neon-lights.js](neon-lights.md)
 * [planet.js](planet.md)
 * [photosphere.js](photosphere.md)
 * [polka-dots.js](polka-dots.md)
