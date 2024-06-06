@@ -10,7 +10,7 @@
 
 
 import { Color, MathUtils } from "three";
-import { noise, texture as coreTexture } from "pet/texture-generator.js";
+import { noise, retexture, map, mapExp } from "pet/texture-generator.js";
 
 
 
@@ -82,7 +82,7 @@ function options( params ) {
 	var options = { };
 
 
-	options.scale = 2**( ( params.scale??defaults.scale )/100 * Math.log2( 0.15/2 ) + Math.log2( 2 ) );
+	options.scale = mapExp( params.scale ?? defaults.scale, 2, 0.15);
 
 	options.colors = [
 		new Color( params.colorDeep ?? defaults.colorDeep ),
@@ -106,7 +106,7 @@ function options( params ) {
 		new Color( params.colorSnow ?? defaults.colorSnow ),
 		new Color( params.colorSnow ?? defaults.colorSnow ),
 	];
-	//console.log(options.colors)
+
 	var sizes = [
 		0,
 		( ( params.sizeDeep??defaults.sizeDeep )/50 )**2,
@@ -118,7 +118,7 @@ function options( params ) {
 	];
 	for ( var i=1; i<7; i++ )
 		sizes[ i ] += sizes[ i-1 ];
-	//console.log(sizes)
+
 	function lerp( x, y, k ) {
 
 		return x*( 1-k )+y*k;
@@ -141,8 +141,6 @@ function options( params ) {
 		10
 	);
 
-	//console.log(options.ranges);
-
 	options.width = params.width ?? defaults.width;
 	options.height = params.height ?? defaults.height;
 
@@ -156,19 +154,7 @@ function options( params ) {
 
 function texture( ...opt ) {
 
-	if ( opt.length==0 ) opt = [ defaults ];
-
-	// if there is {...}, assume it is user options, compile them
-	var params = opt.map( ( e ) => ( e!=-null ) && ( typeof e =='object' ) && !( e instanceof HTMLCanvasElement ) ? options( e ) : e );
-
-	// if pattern is missing, add pattern
-	if ( params.findIndex( ( e )=>e instanceof Function ) == -1 ) {
-
-		params.push( pattern );
-
-	}
-
-	return coreTexture( ... params );
+	return retexture( opt, defaults, options, pattern );
 
 }
 

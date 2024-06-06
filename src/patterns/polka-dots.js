@@ -11,7 +11,7 @@
 
 import { Vector3, Color, PolyhedronGeometry, TetrahedronGeometry, OctahedronGeometry, DodecahedronGeometry, IcosahedronGeometry, MathUtils } from "three";
 import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
-import { texture as coreTexture } from "pet/texture-generator.js";
+import { retexture, map, mapExp } from "pet/texture-generator.js";
 
 
 
@@ -157,28 +157,26 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 
 function options( params ) {
 
-	var options = { };
-
-	options.color = new Color( params.color ?? defaults.color );
-	options.background = new Color( params.background ?? defaults.background );
-
 	var data = layouts[ ( params.layout ?? defaults.layout )-1 ];
+	
+	var blur = map( params.blur??defaults.blur )**2.5 / 3;
 
-	options.points = data.points;
-
-	var blur = ( ( params.blur??defaults.blur ) / 100 )**2.5 / 3;
-
-	var scale = ( params.scale??defaults.scale );
-	scale = MathUtils.mapLinear( scale, 0, 100, 0, data.maxScale );
+	var scale = map( params.scale??defaults.scale, 0, data.maxScale );
 	scale = ( scale / 100 )**2;
 
-	options.minSmooth = scale - blur;
-	options.maxSmooth = scale + blur;
+	return { 
 
-	options.width = params.width ?? defaults.width;
-	options.height = params.height ?? defaults.height;
+		color: new Color( params.color ?? defaults.color ),
+		background: new Color( params.background ?? defaults.background ),
 
-	return options;
+		points: data.points,
+
+		minSmooth: scale - blur,
+		maxSmooth: scale + blur,
+
+		width: params.width ?? defaults.width,
+		height: params.height ?? defaults.height,
+	};
 
 }
 
@@ -187,19 +185,7 @@ function options( params ) {
 
 function texture( ...opt ) {
 
-	if ( opt.length==0 ) opt = [ defaults ];
-
-	// if there is {...}, assume it is user options, compile them
-	var params = opt.map( ( e ) => ( e!=-null ) && ( typeof e =='object' ) && !( e instanceof HTMLCanvasElement ) ? options( e ) : e );
-
-	// if pattern is missing, add pattern
-	if ( params.findIndex( ( e )=>e instanceof Function ) == -1 ) {
-
-		params.push( pattern );
-
-	}
-
-	return coreTexture( ... params );
+	return retexture( opt, defaults, options, pattern );
 
 }
 

@@ -10,7 +10,7 @@
 
 
 import { Color } from "three";
-import { noise, texture as coreTexture } from "pet/texture-generator.js";
+import { noise, retexture, map, mapExp } from "pet/texture-generator.js";
 
 
 
@@ -59,23 +59,20 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 
 function options( params ) {
 
-	var options = { };
+	return { 
+		colorA: new Color( params.colorA ?? defaults.colorA ),
+		colorB: new Color( params.colorB ?? defaults.colorB ),
+		colorC: new Color( params.colorC ?? defaults.colorC ),
+		colorD: new Color( params.colorD ?? defaults.colorD ),
 
-	options.colorA = new Color( params.colorA ?? defaults.colorA );
-	options.colorB = new Color( params.colorB ?? defaults.colorB );
-	options.colorC = new Color( params.colorC ?? defaults.colorC );
-	options.colorD = new Color( params.colorD ?? defaults.colorD );
+		scale: mapExp( params.scale ?? defaults.scale, 32, 0.5 ),
+		hue: map( params.hue ?? defaults.hue, -1, 1, -360, 360),
+		saturation: map( params.saturation ?? defaults.saturation ),
+		brightness: map( params.brightness ?? defaults.brightness ),
 
-	options.scale = 2**( -( ( params.scale??defaults.scale )-100 )/50 * 3 - 1 );
-
-	options.hue = ( params.hue??defaults.hue )/360;
-	options.saturation = ( params.saturation??defaults.saturation )/100;
-	options.brightness = ( params.brightness??defaults.brightness )/100;
-
-	options.width = params.width ?? defaults.width;
-	options.height = params.height ?? defaults.height;
-
-	return options;
+		width: params.width ?? defaults.width,
+		height: params.height ?? defaults.height,
+	};
 
 }
 
@@ -84,19 +81,7 @@ function options( params ) {
 
 function texture( ...opt ) {
 
-	if ( opt.length==0 ) opt = [ defaults ];
-
-	// if there is {...}, assume it is user options, compile them
-	var params = opt.map( ( e ) => ( e!=-null ) && ( typeof e =='object' ) && !( e instanceof HTMLCanvasElement ) ? options( e ) : e );
-
-	// if pattern is missing, add pattern
-	if ( params.findIndex( ( e )=>e instanceof Function ) == -1 ) {
-
-		params.push( pattern );
-
-	}
-
-	return coreTexture( ... params );
+	return retexture( opt, defaults, options, pattern );
 
 }
 

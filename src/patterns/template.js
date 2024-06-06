@@ -9,7 +9,7 @@
 
 
 
-import { noise, texture as coreTexture } from "pet/texture-generator.js";
+import { noise, retexture } from "pet/texture-generator.js";
 
 
 
@@ -38,14 +38,13 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 
 function options( params ) {
 
-	var options = { };
+	return {
 
-	options.scale = params.scale ?? defaults.scale;
+		scale: params.scale ?? defaults.scale,
 
-	options.width = params.width ?? defaults.width;
-	options.height = params.height ?? defaults.height;
-
-	return options;
+		width: params.width ?? defaults.width,
+		height: params.height ?? defaults.height,
+	};
 
 }
 
@@ -53,19 +52,7 @@ function options( params ) {
 
 function texture( ...opt ) {
 
-	if ( opt.length==0 ) opt = [ defaults ];
-
-	// if there is {...}, assume it is user options, compile them
-	var params = opt.map( ( e ) => ( e!=-null ) && ( typeof e =='object' ) && !( e instanceof HTMLCanvasElement ) ? options( e ) : e );
-
-	// if pattern is missing, add pattern
-	if ( params.findIndex( ( e )=>e instanceof Function ) == -1 ) {
-
-		params.push( pattern );
-
-	}
-
-	return coreTexture( ... params );
+	return retexture( opt, defaults, options, pattern );
 
 }
 

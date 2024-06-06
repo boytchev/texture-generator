@@ -10,7 +10,7 @@
 
 
 import { Color } from "three";
-import { noise, texture as coreTexture } from "pet/texture-generator.js";
+import { noise, retexture, map, mapExp } from "pet/texture-generator.js";
 
 
 
@@ -35,22 +35,28 @@ var hsl = { h: 0, s: 0, l: 0 };
 
 function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 
-	var cosX = Math.cos( options.xFactor*x ),
-		cosY = Math.cos( options.yFactor*y ),
-		cosZ = Math.cos( options.zFactor*z );
+	var fx = options.xFactor*x,
+		fy = options.yFactor*y,
+		fz = options.zFactor*z;
+
+	var cosX = Math.cos( fx ),
+		cosY = Math.cos( fy ),
+		cosZ = Math.cos( fz );
 
 	var k = -noise( x/cosX, y/cosY, z/cosZ );
 
-	var dx = Math.abs( ( options.xFactor*x*Math.tan( options.xFactor*x )+1 )/Math.cos( options.xFactor*x ) );
-	var dy = Math.abs( ( options.yFactor*y*Math.tan( options.yFactor*y )+1 )/Math.cos( options.yFactor*y ) );
-	var dz = Math.abs( ( options.zFactor*z*Math.tan( options.zFactor*z )+1 )/Math.cos( options.zFactor*z ) );
+	var dx = Math.abs( ( fx*Math.tan( fx )+1 )/Math.cos( fx ) ),
+		dy = Math.abs( ( fy*Math.tan( fy )+1 )/Math.cos( fy ) ),
+		dz = Math.abs( ( fz*Math.tan( fz )+1 )/Math.cos( fz ) );
 
 	if ( dx<55 && dy<55 && dz<55 ) {
 
-		var indexX = Math.abs( Math.floor( ( x/Math.PI*2*options.xFactor+1 )/2 ) );
-		var indexY = Math.abs( Math.floor( ( y/Math.PI*2*options.yFactor+1 )/2 ) );
-		var indexZ = Math.abs( Math.floor( ( z/Math.PI*2*options.zFactor+1 )/2 ) );
+		var indexX = Math.abs( Math.floor( ( fx/Math.PI*2+1 )/2 ) ),
+			indexY = Math.abs( Math.floor( ( fy/Math.PI*2+1 )/2 ) ),
+			indexZ = Math.abs( Math.floor( ( fz/Math.PI*2+1 )/2 ) );
+			
 		var index = ( indexX+indexY+indexZ )%2;
+		
 		color.lerpColors( options.colorA, options.colorB, index );
 		color.getHSL( hsl );
 		color.setHSL( hsl.h, hsl.s, k*hsl.l );
@@ -70,41 +76,27 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 
 function options( params ) {
 
-	var options = { };
+	return {
 
-	options.colorRim = new Color( params.colorRim ?? defaults.colorRim );
-	options.colorA = new Color( params.colorA ?? defaults.colorA );
-	options.colorB = new Color( params.colorB ?? defaults.colorB );
+		colorRim: new Color( params.colorRim ?? defaults.colorRim ),
+		colorA: new Color( params.colorA ?? defaults.colorA ),
+		colorB: new Color( params.colorB ?? defaults.colorB ),
 
-	options.xFactor = 2**( ( params.xFactor ?? defaults.xFactor )/100 * Math.log2( 30/1.35 ) + Math.log2( 1.35 	) );
-	options.yFactor = 2**( ( params.yFactor ?? defaults.yFactor )/100 * Math.log2( 30/1.35 ) + Math.log2( 1.35 ) );
-	options.zFactor = 2**( ( params.zFactor ?? defaults.zFactor )/100 * Math.log2( 30/1.35 ) + Math.log2( 1.35 ) );
+		xFactor: mapExp( params.xFactor ?? defaults.xFactor, 1.35, 30 ),
+		yFactor: mapExp( params.yFactor ?? defaults.yFactor, 1.35, 30 ),
+		zFactor: mapExp( params.zFactor ?? defaults.zFactor, 1.35, 30 ),
 
-	options.width = params.width ?? defaults.width;
-	options.height = params.height ?? defaults.height;
-
-	return options;
-
+		width: params.width ?? defaults.width,
+		height: params.height ?? defaults.height,
+	};
+ 
 }
 
 
 
 function texture( ...opt ) {
 
-	if ( opt.length==0 ) opt = [ defaults ];
-
-	// if there is {...}, assume it is user options, compile them
-	var params = opt.map( ( e ) => ( e!=-null ) && ( typeof e =='object' ) && !( e instanceof HTMLCanvasElement ) ? options( e ) : e );
-
-	// if pattern is missing, add pattern
-	if ( params.findIndex( ( e )=>e instanceof Function ) == -1 ) {
-
-		params.push( pattern );
-
-	}
-
-	return coreTexture( ... params );
-
+	return retexture( opt, defaults, options, pattern );
 }
 
 

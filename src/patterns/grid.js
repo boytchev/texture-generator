@@ -10,7 +10,7 @@
 
 
 import { Vector3, Color, MathUtils } from "three";
-import { texture as coreTexture } from "pet/texture-generator.js";
+import { retexture, map, mapExp } from "pet/texture-generator.js";
 
 
 
@@ -82,25 +82,26 @@ function pattern( x, y, z, color, options, u, v, /*px, py*/ ) {
 
 function options( params ) {
 
-	var options = { };
+	var thickness = mapExp( params.thickness ?? defaults.thickness, 0.002, 0.1 );
+	
+	return {
 
-	options.color = new Color( params.color ?? defaults.color );
-	options.background = new Color( params.background ?? defaults.background );
+		color: new Color( params.color ?? defaults.color ),
+		background: new Color( params.background ?? defaults.background ),
 
-	options.countH = ( params.countH??defaults.countH );
-	options.countV = ( params.countV??defaults.countV );
+		countH: ( params.countH ?? defaults.countH ),
+		countV: ( params.countV ?? defaults.countV ),
 
-	var thickness = 2**( ( params.thickness??defaults.thickness )/100 * Math.log2( 0.1/0.002 ) + Math.log2( 0.002 ) );
 
-	options.smoothMin = thickness/1.1;
-	options.smoothMax = thickness*1.1;
+		smoothMin: thickness/1.1,
+		smoothMax: thickness*1.1,
 
-	options.caps = params.caps??defaults.caps;
+		caps: params.caps ?? defaults.caps,
 
-	options.width = params.width ?? defaults.width;
-	options.height = params.height ?? defaults.height;
+		width: params.width ?? defaults.width,
+		height: params.height ?? defaults.height,
 
-	return options;
+	};
 
 }
 
@@ -109,19 +110,7 @@ function options( params ) {
 
 function texture( ...opt ) {
 
-	if ( opt.length==0 ) opt = [ defaults ];
-
-	// if there is {...}, assume it is user options, compile them
-	var params = opt.map( ( e ) => ( e!=-null ) && ( typeof e =='object' ) && !( e instanceof HTMLCanvasElement ) ? options( e ) : e );
-
-	// if pattern is missing, add pattern
-	if ( params.findIndex( ( e )=>e instanceof Function ) == -1 ) {
-
-		params.push( pattern );
-
-	}
-
-	return coreTexture( ... params );
+	return retexture( opt, defaults, options, pattern );
 
 }
 

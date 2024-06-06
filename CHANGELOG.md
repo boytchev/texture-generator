@@ -1,6 +1,9 @@
 # Texture generator
 
 
+## 1.7.0
+* Added utility functions via *utils.js*
+
 ## 1.6.0
 * Added scream texture design via *scream.js*
 * Added scepter head texture design via *scepter-head.js*

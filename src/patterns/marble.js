@@ -10,7 +10,7 @@
 
 
 import { Color, MathUtils } from "three";
-import { noise, texture as coreTexture } from "pet/texture-generator.js";
+import { noise, retexture, map, mapExp } from "pet/texture-generator.js";
 
 
 
@@ -67,25 +67,25 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 
 function options( params ) {
 
-	var options = { };
+	var thickness = map( params.thickness ?? defaults.thickness )**2;
+	thickness = map( thickness, 13, 5, 0, 1 );
+	
+	return { 
 
-	options.color = new Color( params.color ?? defaults.color );
-	options.background = new Color( params.background ?? defaults.background );
+		color: new Color( params.color ?? defaults.color ),
+		background: new Color( params.background ?? defaults.background ),
 
-	options.scale = 2**( 2-0.02*( params.scale??defaults.scale ) );
+		scale: mapExp( params.scale ?? defaults.scale, 4, 1 ),
 
-	var thickness = ( ( params.thickness??defaults.thickness )/100 )**2;
-	thickness = MathUtils.mapLinear( thickness, 0, 1, 13, 5 );
+		maxSmooth: 1-( 1/2 )**thickness,
+		minSmooth: 1-( 1/2 )**( 0.8*thickness ),
 
-	options.maxSmooth = 1-( 1/2 )**thickness;
-	options.minSmooth = 1-( 1/2 )**( 0.8*thickness );
+		noise: map( params.noise ?? defaults.noise, 0, 0.2),
 
-	options.noise = 0.2*( params.noise??defaults.noise )/100;
+		width: params.width ?? defaults.width,
+		height: params.height ?? defaults.height,
 
-	options.width = params.width ?? defaults.width;
-	options.height = params.height ?? defaults.height;
-
-	return options;
+	};
 
 }
 
@@ -94,19 +94,7 @@ function options( params ) {
 
 function texture( ...opt ) {
 
-	if ( opt.length==0 ) opt = [ defaults ];
-
-	// if there is {...}, assume it is user options, compile them
-	var params = opt.map( ( e ) => ( e!=-null ) && ( typeof e =='object' ) && !( e instanceof HTMLCanvasElement ) ? options( e ) : e );
-
-	// if pattern is missing, add pattern
-	if ( params.findIndex( ( e )=>e instanceof Function ) == -1 ) {
-
-		params.push( pattern );
-
-	}
-
-	return coreTexture( ... params );
+	return retexture( opt, defaults, options, pattern );
 
 }
 

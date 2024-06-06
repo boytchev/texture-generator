@@ -10,7 +10,7 @@
 
 
 import { Vector3, MathUtils } from "three";
-import { texture as coreTexture } from "pet/texture-generator.js";
+import { retexture, map } from "pet/texture-generator.js";
 
 
 
@@ -35,7 +35,7 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 	var a = vec.angleTo( options.up ),
 		sin = Math.sin( options.scale*a );
 
-	var k = MathUtils.mapLinear( sin, -options.scale/500, options.scale/500, 0, 1 );
+	var k = map( sin, 0, 1, -options.scale/500, options.scale/500 );
 
 	color.setHSL( 0, 0, k );
 
@@ -45,18 +45,18 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 
 function options( params ) {
 
-	var options = { };
+	var angle = ( params.angle ?? defaults.angle )*Math.PI/180;
+	
+	return { 
+		scale: map( params.scale ?? defaults.scale, 151, 2 ),
 
-	var angle = ( params.angle??defaults.angle )*Math.PI/180;
+		up: new Vector3( 0,
+			1e-6*Math.round( 1e6*Math.cos( angle ) ),
+			1e-6*Math.round( 1e6*Math.sin( angle ) ) ),
 
-	options.scale = MathUtils.mapLinear( ( params.scale??defaults.scale ), 0, 100, 151, 2 );
-
-	options.up = new Vector3( 0, 1e-6*Math.round( 1e6*Math.cos( angle ) ), 1e-6*Math.round( 1e6*Math.sin( angle ) ) );
-
-	options.width = params.width ?? defaults.width;
-	options.height = params.height ?? defaults.height;
-
-	return options;
+		width: params.width ?? defaults.width,
+		height: params.height ?? defaults.height,
+	};
 
 }
 
@@ -64,19 +64,7 @@ function options( params ) {
 
 function texture( ...opt ) {
 
-	if ( opt.length==0 ) opt = [ defaults ];
-
-	// if there is {...}, assume it is user options, compile them
-	var params = opt.map( ( e ) => ( e!=-null ) && ( typeof e =='object' ) && !( e instanceof HTMLCanvasElement ) ? options( e ) : e );
-
-	// if pattern is missing, add pattern
-	if ( params.findIndex( ( e )=>e instanceof Function ) == -1 ) {
-
-		params.push( pattern );
-
-	}
-
-	return coreTexture( ... params );
+	return retexture( opt, defaults, options, pattern );
 
 }
 
