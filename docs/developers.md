@@ -42,6 +42,7 @@ equirectangular textures.
 * [generator.js](api-generator.md)
 * [material.js](api-material.md)
 * [noise.js](api-noise.md)
+* [utils.js](api-utils.md)
 
 	
 <!--
