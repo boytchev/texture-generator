@@ -233,7 +233,18 @@ predefined texture patterns.
 		<img src="../docs/images/scepter-head-3.png">
 	</a>
 
+	<a class="style-block nocaption" href="../online/satin.html?width=512&height=256&scale=50&color=7373055&background=80">
+		<img src="../docs/images/satin-1.png">
+	</a>
 
+	<a class="style-block nocaption" href="../online/satin.html?width=512&height=256&scale=66&color=8020578&background=16774651">
+		<img src="../docs/images/satin-2.png">
+	</a>
+
+	<a class="style-block nocaption" href="../online/satin.html?width=512&height=256&scale=26&color=14417894&background=1593856">
+		<img src="../docs/images/satin-3.png">
+	</a>
+	
 </p>
 
 
