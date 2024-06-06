@@ -245,6 +245,18 @@ predefined texture patterns.
 		<img src="../docs/images/satin-3.png">
 	</a>
 	
+	<a class="style-block nocaption" href="../online/neon-lights.html?width=1024&height=512&scale=50&mode=0&colorA=16711680&colorB=65280&colorC=255&background=0">
+		<img src="../docs/images/neon-lights-1.png">
+	</a>
+
+	<a class="style-block nocaption" href="../online/neon-lights.html?width=1024&height=512&scale=24&mode=0&colorA=16711680&colorB=15662848&colorC=54783&background=1966335">
+		<img src="../docs/images/neon-lights-2.png">
+	</a>
+
+	<a class="style-block nocaption" href="../online/neon-lights.html?width=1024&height=512&scale=54&mode=1&colorA=1162151&colorB=8689695&colorC=0&background=16775904">
+		<img src="../docs/images/neon-lights-3.png">
+	</a>
+	
 </p>
 
 

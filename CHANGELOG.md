@@ -3,6 +3,7 @@
 
 ## 1.7.0
 * Added satin texture design via *satin.js*
+* Added neon lights texture design via *neon-lights.js*
 * Added utility functions via *utils.js*
 
 ## 1.6.0
