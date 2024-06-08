@@ -81,7 +81,7 @@ rotate the a sphere with isolines texture on it:
 [<img src="snapshots/tutorial-example-1.jpg">](../examples/tutorial-example-1.html)
 
 
-&lt;to be continued&gt;
+[to be continued]
 
 
 
