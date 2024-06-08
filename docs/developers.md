@@ -46,10 +46,10 @@ equirectangular textures.
 * [utils.js](api-utils.md)
 
 	
-<!--
 ## Tutorials
 
-* [Using generators](#) - to do
+* [Using generators](tutorial.md)
+<!--
 * [Using low-level API](#) - to do
 -->
 
