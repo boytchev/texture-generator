@@ -7,14 +7,17 @@
 
 
 
+### Contents
+
+* [Introduction](#introduction)
+* [Using a generator](#usingagenerator)
+
+
 
 ### Introduction
 
 This is a short tutorial of how to use the predefined
 equirectangular generators (pet-gens) in your JS code.
-
-* [Introduction](#introduction)
-* [Using a generator](#usingagenerator)
 
 The tutorial is for loading the generators via a CDN.
 This is to make it easy to use them without installing
@@ -78,7 +81,7 @@ rotate the a sphere with isolines texture on it:
 
 [Tutorial Example 1](../examples/tutorial-example-1.html)
 
-[<img src="snapshots/tutorial-example-1.jpg">](../examples/tutorial-example-1.html)
+[<img src="../snapshots/tutorial-example-1.jpg">](../examples/tutorial-example-1.html)
 
 
 [to be continued]
