@@ -49,9 +49,7 @@ equirectangular textures.
 ## Tutorials
 
 * [Using generators](tutorial.md)
-<!--
 * [Using low-level API](#) - to do
--->
 
 	
 ## Help needed
