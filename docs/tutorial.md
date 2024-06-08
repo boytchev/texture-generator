@@ -10,7 +10,7 @@
 ### Contents
 
 * [Introduction](#introduction)
-* [Using a generator](#usingagenerator)
+* [Using a generator](#using-a-generator)
 
 
 
@@ -81,7 +81,7 @@ rotate the a sphere with isolines texture on it:
 
 [Tutorial Example 1](../examples/tutorial-example-1.html)
 
-[<img src="../snapshots/tutorial-example-1.jpg">](../examples/tutorial-example-1.html)
+[<img src="../examples/snapshots/tutorial-example-1.jpg">](../examples/tutorial-example-1.html)
 
 
 [to be continued]
