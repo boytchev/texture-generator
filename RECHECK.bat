@@ -11,3 +11,6 @@ call npx eslint online\*.js
 call npx eslint online\*.html
 
 call npx eslint examples\*.html
+
+pause
+exit

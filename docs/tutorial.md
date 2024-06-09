@@ -10,7 +10,11 @@
 ### Contents
 
 * [Introduction](#introduction)
-* [Using a generator](#using-a-generator)
+* [Using a predefined generator](#using-a-predefined-generator)
+* [Setting generator properties](#setting-generator-properties)
+* [Generating multiple textures](#generating-multiple-textures)
+* [Using multiple generators](#using-multiple-generators)
+* [Deferred texture generator](#deferred-texture-generator)
 
 
 
@@ -54,7 +58,7 @@ import * as PET from "pet/patterns/isolines.js";
 Other names of generators are in the [list of generators](developers.html#generators).
 
 
-### Using a generator
+### Using a predefined generator
 
 The easiest way to use a generator is to rely on its
 default values. The following fragment shows how to
@@ -76,7 +80,7 @@ optional &ndash; it may improve the texture appearance in
 some cases ([more details](about.md).
 
 Here is a complete example of using the Isolines generator
-with its default values. the example uses OrbitControls to
+with its default values. The example uses [OrbitControls](https://threejs.org/docs/#examples/en/controls/OrbitControls) to
 rotate the a sphere with isolines texture on it:
 
 [Tutorial Example 1](../examples/tutorial-example-1.html)
@@ -84,7 +88,22 @@ rotate the a sphere with isolines texture on it:
 [<img src="../examples/snapshots/tutorial-example-1.jpg">](../examples/tutorial-example-1.html)
 
 
-[to be continued]
+### Setting generator properties
+
+TO DO.
+
+### Generating multiple textures
+
+TO DO.
+
+### Using multiple generators
+
+TO DO.
+
+### Deferred texture generator
+
+TO DO.
+
 
 
 

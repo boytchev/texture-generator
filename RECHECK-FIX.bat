@@ -11,3 +11,7 @@ call npx eslint --fix online\*.js
 call npx eslint --fix online\*.html
 
 call npx eslint --fix examples\*.html
+
+pause
+exit
+
