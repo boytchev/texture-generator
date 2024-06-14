@@ -1,4 +1,4 @@
-<img class="logo" src="../assets/logo/logo.png">
+<img class="logo" src="../assets/logo/logo-big.png">
 
 
 # Procedural Equirectangular Textures
