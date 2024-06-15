@@ -48,7 +48,7 @@ The parameters of the texture generator are:
 * `height` &ndash; texture height in pixels, default 256
 * `scale` &ndash; pattern size [0,100], default 50
 * `color` &ndash; main color of glossy parts, default 0x7080FF (light blue)
-* `background &ndash; background color of dark parts, default 0x000050 (dark blue)
+* `background` &ndash; background color of dark parts, default 0x000050 (dark blue)
 
 
 ### API

@@ -53,7 +53,7 @@ The parameters of the texture generator are:
 * `blur` &ndash; smoothness of lines edges [0,100], default 10
 * `balance` &ndash; thickness of lines [0,100], default 50
 * `color` &ndash; color of lines, default 0xFFFFFF (white)
-* `background &ndash; color of background, default 0x000000 (black)
+* `background` &ndash; color of background, default 0x000000 (black)
 
 
 ### API

@@ -46,7 +46,7 @@ The parameters of the texture generator are:
 * `height` &ndash; texture height in pixels, default 512
 * `scale` &ndash; pattern size [0,100], default 30
 * `color` &ndash; color of hot areas, default 0xFFFF00 (yellow)
-* `background &ndash; color of background, default 0xFF0000 (red)
+* `background` &ndash; color of background, default 0xFF0000 (red)
 
 
 ### API

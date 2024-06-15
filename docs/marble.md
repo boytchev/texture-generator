@@ -50,7 +50,7 @@ The parameters of the texture generator are:
 * `thickness` &ndash; thickness of threads [0,100], default 60
 * `noise` &ndash; noise of background [0,100], default 30
 * `color` &ndash; color of lines, default 0x4545D3 (blue)
-* `background &ndash; color of background, default 0xF0F8FF (light blue)
+* `background` &ndash; color of background, default 0xF0F8FF (light blue)
 
 
 ### API

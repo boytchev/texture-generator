@@ -51,7 +51,7 @@ The parameters of the texture generator are:
 * `scale` &ndash; pattern size [0,100], default 50
 * `density` &ndash; density of lines [0,20], default 10
 * `color` &ndash; color of lines, default 0xFFFFFF (white)
-* `background &ndash; color of background, default 0x000000 (black)
+* `background` &ndash; color of background, default 0x000000 (black)
 
 
 ### API
