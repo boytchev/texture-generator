@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import * as lil from "three/addons/libs/lil-gui.module.min.js";
 import WebGPURenderer from 'three/addons/renderers/webgpu/WebGPURenderer.js';
-import { MeshPhysicalNodeMaterial, positionLocal, timerLocal } from 'three/nodes';
+import { MeshPhysicalNodeMaterial } from 'three/nodes';
 import { dynamic } from 'pet/utils-tsl.js';
 
 // setting up the scene
@@ -57,8 +57,6 @@ scene.add( model );
 
 var canvas = document.createElement( 'canvas' );
 canvas.style = "width:100%;";
-
-var startTime = 0;
 
 
 function animationLoop( /*t*/ ) {

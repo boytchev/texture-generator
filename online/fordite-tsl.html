@@ -31,7 +31,7 @@
 		import { fordite } from "pet/patterns-tsl/fordite.js";
 
 
-		var gui = install( fordite, );
+		var gui = install( fordite, update );
 		
 		gui.add( params, 'scale' )
 			.min( 0 ).max( 4 )
@@ -43,10 +43,11 @@
 			.$text.classList.add( 'bottom' );
 		
 
-		function update() 		{
+		function update() {
 
 			dynamics.scale.value = params.scale;//mapExp( params.scale, 20, 0.1 );
 			dynamics.color.value.set( params.color );
+		
 		}
 		
 	</script>
