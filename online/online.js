@@ -2,7 +2,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import * as lil from "three/addons/libs/lil-gui.module.min.js";
-import { noiseSeed } from "pet/texture-generator.js";
+import { noiseSeed } from "../texture-generator.js";
 
 
 // setting up the scene

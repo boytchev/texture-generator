@@ -10,7 +10,7 @@
 
 
 import { Color } from "three";
-import { noise, retexture, map, mapExp } from "pet/texture-generator.js";
+import { noise, retexture, map, mapExp } from "../texture-generator.js";
 
 
 
@@ -101,4 +101,4 @@ function texture( ...opt ) {
 
 
 export { pattern, defaults, texture };
-export { material } from "pet/texture-generator.js";
+export { material } from "../texture-generator.js";
