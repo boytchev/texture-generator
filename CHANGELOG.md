@@ -1,6 +1,9 @@
 # Texture generator
 
 
+## 1.7.1
+* Changed importmaps (by @markroland)
+
 ## 1.7.0
 * Added satin texture design via *satin.js*
 * Added neon lights texture design via *neon-lights.js*
