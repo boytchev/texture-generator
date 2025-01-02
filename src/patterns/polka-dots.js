@@ -11,7 +11,7 @@
 
 import { Vector3, Color, PolyhedronGeometry, TetrahedronGeometry, OctahedronGeometry, DodecahedronGeometry, IcosahedronGeometry, MathUtils } from "three";
 import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
-import { retexture, map } from "pet/texture-generator.js";
+import { retexture, map } from "../texture-generator.js";
 
 
 
@@ -192,4 +192,4 @@ function texture( ...opt ) {
 
 
 export { pattern, defaults, texture };
-export { material } from "pet/texture-generator.js";
+export { material } from "../texture-generator.js";
