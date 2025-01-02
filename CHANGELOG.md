@@ -2,7 +2,7 @@
 
 
 ## 1.7.1
-* Changed importmaps (by @markroland)
+* Changed importmaps and imports (by @markroland)
 
 ## 1.7.0
 * Added satin texture design via *satin.js*
