@@ -1,6 +1,6 @@
 {
   "name": "pet-gen",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Procedural Equirectangular Texture Generators",
   "keywords": [
     "texture",
