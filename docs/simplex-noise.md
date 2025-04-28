@@ -46,6 +46,7 @@ The parameters of the texture generator are:
 * `width` &ndash; texture width in pixels, default 512
 * `height` &ndash; texture height in pixels, default 256
 * `scale` &ndash; relative dot size [0,100], default 50
+* `seed` &ndash; a seed for the pseudo-number generator [0,100], default 50
 * `balance` &ndash; balance of color and background [0,100], default 50
 * `color` &ndash; color of dots, default 0xFFFFFF (white)
 * `background` &ndash; color of background, default 0x000000 (black)
