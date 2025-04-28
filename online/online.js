@@ -144,7 +144,7 @@ function install( PET, auxOnChange ) {
 
 	mainGui.onChange( ()=>{
 
-		seed = noiseSeed();
+		seed = noiseSeed(params.seed);
 		params.height = params.width/2;
 
 		var map = 'map';

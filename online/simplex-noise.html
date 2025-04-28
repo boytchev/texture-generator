@@ -33,9 +33,14 @@
 		
 		var gui = install( PET );
 		
+		gui.add( params, 'seed' )
+			.min( 0 ).max( 100 ).step( 1 )
+			.name( 'Noise <right>seed</right>' )
+			.$input.classList.add( 'top' );
+
 		gui.add( params, 'scale' )
 			.min( 0 ).max( 100 ).step( 1 )
-			.name( 'Noise <right>scale</right>' )
+			.name( '<right>scale</right>' )
 			.$input.classList.add( 'top' );
 		
 		gui.add( params, 'balance' )
