@@ -10,7 +10,7 @@
 
 
 import { Color } from "three";
-import { noise, retexture, mapExp } from "../texture-generator.js";
+import { noise, noiseSeed, retexture, mapExp } from "../texture-generator.js";
 
 
 
@@ -22,6 +22,8 @@ var defaults = {
 
 	scale: 50,
 
+	seed: 50,
+
 	balance: 50,
 
 	color: 0xFFFFFF,
@@ -31,6 +33,8 @@ var defaults = {
 
 
 function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
+
+	noiseSeed(options.seed);
 
 	var k = 0.5 - 0.5*noise( x, y, z, options.scale );
 
@@ -43,6 +47,7 @@ function pattern( x, y, z, color, options, /*u, v, px, py*/ ) {
 function options( params ) {
 
 	return {
+		seed: params.seed ?? defaults.seed,
 		scale: mapExp( params.scale ?? defaults.scale, 32, 0.5 ),
 		balance: mapExp( params.balance ?? defaults.balance, 0.007, 150 ),
 
